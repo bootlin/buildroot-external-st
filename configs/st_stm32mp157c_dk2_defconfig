@@ -1,6 +1,5 @@
 BR2_arm=y
 BR2_cortex_a7=y
-BR2_DL_DIR="$(HOME)/buildroot_dl"
 BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_10=y
 BR2_ROOTFS_OVERLAY="board/stmicroelectronics/stm32mp157c-dk2/overlay/"
 BR2_ROOTFS_POST_IMAGE_SCRIPT="board/stmicroelectronics/common/stm32mp157/post-image.sh"
