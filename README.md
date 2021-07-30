@@ -54,7 +54,20 @@ Then configure the SW1 switch to boot on SDcard and finally poweron the board.
 
 ### Using STM32CubeProgrammer
 Download the tool on the [ST website](https://www.st.com/en/development-tools/stm32cubeprog.html "STM32CubeProgrammer tool").  
+The DK2 does not have emmc but only a SD removable device. We will use the tool to flash the SD card, but the process and logic would be the same for any other (non-removable) storage device.
 A tutorial to use this tool on has been written in this [blog post](https://bootlin.com/blog/building-a-linux-system-for-the-stm32mp1-implementing-factory-flashing/ "Factory flashing a STM32").  
+
+TL;DR
+1. Switch the boot mode switches to USB boot.
+2. Plug the second USB C on CN7.
+3. Run these commands to flash the sdcard:
+```bash
+$ cd output/images/
+$ sudo ~/stm32cube/bin/STM32_Programmer_CLI -c port=usb1 -w ../../../buildroot-external-st/board/stmicroelectronics/stm32mp157/flash.tsv
+```
+4. Switch back the boot mode switches to SD boot.
+5. Boot on SDCard
+
 Take a look at the [user manual](https://www.st.com/resource/en/user_manual/dm00403500-stm32cubeprogrammer-software-description-stmicroelectronics.pdf "STM32CubeProgrammer User Manual") if you want to use GUI interface.  
 
 ## Demo image
