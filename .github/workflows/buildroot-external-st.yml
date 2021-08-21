@@ -1,0 +1,29 @@
+on: workflow_dispatch
+jobs:
+  build-all:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        config: [ st_stm32mp157a_dk1_defconfig, st_stm32mp157a_dk1_demo_defconfig, st_stm32mp157c_dk2_defconfig, st_stm32mp157c_dk2_demo_defconfig ]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: buildroot-external-st
+      - uses: actions/checkout@v2
+        with:
+          repository: bootlin/buildroot
+          ref: st/2021.02
+          path: buildroot
+      - name: Configure Buildroot
+        run: make -C buildroot BR2_EXTERNAL=../buildroot-external-st O=../output ${{ matrix.config }}
+      - name: Build Buildroot
+        run: make -C buildroot BR2_EXTERNAL=../buildroot-external-st O=../output
+      - name: Run legal-info
+        run: make -C buildroot BR2_EXTERNAL=../buildroot-external-st O=../output legal-info
+      - name: Compress sdcard.img
+        run: gzip -9 output/images/sdcard.img
+      - name: Store images
+        uses: actions/upload-artifact@v2
+        with:
+          name: image-${{ matrix.config }}
+          path: output/images/sdcard.img.gz
