@@ -2,13 +2,12 @@
 
 This only applies to the Discovery Kit 2, with its *demo* configuration.
 
-To use Wifi you first need to load the `brcmfmac` Linux kernel module
-with the firmware configuration. We can use the firmware configuration
-provided by the `linux-firmware` package for the RaspberryPi 3:
+The `brcmfmac` Linux kernel module for Wifi is autoload, thanks to udev.
+You can verify that it have been correctly loaded with the `lsmod` command:
 
 ```
-# cp /lib/firmware/brcm/brcmfmac43430-sdio.raspberrypi,3-model-b.txt /lib/firmware/brcm/brcmfmac43430-sdio.txt
-# modprobe brcmfmac
+# lsmod | grep brcmfmac
+brcmfmac              212992  0
 ```
 
 Then you can scan access points with `iw` command, connect to them

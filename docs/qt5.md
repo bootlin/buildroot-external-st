@@ -8,12 +8,14 @@ Buildroot supports several additional Qt5 modules if necessary.
 The Qt5 examples are installed in the target at
 `/usr/lib/qt/examples/`.
 
-As Qt5 is compiled with OpenGL support, we first need to load the
+Qt5 is compiled with OpenGL support. udev autoload the
 `galcore` Linux kernel module, which is the kernel driver needed to
-use the GPU:
+use the GPU. You can verify the good load of this module with the `lsmod`
+command:
 
 ```
-# modprobe galcore
+# lsmod | grep galcore
+galcore               319488  0
 ```
 
 Then you can start the different Qt examples, for example:
