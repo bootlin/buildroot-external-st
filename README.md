@@ -50,6 +50,7 @@ configurations:
 | Qt5     | N/A | N/A | Yes | Yes |
 | OpenGL  | N/A | N/A | Yes | Yes |
 | WiFi    | N/A | N/A | Yes | Yes |
+| Bluetooth | N/A | N/A | Yes | Yes |
 | CubeMX Device Tree | No | No | Yes | Yes |
 
 Note that upstream Buildroot also contains pre-defined configurations
