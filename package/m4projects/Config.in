@@ -1,0 +1,5 @@
+config BR2_PACKAGE_M4PROJECTS
+	bool "STM32MP1 Firmware examples for CM4"
+	help
+	  Add support to STM32MP1 Firmware examples for the CM4 of the DK2.
+	  Install the examples to the /usr/lib/Cube-M4-examples folder.
