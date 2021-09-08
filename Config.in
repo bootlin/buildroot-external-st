@@ -1,0 +1,1 @@
+source "$BR2_EXTERNAL_ST_PATH/package/m4projects/Config.in"
