@@ -238,7 +238,16 @@ BR2_TARGET_UBOOT_CUSTOM_MAKEOPTS="dtb-y=stm32mp157c-dk2-mx.dtb DEVICE_TREE=stm32
 ```
 
 These options customize the build of U-Boot to use a Device Tree file
-produced by STM32 Cube MX, called `stm32mp157c-dk2-mx`.
+produced by STM32 Cube MX, called `stm32mp157c-dk2-mx`. The option
+`dtb-y=stm32mp157c-dk2-mx.dtb` has been added to U-boot make options, to
+build the external devicetree.
+
+```
+BR2_PACKAGE_M4PROJECTS=y
+```
+
+This option enables the installation of the Firmware examples for the Cortex
+M4 from (STM32CubeMP1)[https://github.com/STMicroelectronics/STM32CubeMP1.git].
 
 ## Organization of the `BR2_EXTERNAL` tree
 
@@ -275,6 +284,12 @@ produced by STM32 Cube MX, called `stm32mp157c-dk2-mx`.
       * [`post-image.sh`](/board/stmicroelectronics/stm32mp157/post-image.sh),
         the script executed by Buildroot at the end of the build to
         produce the SD card image.
+* `package/m4projects`
+  Add support to a m4projects package. This package builds and installs all
+  the examples of the [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git)
+  sources for the DK2 board. It uses a [python script](package/m4projects/parse_project_config.py)
+  as a wrapper to transform the .project and .cproject files readable by
+  the dedicated [Makefile](package/m4projects/Makefile.stm32).
 * `configs/`
   * [`st_stm32mp157a_dk1_defconfig`](/configs/st_stm32mp157a_dk1_defconfig),
     minimal configuration for the DK1
@@ -286,13 +301,13 @@ produced by STM32 Cube MX, called `stm32mp157c-dk2-mx`.
     demo configuration for the DK2
 * `docs`, documentation
 * `Config.in`, top-level Config.in file mandatory in all `BR2_EXTERNAL`
-  trees. In our case, it is empty as we don't provide any Buildroot
+  trees. Indicate the location of the Config.in file from our m4projects
   package.
 * `README.md`
 * `external.desc`, mandatory in all `BR2_EXTERNAL` trees, gives a name
   and description for the `BR2_EXTERNAL` tree
-* `external.mk`, mandatory in all `BR2_EXTERNAL` trees, empty in our
-  case as we don't provide any Buildroot package.
+* `external.mk`, mandatory in all `BR2_EXTERNAL` trees, indicate the
+  location of `*.mk` file from new packages.
 
 ## Changes compared to upstream Buildroot
 
@@ -304,9 +319,9 @@ have just 4 changes on top of Buildroot 2021.02, and they can easily
 be rebased on top of the latest Buildroot 2021.02.x to continue to
 benefit from the security fixes provided by the Buildroot community.
 
-Here are the 4 changes:
+Here are the 3 changes:
 
-* Update to the `gcnano-binaries` package to a newer version. This
+* Update the `gcnano-binaries` package to a newer version. This
   package contains the closed-source OpenGL user-space libraries,
   which need to be in sync with the kernel side. This change has been
   accepted in upstream Buildroot.
@@ -315,5 +330,7 @@ Here are the 4 changes:
   out-of-tree Device Tree files, like was already possible for U-Boot
   or Linux. This change has been accepted in upstream Buildroot.
 
-* Change to the U-Boot package, to be able to build arbitrary Device
-  Tree files.
+* Update the `arm-gnu-a-toolchain` package to a newer version. This pakage
+  is needed to build Firmware examples for the Cortex M4. The old version
+  had issue with the nano.spec files, which adds `-lc_nano` options without
+  delivering the `c_nano` library.
