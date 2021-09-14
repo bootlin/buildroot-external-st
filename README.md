@@ -51,6 +51,7 @@ configurations:
 | OpenGL  | N/A | N/A | Yes | Yes |
 | WiFi    | N/A | N/A | Yes | Yes |
 | Bluetooth | N/A | N/A | Yes | Yes |
+| Audio    | N/A | N/A | Yes | Yes |
 | CubeMX Device Tree | No | No | Yes | Yes |
 | Cortex M4 Firmware examples | No | No | No | Yes |
 
@@ -159,6 +160,7 @@ the Buildroot configuration)
 * [Testing display support](docs/display.md)
 * [Using WiFi](docs/wifi.md), only for the *Discovery Kit 2*
 * [Using Bluetooth](docs/bluetooth.md), only for the *Discovery Kit 2*
+* [Using Audio](docs/audio.md)
 * [Using Qt5 demos](docs/qt5.md)
 * [Using OP-TEE](docs/optee.md)
 * [Internal details](docs/internals.md) on this `BR2_EXTERNAL` tree
