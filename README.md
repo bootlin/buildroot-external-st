@@ -46,12 +46,12 @@ configurations:
 | TF-A    | v2.4-stm32mp-r1 | v2.4-stm32mp-r1 | v2.4-stm32mp-r1 | v2.4-stm32mp-r1 |
 | U-Boot  | v2020.10-stm32mp-r1.1 | v2020.10-stm32mp-r1.1 | v2020.10-stm32mp-r1.1 | v2020.10-stm32mp-r1.1 |
 | Linux   | v5.10-stm32mp-r1 | v5.10-stm32mp-r1 | v5.10-stm32mp-r1 | v5.10-stm32mp-r1 |
-| OP-TEE  | N/A | N/A | 3.12.0-stm32mp-r1 | 3.12.0-stm32mp-r1 |
-| Qt5     | N/A | N/A | Yes | Yes |
-| OpenGL  | N/A | N/A | Yes | Yes |
-| WiFi    | N/A | N/A | Yes | Yes |
-| Bluetooth | N/A | N/A | Yes | Yes |
-| Audio    | N/A | N/A | Yes | Yes |
+| OP-TEE  | No | No | 3.12.0-stm32mp-r1 | 3.12.0-stm32mp-r1 |
+| Qt5     | No | No | Yes | Yes |
+| OpenGL  | No | No | Yes | Yes |
+| WiFi    | N/A | No | N/A | Yes |
+| Bluetooth | N/A | No | N/A | Yes |
+| Audio    | No | No | Yes | Yes |
 | CubeMX Device Tree | No | No | Yes | Yes |
 | Cortex M4 Firmware examples | No | No | No | Yes |
 
