@@ -77,7 +77,7 @@ $ git clone -b st/2021.02 https://github.com/bootlin/buildroot.git
 See our documentation on [internal details](docs/internals.md) for more
 information about the changes we have compared to upstream Buildroot.
 
-Now, clone the matching branch of the `BR2_EXTENAL` tree:
+Now, clone the matching branch of the `BR2_EXTERNAL` tree:
 
 ```bash
 $ git clone -b st/2021.02 https://github.com/bootlin/buildroot-external-st.git
