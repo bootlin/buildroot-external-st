@@ -62,6 +62,24 @@ use the versions provided and supported by ST.
 
 ## Getting started
 
+### Pre-requisites
+
+In order to use [Buildroot](https://www.builroot.org), you need to
+have a Linux distribution installed on your workstation. Any
+reasonably recent Linux distribution (Ubuntu, Debian, Fedora, Redhat,
+OpenSuse, etc.) will work fine.
+
+Then, you need to install a small set of packages, as described in the
+[Buildroot manual System requirements
+section](https://buildroot.org/downloads/manual/manual.html#requirement).
+
+For Debian/Ubuntu distributions, the following command allows to
+install the necessary packages:
+
+```bash
+$ sudo apt install which sed make binutils build-essential gcc g++ bash patch gzip bzip2 perl tar cpio unzip rsync file bc
+```
+
 ### Getting the code
 
 This `BR2_EXTERNAL` tree is designed to work with the latest LTS
