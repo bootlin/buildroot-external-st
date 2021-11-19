@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-M4PROJECTS_VERSION = 1.4.0
+M4PROJECTS_VERSION = 1.5.0
 M4PROJECTS_SITE = $(call github,STMicroelectronics,STM32CubeMP1,$(M4PROJECTS_VERSION))
 M4PROJECTS_LICENSE = Apache-2.0, MIT, BSD-3-Clause
 M4PROJECTS_LICENSE_FILES = License.md
