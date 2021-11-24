@@ -77,7 +77,7 @@ For Debian/Ubuntu distributions, the following command allows to
 install the necessary packages:
 
 ```bash
-$ sudo apt install which sed make binutils build-essential gcc g++ bash patch gzip bzip2 perl tar cpio unzip rsync file bc
+$ sudo apt install debianutils sed make binutils build-essential gcc g++ bash patch gzip bzip2 perl tar cpio unzip rsync file bc git
 ```
 
 ### Getting the code

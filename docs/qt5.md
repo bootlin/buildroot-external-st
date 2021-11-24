@@ -21,7 +21,7 @@ galcore               319488  0
 Then you can start the different Qt examples, for example:
 
 ```
-# /usr/lib/qt/examples/hellogl2/hellogl2
+# /usr/lib/qt/examples/opengl/hellogl2/hellogl2
 ```
 
 By default it will use HDMI if a monitor is plugged in or DSI
