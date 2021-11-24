@@ -31,7 +31,7 @@ BR2_ROOTFS_OVERLAY="board/stmicroelectronics/stm32mp157c-dk2/overlay/"
 ```
 
 This tells Buildroot to copy the contents of
-[board/stmicroelectronics/stm32mp157c-dk2/overlay/](/board/stmicroelectronics/stm32mp157c-dk2/overlay/)
+[board/stmicroelectronics/stm32mp157/dk2-overlay](/board/stmicroelectronics/stm32mp157/dk2-overlay)
 into the root filesystem. The only file that this copies to the root
 filesystem is `/boot/extlinux.conf`, which tells the U-Boot bootloader
 how to boot the Linux system (which Linux kernel image to load, which
@@ -189,7 +189,7 @@ BR2_PACKAGE_LIBDRM_INSTALL_TESTS=y
 ```
 
 This option, which implies `BR2_PACKAGE_LIBDRM=y` installs the
-`modetest` utility that we use for [display testing](docs/display.md).
+`modetest` utility that we use for [display testing](/docs/display.md).
 
 ```
 BR2_PACKAGE_IW=y
@@ -224,7 +224,7 @@ programs.
 ```
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_BL32_OPTEE=y
 ..
-BR2_TARGET_ARM_TRUSTED_FIRMWARE_CUSTOM_DTS_PATH="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp157/atf-dts/*"
+BR2_TARGET_ARM_TRUSTED_FIRMWARE_CUSTOM_DTS_PATH="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp157/tfa-dts/*"
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_ADDITIONAL_VARIABLES="STM32MP_SDMMC=1 AARCH32_SP=optee DTB_FILE_NAME=stm32mp157c-dk2-mx.dtb STM32MP_USB_PROGRAMMER=1"
 ```
 
@@ -247,14 +247,14 @@ BR2_PACKAGE_M4PROJECTS=y
 ```
 
 This option enables the installation of the Firmware examples for the Cortex
-M4 from (STM32CubeMP1)[https://github.com/STMicroelectronics/STM32CubeMP1.git].
+M4 from [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git).
 
 ## Organization of the `BR2_EXTERNAL` tree
 
 * `board/`
   * `stmicroelectronics/`
     * `stm32mp157/`
-      * [`atf-dts/`](/board/stmicroelectronics/stm32mp157/atf-dts), Device
+      * [`tfa-dts/`](/board/stmicroelectronics/stm32mp157/tfa-dts), Device
         Tree files produced by STM32 Cube MX for TF-A. Only used by
         the demo configurations.
       * [`dk1-overlay/`](/board/stmicroelectronics/stm32mp157/dk1-overlay/),
@@ -287,9 +287,9 @@ M4 from (STM32CubeMP1)[https://github.com/STMicroelectronics/STM32CubeMP1.git].
 * `package/m4projects`
   Add support to a m4projects package. This package builds and installs all
   the examples of the [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git)
-  sources for the DK2 board. It uses a [python script](package/m4projects/parse_project_config.py)
+  sources for the DK2 board. It uses a [python script](/package/m4projects/parse_project_config.py)
   as a wrapper to transform the .project and .cproject files readable by
-  the dedicated [Makefile](package/m4projects/Makefile.stm32).
+  the dedicated [Makefile](/package/m4projects/Makefile.stm32).
 * `configs/`
   * [`st_stm32mp157a_dk1_defconfig`](/configs/st_stm32mp157a_dk1_defconfig),
     minimal configuration for the DK1

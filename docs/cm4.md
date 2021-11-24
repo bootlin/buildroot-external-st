@@ -1,6 +1,6 @@
 # Use the Firmware examples for the CM4
 
-The Firmware examples for the CM4 from (STM32CubeMP1)[https://github.com/STMicroelectronics/STM32CubeMP1.git]
+The Firmware examples for the CM4 from [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git)
 are enabled in the *demo* configuration.
 All examples built are installed in the path `/usr/lib/Cube-M4-examples/`
 We will use the *GPIO_EXTI* application for the example as it is easy to
