@@ -23,8 +23,8 @@
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP157C-DK2 STM32CubeMX board";
-	compatible = "st,stm32mp157c-test-mx", "st,stm32mp157";
+	model = "STMicroelectronics STM32MP157C-DK2 STM32CubeMX board - openstlinux-5.10-dunfell-mp1-21-11-17";
+	compatible = "st,stm32mp157c-dk2-mx", "st,stm32mp157";
 
 	memory@c0000000 {
 		device_type = "memory";
@@ -62,6 +62,12 @@
 		vdev0buffer:vdev0buffer@10042000{
 			compatible = "shared-dma-pool";
 			reg = <0x10042000 0x4000>;
+			no-map;
+		};
+
+		mcu_rsc_table:mcu_rsc_table@10048000{
+			compatible = "shared-dma-pool";
+			reg = <0x10048000 0x8000>;
 			no-map;
 		};
 
@@ -489,7 +495,7 @@
 					 <STM32_PINMUX('D', 5, AF7)>; /* USART2_TX */
 			bias-disable;
 			drive-push-pull;
-			slew-rate = <3>;
+			slew-rate = <0>;
 		};
 	};
 
@@ -542,7 +548,7 @@
 
 	/* USER CODE BEGIN m4_rproc */
 	memory-region = <&retram>, <&mcuram>, <&mcuram2>, <&vdev0vring0>,
-			<&vdev0vring1>, <&vdev0buffer>;
+			<&vdev0vring1>, <&vdev0buffer>, <&mcu_rsc_table>;
 	interrupt-parent = <&exti>;
 	interrupts = <68 1>;
 	wakeup-source;
@@ -623,11 +629,10 @@
 };
 
 &dmamux1{
+	status = "okay";
 
 	dma-masters = <&dma1 &dma2>;
 	dma-channels = <16>;
-
-	status = "okay";
 
 	/* USER CODE BEGIN dmamux1 */
 	/* USER CODE END dmamux1 */
@@ -852,7 +857,7 @@
 	stusb1600@28{
 		compatible = "st,stusb1600";
 		reg = <0x28>;
-		interrupts = <11 IRQ_TYPE_EDGE_FALLING>;
+		interrupts = <11 IRQ_TYPE_LEVEL_LOW>;
 		interrupt-parent = <&gpioi>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&stusb1600_pins_a>;
@@ -1049,6 +1054,7 @@
 };
 
 &iwdg2{
+	u-boot,dm-pre-reloc;
 	status = "okay";
 
 	/* USER CODE BEGIN iwdg2 */
@@ -1300,6 +1306,11 @@
 	/* USER CODE BEGIN usbphyc_port0 */
 	phy-supply = <&vdd_usb>;
 	st,phy-tuning = <&usb_phy_tuning>;
+
+	connector{
+		compatible = "usb-a-connector";
+		vbus-supply = <&v3v3>;
+	};
 	/* USER CODE END usbphyc_port0 */
 };
 
@@ -1324,6 +1335,23 @@
 };
 
 /* USER CODE BEGIN addons */
+
+&cpu0{
+	cpu-supply = <&vddcore>;
+};
+
+&cpu1{
+	cpu-supply = <&vddcore>;
+};
+
+&sram{
+
+	dma_pool:dma_pool@0{
+		reg = <0x50000 0x10000>;
+		pool;
+	};
+};
+
 &adc {
 	status = "disabled";
 };
@@ -1340,22 +1368,6 @@
 
 &usbh_ohci{
 	phys = <&usbphyc_port0>;
-};
-
-&cpu0{
-	cpu-supply = <&vddcore>;
-};
-
-&cpu1{
-	cpu-supply = <&vddcore>;
-};
-
-&sram{
-
-	dma_pool:dma_pool@0{
-		reg = <0x50000 0x10000>;
-		pool;
-	};
 };
 /* USER CODE END addons */
 

@@ -24,15 +24,18 @@
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP157A-DK1 STM32CubeMX board";
-	compatible = "st,stm32mp157a-test-mx", "st,stm32mp157";
+	model = "STMicroelectronics STM32MP157A-DK1 STM32CubeMX board - openstlinux-5.10-dunfell-mp1-21-11-17";
+	compatible = "st,stm32mp157a-dk1-mx", "st,stm32mp157";
 
-	/* USER CODE BEGIN root */
-
-	memory@c0000000{
+	memory@c0000000 {
 		device_type = "memory";
 		reg = <0xc0000000 0x20000000>;
+
+		/* USER CODE BEGIN memory */
+		/* USER CODE END memory */
 	};
+
+	/* USER CODE BEGIN root */
 
 	vin:vin{
 		compatible = "regulator-fixed";
@@ -126,85 +129,6 @@
 	/* USER CODE END pinctrl_z */
 };
 
-&rcc {
-	st,csi-cal;
-	st,hsi-cal;
-	st,cal-sec = <60>;
-	st,clksrc = <
-		CLK_MPU_PLL1P
-		CLK_AXI_PLL2P
-		CLK_MCU_PLL3P
-		CLK_PLL12_HSE
-		CLK_PLL3_HSE
-		CLK_PLL4_HSE
-		CLK_RTC_LSE
-		CLK_MCO1_DISABLED
-		CLK_MCO2_DISABLED
-	>;
-	st,clkdiv = <
-		1 		/*MPU*/
-		0 		/*AXI*/
-		0 		/*MCU*/
-		1 		/*APB1*/
-		1 		/*APB2*/
-		1 		/*APB3*/
-		1 		/*APB4*/
-		2 		/*APB5*/
-		23 		/*RTC*/
-		0 		/*MCO1*/
-		0 		/*MCO2*/
-	>;
-	st,pkcs = <
-		CLK_CKPER_HSE
-		CLK_ETH_PLL4P
-		CLK_SDMMC12_PLL4P
-		CLK_STGEN_HSE
-		CLK_USBPHY_HSE
-		CLK_SPI2S1_DISABLED
-		CLK_SPI2S23_PLL3Q
-		CLK_SPI45_DISABLED
-		CLK_SPI6_DISABLED
-		CLK_I2C46_HSI
-		CLK_SDMMC3_DISABLED
-		CLK_USBO_USBPHY
-		CLK_ADC_CKPER
-		CLK_CEC_LSE
-		CLK_I2C12_HSI
-		CLK_I2C35_DISABLED
-		CLK_UART1_DISABLED
-		CLK_UART24_HSI
-		CLK_UART35_DISABLED
-		CLK_UART6_DISABLED
-		CLK_UART78_DISABLED
-		CLK_SPDIF_DISABLED
-		CLK_SAI1_DISABLED
-		CLK_SAI2_PLL3Q
-		CLK_SAI3_DISABLED
-		CLK_SAI4_DISABLED
-		CLK_RNG1_LSI
-		CLK_LPTIM1_DISABLED
-		CLK_LPTIM23_DISABLED
-		CLK_LPTIM45_DISABLED
-	>;
-	pll2:st,pll@1 {
-		compatible = "st,stm32mp1-pll";
-		reg = <1>;
-		cfg = < 2 65 1 0 0 PQR(1,1,1) >;
-		frac = < 0x1400 >;
-	};
-	pll3:st,pll@2 {
-		compatible = "st,stm32mp1-pll";
-		reg = <2>;
-		cfg = < 1 33 1 16 36 PQR(1,1,0) >;
-		frac = < 0x1a04 >;
-	};
-	pll4:st,pll@3 {
-		compatible = "st,stm32mp1-pll";
-		reg = <3>;
-		cfg = < 3 98 5 7 7 PQR(1,1,0) >;
-	};
-};
-
 &bsec{
 	status = "okay";
 	secure-status = "okay";
@@ -219,6 +143,7 @@
 };
 
 &etzpc{
+	secure-status = "okay";
 	st,decprot = <
 	/*"Non Secured" peripherals*/
 	DECPROT(STM32MP1_ETZPC_ADC_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
@@ -236,24 +161,24 @@
 	DECPROT(STM32MP1_ETZPC_UART4_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_OTG_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_VREFBUF_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
+	/*"NS_R S_W" peripherals*/
+	DECPROT(STM32MP1_ETZPC_DDRCTRL_ID, DECPROT_NS_R_S_W, DECPROT_LOCK)
+	DECPROT(STM32MP1_ETZPC_DDRPHYC_ID, DECPROT_NS_R_S_W, DECPROT_LOCK)
 	/*"Secured" peripherals*/
-	DECPROT(STM32MP1_ETZPC_DDRCTRL_ID, DECPROT_S_RW, DECPROT_UNLOCK)
-	DECPROT(STM32MP1_ETZPC_DDRPHYC_ID, DECPROT_S_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_STGENC_ID, DECPROT_S_RW, DECPROT_UNLOCK)
 
 	/*Restriction: following IDs are not managed  - please to use User-Section if needed:
-		STM32MP1_ETZPC_SRAMx_ID, STM32MP1_ETZPC_RETRAM_ID, STM32MP1_ETZPC_BKPSRAM_ID*/
+		  STM32MP1_ETZPC_SRAMx_ID  STM32MP1_ETZPC_RETRAM_ID  STM32MP1_ETZPC_BKPSRAM_ID*/
 
 	/* USER CODE BEGIN etzpc_decprot */
 		/*STM32CubeMX generates a basic and standard configuration for ETZPC.
 		Additional device configurations can be added here if needed.
 		"etzpc" node could be also overloaded in "addons" User-Section.*/
-
+	
 	DECPROT(STM32MP1_ETZPC_BKPSRAM_ID, DECPROT_S_RW, DECPROT_UNLOCK)
+	
 	/* USER CODE END etzpc_decprot */
 	>;
-
-	secure-status = "okay";
 
 	/* USER CODE BEGIN etzpc */
 	/* USER CODE END etzpc */
@@ -427,10 +352,9 @@
 
 			vtt_ddr:ldo3{
 				regulator-name = "vtt_ddr";
-				regulator-min-microvolt = <500000>;
-				regulator-max-microvolt = <750000>;
 				regulator-always-on;
 				regulator-over-current-protection;
+				st,regulator-sink-source;
 
 				lp-stop{
 					regulator-off-in-suspend;
@@ -447,6 +371,8 @@
 
 			vdd_usb:ldo4{
 				regulator-name = "vdd_usb";
+				regulator-min-microvolt = <3300000>;
+				regulator-max-microvolt = <3300000>;
 
 				standby-ddr-sr{
 					regulator-off-in-suspend;
@@ -490,7 +416,6 @@
 			vref_ddr:vref_ddr{
 				regulator-name = "vref_ddr";
 				regulator-always-on;
-				regulator-over-current-protection;
 
 				lp-stop{
 					regulator-on-in-suspend;
@@ -551,6 +476,82 @@
 &rcc{
 	status = "okay";
 	secure-status = "okay";
+	st,csi-cal;
+	st,hsi-cal;
+	st,cal-sec = <60>;
+	st,clksrc = <
+		CLK_MPU_PLL1P
+		CLK_AXI_PLL2P
+		CLK_MCU_PLL3P
+		CLK_PLL12_HSE
+		CLK_PLL3_HSE
+		CLK_PLL4_HSE
+		CLK_RTC_LSE
+		CLK_MCO1_DISABLED
+		CLK_MCO2_DISABLED
+	>;
+	st,clkdiv = <
+		1 		/*MPU*/
+		0 		/*AXI*/
+		0 		/*MCU*/
+		1 		/*APB1*/
+		1 		/*APB2*/
+		1 		/*APB3*/
+		1 		/*APB4*/
+		2 		/*APB5*/
+		23 		/*RTC*/
+		0 		/*MCO1*/
+		0 		/*MCO2*/
+	>;
+	st,pkcs = <
+		CLK_CKPER_HSE
+		CLK_ETH_PLL4P
+		CLK_SDMMC12_PLL4P
+		CLK_STGEN_HSE
+		CLK_USBPHY_HSE
+		CLK_SPI2S1_DISABLED
+		CLK_SPI2S23_PLL3Q
+		CLK_SPI45_DISABLED
+		CLK_SPI6_DISABLED
+		CLK_I2C46_HSI
+		CLK_SDMMC3_DISABLED
+		CLK_USBO_USBPHY
+		CLK_ADC_CKPER
+		CLK_CEC_LSE
+		CLK_I2C12_HSI
+		CLK_I2C35_DISABLED
+		CLK_UART1_DISABLED
+		CLK_UART24_HSI
+		CLK_UART35_DISABLED
+		CLK_UART6_DISABLED
+		CLK_UART78_DISABLED
+		CLK_SPDIF_DISABLED
+		CLK_SAI1_DISABLED
+		CLK_SAI2_PLL3Q
+		CLK_SAI3_DISABLED
+		CLK_SAI4_DISABLED
+		CLK_RNG1_LSI
+		CLK_LPTIM1_DISABLED
+		CLK_LPTIM23_DISABLED
+		CLK_LPTIM45_DISABLED
+	>;
+	pll2:st,pll@1 {
+		compatible = "st,stm32mp1-pll";
+		reg = <1>;
+		cfg = < 2 65 1 0 0 PQR(1,1,1) >;
+		frac = < 0x1400 >;
+	};
+	pll3:st,pll@2 {
+		compatible = "st,stm32mp1-pll";
+		reg = <2>;
+		cfg = < 1 33 1 16 36 PQR(1,1,0) >;
+		frac = < 0x1a04 >;
+	};
+	pll4:st,pll@3 {
+		compatible = "st,stm32mp1-pll";
+		reg = <3>;
+		cfg = < 3 98 5 7 7 PQR(1,1,0) >;
+	};
 
 	/* USER CODE BEGIN rcc */
 	/* USER CODE END rcc */

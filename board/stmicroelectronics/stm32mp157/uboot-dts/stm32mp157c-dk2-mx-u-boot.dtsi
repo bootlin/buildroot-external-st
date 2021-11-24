@@ -32,8 +32,8 @@
 		u-boot,error-led = "error";
 		u-boot,mmc-env-partition = "fip";
 		st,adc_usb_pd = <&adc1 18>, <&adc1 19>;
-		st,fastboot-gpios = <&gpioa 13 GPIO_ACTIVE_LOW>;
-		st,stm32prog-gpios = <&gpioa 14 GPIO_ACTIVE_LOW>;
+		st,fastboot-gpios = <&gpioa 13 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+		st,stm32prog-gpios = <&gpioa 14 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 	};
 
 #ifdef CONFIG_STM32MP15x_STM32IMAGE
@@ -110,7 +110,7 @@
 
 #ifndef CONFIG_TFABOOT
 
-&rcc {
+&rcc{
 	u-boot,dm-pre-reloc;
 	st,clksrc = <
 		CLK_MPU_PLL1P
@@ -189,6 +189,9 @@
 		cfg = < 3 98 5 7 7 PQR(1,1,0) >;
 		u-boot,dm-pre-reloc;
 	};
+
+	/* USER CODE BEGIN rcc */
+	/* USER CODE END rcc */
 };
 
 &i2c4{
@@ -221,6 +224,13 @@
 	/* USER CODE END hash1 */
 };
 
+&iwdg2{
+	u-boot,dm-pre-reloc;
+
+	/* USER CODE BEGIN iwdg2 */
+	/* USER CODE END iwdg2 */
+};
+
 &uart4{
 	u-boot,dm-pre-reloc;
 
@@ -233,7 +243,6 @@
 
 	/* USER CODE BEGIN usbotg_hs */
 	u-boot,force-b-session-valid;
-	dr_mode = "peripheral";
 	/* USER CODE END usbotg_hs */
 };
 
@@ -259,6 +268,11 @@
 };
 
 /* USER CODE BEGIN addons */
+
+&adc{
+	status = "okay";
+};
+
 #ifndef CONFIG_TFABOOT
 
 &pmic{
@@ -273,11 +287,5 @@
 		bias-pull-up;
 	};
 };
-
-
-&adc{
-	status = "okay";
-};
-
 /* USER CODE END addons */
 
