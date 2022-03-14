@@ -64,7 +64,7 @@ use the versions provided and supported by ST.
 
 ### Pre-requisites
 
-In order to use [Buildroot](https://www.builroot.org), you need to
+In order to use [Buildroot](https://www.buildroot.org), you need to
 have a Linux distribution installed on your workstation. Any
 reasonably recent Linux distribution (Ubuntu, Debian, Fedora, Redhat,
 OpenSuse, etc.) will work fine.
