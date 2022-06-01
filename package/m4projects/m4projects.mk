@@ -9,7 +9,7 @@ M4PROJECTS_SITE = $(call github,STMicroelectronics,STM32CubeMP1,$(M4PROJECTS_VER
 M4PROJECTS_LICENSE = Apache-2.0, MIT, BSD-3-Clause
 M4PROJECTS_LICENSE_FILES = License.md
 
-M4PROJECTS_DEPENDENCIES += host-python host-arm-gnu-a-toolchain
+M4PROJECTS_DEPENDENCIES += host-python3 host-arm-gnu-toolchain
 
 M4PROJECTS_PROJECTS_LIST = \
 	STM32MP157C-DK2/Examples/ADC/ADC_SingleConversion_TriggerTimer_DMA \
