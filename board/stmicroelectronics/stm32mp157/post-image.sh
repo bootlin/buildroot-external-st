@@ -33,6 +33,9 @@ main()
 
 	rm -f ${GENIMAGE_CFG}
 
+	sed -e "s/%ATFBIN%/${ATFBIN}/" \
+		${SCRIPT_PATH}/flash.tsv > ${BINARIES_DIR}/flash.tsv
+
 	exit $?
 }
 
