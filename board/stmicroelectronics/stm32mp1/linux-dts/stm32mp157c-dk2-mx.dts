@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: (GPL-2.0+ OR BSD-3-Clause) */
 /*
- * Copyright (C) STMicroelectronics 2021 - All Rights Reserved
+ * Copyright (C) STMicroelectronics 2022 - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -23,8 +23,8 @@
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP157C-DK2 STM32CubeMX board - openstlinux-5.10-dunfell-mp1-21-11-17";
-	compatible = "st,stm32mp157c-dk2-mx", "st,stm32mp157";
+	model = "STMicroelectronics STM32MP157C-DK2 STM32CubeMX board - openstlinux-5.15-yocto-kirkstone-mp1-v22.06.15";
+	compatible = "st,stm32mp157c-mx", "st,stm32mp157";
 
 	memory@c0000000 {
 		device_type = "memory";
@@ -87,6 +87,11 @@
 			reg = <0xd4000000 0x4000000>;
 			no-map;
 		};
+
+		optee@de000000{
+			reg = <0xde000000 0x2000000>;
+			no-map;
+		};
 		/* USER CODE END reserved-memory */
 	};
 
@@ -111,7 +116,7 @@
 		};
 	};
 
-	sound{
+	sound:sound{
 		compatible = "audio-graph-card";
 		label = "STM32MP15-DK";
 		routing = "Playback", "MCLK",
@@ -119,17 +124,6 @@
 				"MICL", "Mic Bias";
 		dais = <&sai2a_port &sai2b_port &i2s2_port>;
 		status = "okay";
-	};
-
-	usb_phy_tuning:usb-phy-tuning{
-		st,hs-dc-level = <2>;
-		st,fs-rftime-tuning;
-		st,hs-rftime-reduction;
-		st,hs-current-trim = <15>;
-		st,hs-impedance-trim = <1>;
-		st,squelch-level = <3>;
-		st,hs-rx-offset = <2>;
-		st,no-lsfs-sc;
 	};
 
 	vin:vin{
@@ -141,6 +135,9 @@
 	};
 
 	chosen{
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
 		stdout-path = "serial0:115200n8";
 	};
 
@@ -154,29 +151,11 @@
 		/* USER CODE BEGIN clocks */
 		/* USER CODE END clocks */
 
-#ifndef CONFIG_TFABOOT
-		clk_lsi: clk-lsi {
-			clock-frequency = <32000>;
-		};
-		clk_hsi: clk-hsi {
-			clock-frequency = <64000000>;
-		};
-		clk_csi: clk-csi {
-			clock-frequency = <4000000>;
-		};
-		clk_lse: clk-lse {
-			clock-frequency = <32768>;
-		};
-		clk_hse: clk-hse {
-			clock-frequency = <24000000>;
-		};
-#endif	/*CONFIG_TFABOOT*/
 	};
 
 }; /*root*/
 
 &pinctrl {
-	u-boot,dm-pre-reloc;
 
 	adc_pins_mx: adc_mx-0 {
 		pins {
@@ -343,9 +322,7 @@
 	};
 
 	sdmmc1_pins_mx: sdmmc1_mx-0 {
-		u-boot,dm-pre-reloc;
 		pins1 {
-			u-boot,dm-pre-reloc;
 			pinmux = <STM32_PINMUX('C', 8, AF12)>, /* SDMMC1_D0 */
 					 <STM32_PINMUX('C', 9, AF12)>, /* SDMMC1_D1 */
 					 <STM32_PINMUX('C', 10, AF12)>, /* SDMMC1_D2 */
@@ -356,7 +333,6 @@
 			slew-rate = <1>;
 		};
 		pins2 {
-			u-boot,dm-pre-reloc;
 			pinmux = <STM32_PINMUX('C', 12, AF12)>; /* SDMMC1_CK */
 			bias-disable;
 			drive-push-pull;
@@ -365,9 +341,7 @@
 	};
 
 	sdmmc1_opendrain_pins_mx: sdmmc1_opendrain_mx-0 {
-		u-boot,dm-pre-reloc;
 		pins1 {
-			u-boot,dm-pre-reloc;
 			pinmux = <STM32_PINMUX('C', 8, AF12)>, /* SDMMC1_D0 */
 					 <STM32_PINMUX('C', 9, AF12)>, /* SDMMC1_D1 */
 					 <STM32_PINMUX('C', 10, AF12)>, /* SDMMC1_D2 */
@@ -377,14 +351,12 @@
 			slew-rate = <1>;
 		};
 		pins2 {
-			u-boot,dm-pre-reloc;
 			pinmux = <STM32_PINMUX('C', 12, AF12)>; /* SDMMC1_CK */
 			bias-disable;
 			drive-push-pull;
 			slew-rate = <2>;
 		};
 		pins3 {
-			u-boot,dm-pre-reloc;
 			pinmux = <STM32_PINMUX('D', 2, AF12)>; /* SDMMC1_CMD */
 			bias-disable;
 			drive-open-drain;
@@ -393,9 +365,7 @@
 	};
 
 	sdmmc1_sleep_pins_mx: sdmmc1_sleep_mx-0 {
-		u-boot,dm-pre-reloc;
 		pins {
-			u-boot,dm-pre-reloc;
 			pinmux = <STM32_PINMUX('C', 8, ANALOG)>, /* SDMMC1_D0 */
 					 <STM32_PINMUX('C', 9, ANALOG)>, /* SDMMC1_D1 */
 					 <STM32_PINMUX('C', 10, ANALOG)>, /* SDMMC1_D2 */
@@ -460,14 +430,11 @@
 	};
 
 	uart4_pins_mx: uart4_mx-0 {
-		u-boot,dm-pre-reloc;
 		pins1 {
-			u-boot,dm-pre-reloc;
 			pinmux = <STM32_PINMUX('B', 2, AF8)>; /* UART4_RX */
 			bias-disable;
 		};
 		pins2 {
-			u-boot,dm-pre-reloc;
 			pinmux = <STM32_PINMUX('G', 11, AF6)>; /* UART4_TX */
 			bias-disable;
 			drive-push-pull;
@@ -476,9 +443,7 @@
 	};
 
 	uart4_sleep_pins_mx: uart4_sleep_mx-0 {
-		u-boot,dm-pre-reloc;
 		pins {
-			u-boot,dm-pre-reloc;
 			pinmux = <STM32_PINMUX('B', 2, ANALOG)>, /* UART4_RX */
 					 <STM32_PINMUX('G', 11, ANALOG)>; /* UART4_TX */
 		};
@@ -581,12 +546,9 @@
 };
 
 &pinctrl_z {
-	u-boot,dm-pre-reloc;
 
 	i2c4_pins_z_mx: i2c4_mx-0 {
-		u-boot,dm-pre-reloc;
 		pins {
-			u-boot,dm-pre-reloc;
 			pinmux = <STM32_PINMUX('Z', 4, AF6)>, /* I2C4_SCL */
 					 <STM32_PINMUX('Z', 5, AF6)>; /* I2C4_SDA */
 			bias-disable;
@@ -596,9 +558,7 @@
 	};
 
 	i2c4_sleep_pins_z_mx: i2c4_sleep_mx-0 {
-		u-boot,dm-pre-reloc;
 		pins {
-			u-boot,dm-pre-reloc;
 			pinmux = <STM32_PINMUX('Z', 4, ANALOG)>, /* I2C4_SCL */
 					 <STM32_PINMUX('Z', 5, ANALOG)>; /* I2C4_SDA */
 		};
@@ -636,12 +596,12 @@
 
 	adc1:adc@0{
 		st,min-sample-time-nsecs = <5000>;
-		st,adc-channels = <0 1 6 13 18 19>;
+		st,adc-channels = <18 19>;
 		status = "okay";
 	};
 
 	adc2:adc@100{
-		st,adc-channels = <0 1 2 6 18 19>;
+		st,adc-channels = <18 19>;
 		st,min-sample-time-nsecs = <5000>;
 		status = "okay";
 	};
@@ -673,7 +633,6 @@
 };
 
 &cryp1{
-	u-boot,dm-pre-reloc;
 	status = "okay";
 
 	/* USER CODE BEGIN cryp1 */
@@ -788,7 +747,6 @@
 };
 
 &hash1{
-	u-boot,dm-pre-reloc;
 	status = "okay";
 
 	/* USER CODE BEGIN hash1 */
@@ -867,30 +825,17 @@
 			cs42l51_tx_endpoint:endpoint@0{
 				reg = <0>;
 				remote-endpoint = <&sai2a_endpoint>;
-				frame-master;
-				bitclock-master;
+				frame-master = <&cs42l51_tx_endpoint>;
+				bitclock-master = <&cs42l51_tx_endpoint>;
 			};
 
 			cs42l51_rx_endpoint:endpoint@1{
 				reg = <1>;
 				remote-endpoint = <&sai2b_endpoint>;
-				frame-master;
-				bitclock-master;
+				frame-master = <&cs42l51_rx_endpoint>;
+				bitclock-master = <&cs42l51_rx_endpoint>;
 			};
 		};
-	};
-
-	touchscreen@2a{
-		compatible = "focaltech,ft6236";
-		reg = <0x2a>;
-		interrupts = <2 2>;
-		interrupt-parent = <&gpiof>;
-		interrupt-controller;
-		touchscreen-size-x = <480>;
-		touchscreen-size-y = <800>;
-		panel = <&panel_otm8009a>;
-		vcc-supply = <&v3v3>;
-		status = "okay";
 	};
 
 	touchscreen@38{
@@ -903,13 +848,13 @@
 		touchscreen-size-y = <800>;
 		panel = <&panel_otm8009a>;
 		vcc-supply = <&v3v3>;
+		iovcc-supply = <&v3v3>;
 		status = "okay";
 	};
 	/* USER CODE END i2c1 */
 };
 
 &i2c4{
-	u-boot,dm-pre-reloc;
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&i2c4_pins_z_mx>;
 	pinctrl-1 = <&i2c4_sleep_pins_z_mx>;
@@ -1057,7 +1002,6 @@
 			vref_ddr:vref_ddr{
 				regulator-name = "vref_ddr";
 				regulator-always-on;
-				regulator-over-current-protection;
 			};
 
 			bst_out:boost{
@@ -1122,7 +1066,6 @@
 };
 
 &iwdg2{
-	u-boot,dm-pre-reloc;
 	status = "okay";
 
 	/* USER CODE BEGIN iwdg2 */
@@ -1170,18 +1113,10 @@
 };
 
 &rcc{
-	u-boot,dm-pre-reloc;
 	status = "okay";
 
 	/* USER CODE BEGIN rcc */
 	/* USER CODE END rcc */
-};
-
-&rng1{
-	status = "okay";
-
-	/* USER CODE BEGIN rng1 */
-	/* USER CODE END rng1 */
 };
 
 &rtc{
@@ -1250,7 +1185,6 @@
 };
 
 &sdmmc1{
-	u-boot,dm-pre-reloc;
 	pinctrl-names = "default", "opendrain", "sleep";
 	pinctrl-0 = <&sdmmc1_pins_mx>;
 	pinctrl-1 = <&sdmmc1_opendrain_pins_mx>;
@@ -1298,7 +1232,6 @@
 };
 
 &uart4{
-	u-boot,dm-pre-reloc;
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&uart4_pins_mx>;
 	pinctrl-1 = <&uart4_sleep_pins_mx>;
@@ -1345,7 +1278,6 @@
 };
 
 &usbotg_hs{
-	u-boot,dm-pre-reloc;
 	status = "okay";
 
 	/* USER CODE BEGIN usbotg_hs */
@@ -1363,7 +1295,6 @@
 };
 
 &usbphyc{
-	u-boot,dm-pre-reloc;
 	status = "okay";
 
 	/* USER CODE BEGIN usbphyc */
@@ -1371,12 +1302,18 @@
 };
 
 &usbphyc_port0{
-	u-boot,dm-pre-reloc;
 	status = "okay";
 
 	/* USER CODE BEGIN usbphyc_port0 */
 	phy-supply = <&vdd_usb>;
-	st,phy-tuning = <&usb_phy_tuning>;
+	st,tune-hs-dc-level = <2>;
+	st,enable-fs-rftime-tuning;
+	st,enable-hs-rftime-reduction;
+	st,trim-hs-current = <15>;
+	st,trim-hs-impedance = <1>;
+	st,tune-squelch-level = <3>;
+	st,tune-hs-rx-offset = <2>;
+	st,no-lsfs-sc;
 
 	connector{
 		compatible = "usb-a-connector";
@@ -1386,12 +1323,18 @@
 };
 
 &usbphyc_port1{
-	u-boot,dm-pre-reloc;
 	status = "okay";
 
 	/* USER CODE BEGIN usbphyc_port1 */
 	phy-supply = <&vdd_usb>;
-	st,phy-tuning = <&usb_phy_tuning>;
+	st,tune-hs-dc-level = <2>;
+	st,enable-fs-rftime-tuning;
+	st,enable-hs-rftime-reduction;
+	st,trim-hs-current = <15>;
+	st,trim-hs-impedance = <1>;
+	st,tune-squelch-level = <3>;
+	st,tune-hs-rx-offset = <2>;
+	st,no-lsfs-sc;
 	/* USER CODE END usbphyc_port1 */
 };
 
@@ -1423,16 +1366,12 @@
 	};
 };
 
-&adc {
-	status = "disabled";
-};
-
 &pinctrl{
 	stusb1600_pins_a:stusb1600-0{
 
 		pins{
 			bias-pull-up;
-			pinmux = <STM32_PINMUX('I', 11, ANALOG)>;
+			pinmux = <STM32_PINMUX('I', 11, GPIO)>;
 		};
 	};
 };

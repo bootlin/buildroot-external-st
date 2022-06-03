@@ -24,8 +24,8 @@
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP157D-DK1 STM32CubeMX board - openstlinux-5.10-dunfell-mp1-21-11-17";
-	compatible = "st,stm32mp157d-dk1-mx", "st,stm32mp157";
+	model = "STMicroelectronics STM32MP157D-DK1 STM32CubeMX board - openstlinux-5.15-yocto-kirkstone-mp1-v22.06.15";
+	compatible = "st,stm32mp157d-mx", "st,stm32mp157";
 
 	memory@c0000000 {
 		device_type = "memory";
@@ -131,7 +131,6 @@
 
 &bsec{
 	status = "okay";
-	secure-status = "okay";
 
 	/* USER CODE BEGIN bsec */
 
@@ -143,7 +142,7 @@
 };
 
 &etzpc{
-	secure-status = "okay";
+	status = "okay";
 	st,decprot = <
 	/*"Non Secured" peripherals*/
 	DECPROT(STM32MP1_ETZPC_ADC_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
@@ -156,11 +155,11 @@
 	DECPROT(STM32MP1_ETZPC_I2C1_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_I2C4_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_SPI2_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
-	DECPROT(STM32MP1_ETZPC_RNG1_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_SAI2_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_UART4_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_OTG_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_VREFBUF_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
+	DECPROT(STM32MP1_ETZPC_RNG1_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
 	/*"NS_R S_W" peripherals*/
 	DECPROT(STM32MP1_ETZPC_DDRCTRL_ID, DECPROT_NS_R_S_W, DECPROT_LOCK)
 	DECPROT(STM32MP1_ETZPC_DDRPHYC_ID, DECPROT_NS_R_S_W, DECPROT_LOCK)
@@ -174,10 +173,6 @@
 		/*STM32CubeMX generates a basic and standard configuration for ETZPC.
 		Additional device configurations can be added here if needed.
 		"etzpc" node could be also overloaded in "addons" User-Section.*/
-	
-
-	
-	DECPROT(STM32MP1_ETZPC_BKPSRAM_ID, DECPROT_S_RW, DECPROT_UNLOCK)
 	/* USER CODE END etzpc_decprot */
 	>;
 
@@ -196,7 +191,6 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c4_pins_z_mx>;
 	status = "okay";
-	secure-status = "okay";
 
 	/* USER CODE BEGIN i2c4 */
 	i2c-scl-rising-time-ns = <185>;
@@ -210,7 +204,6 @@
 		interrupt-controller;
 		#interrupt-cells = <2>;
 		status = "okay";
-		secure-status = "okay";
 
 		regulators{
 			compatible = "st,stpmic1-regulators";
@@ -450,7 +443,6 @@
 
 &iwdg2{
 	status = "okay";
-	secure-status = "okay";
 
 	/* USER CODE BEGIN iwdg2 */
 	timeout-sec = <32>;
@@ -460,7 +452,6 @@
 
 &pwr_regulators{
 	status = "okay";
-	secure-status = "okay";
 
 	/* USER CODE BEGIN pwr_regulators */
 	system_suspend_supported_soc_modes = <
@@ -476,10 +467,13 @@
 
 &rcc{
 	status = "okay";
-	secure-status = "okay";
-	st,csi-cal;
+
+	/* USER CODE BEGIN rcc */
 	st,hsi-cal;
+	st,csi-cal;
 	st,cal-sec = <60>;
+	/* USER CODE END rcc */
+
 	st,clksrc = <
 		CLK_MPU_PLL1P
 		CLK_AXI_PLL2P
@@ -531,7 +525,7 @@
 		CLK_SAI2_PLL3Q
 		CLK_SAI3_DISABLED
 		CLK_SAI4_DISABLED
-		CLK_RNG1_LSI
+		CLK_RNG1_CSI
 		CLK_LPTIM1_DISABLED
 		CLK_LPTIM23_DISABLED
 		CLK_LPTIM45_DISABLED
@@ -553,14 +547,10 @@
 		reg = <3>;
 		cfg = < 3 98 5 7 7 PQR(1,1,0) >;
 	};
-
-	/* USER CODE BEGIN rcc */
-	/* USER CODE END rcc */
 };
 
 &rng1{
 	status = "okay";
-	secure-status = "okay";
 
 	/* USER CODE BEGIN rng1 */
 	/* USER CODE END rng1 */
@@ -568,7 +558,6 @@
 
 &rtc{
 	status = "okay";
-	secure-status = "okay";
 
 	/* USER CODE BEGIN rtc */
 	/* USER CODE END rtc */
@@ -589,7 +578,6 @@
 
 &tamp{
 	status = "okay";
-	secure-status = "okay";
 
 	/* USER CODE BEGIN tamp */
 	/* USER CODE END tamp */
@@ -647,29 +635,8 @@
 	cpu-supply = <&vddcore>;
 };
 
-&nvmem_layout{
-	nvmem-cells = <&cfg0_otp>,
-			<&part_number_otp>,
-			<&monotonic_otp>,
-			<&nand_otp>,
-			<&uid_otp>,
-			<&package_otp>,
-			<&hw2_otp>,
-			<&pkh_otp>,
-			<&board_id>;
-	nvmem-cell-names = "cfg0_otp",
-			"part_number_otp",
-			"monotonic_otp",
-			"nand_otp",
-			"uid_otp",
-			"package_otp",
-			"hw2_otp",
-			"pkh_otp",
-			"board_id";
-};
-
 &timers15{
-	secure-status = "okay";
+	status = "okay";
 	st,hsi-cal-input = <7>;
 	st,csi-cal-input = <8>;
 };
