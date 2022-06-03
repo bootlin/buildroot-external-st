@@ -1,10 +1,10 @@
 on: workflow_dispatch
 jobs:
   build-all:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
-        config: [ st_stm32mp157a_dk1_defconfig, st_stm32mp157a_dk1_demo_defconfig, st_stm32mp157c_dk2_defconfig, st_stm32mp157c_dk2_demo_defconfig ]
+        config: [ st_stm32mp157a_dk1_defconfig, st_stm32mp157a_dk1_demo_defconfig, st_stm32mp157d_dk1_defconfig, st_stm32mp157d_dk1_demo_defconfig, st_stm32mp157c_dk2_defconfig, st_stm32mp157c_dk2_demo_defconfig, st_stm32mp157f_dk2_defconfig, st_stm32mp157f_dk2_demo_defconfig, st_stm32mp135f_dk_defconfig, st_stm32mp135f_dk_demo_defconfig ]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: bootlin/buildroot
-          ref: st/2021.02
+          ref: st/2022.02
           path: buildroot
       - name: Configure Buildroot
         run: make -C buildroot BR2_EXTERNAL=../buildroot-external-st O=../output ${{ matrix.config }}
