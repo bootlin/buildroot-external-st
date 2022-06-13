@@ -1,9 +1,14 @@
 # Using WiFi
 
-This only applies to the Discovery Kit 2, with its *demo* configuration.
+Applicable platforms: STM32MP157-DK2, STM32MP135-DK.
 
-The `brcmfmac` Linux kernel module for Wifi is autoload, thanks to udev.
-You can verify that it have been correctly loaded with the `lsmod` command:
+WiFi support is only enabled in the *demo* configurations.
+
+The `brcmfmac` Linux kernel module for Wifi is autoloaded, thanks to
+*udev*.
+
+You can verify that it has been correctly loaded with the `lsmod`
+command:
 
 ```
 # lsmod | grep brcmfmac

@@ -1,5 +1,7 @@
 # Use the Firmware examples for the CM4
 
+Applicable platforms: STM32MP157-DK1, STM32MP157-DK2
+
 The Firmware examples for the CM4 from [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git)
 are enabled in the *demo* configuration.
 All examples built are installed in the path `/usr/lib/Cube-M4-examples/`

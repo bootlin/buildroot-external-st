@@ -1,12 +1,18 @@
-# Test DSI and HDMI Display
+# Testing display support
 
-The Discovery Kit 1 has a HDMI output, while the Discovery Kit 2 has
-both HDMI output and a DSI panel. The *demo* configurations include
-the `modetest` utility, which allows low-level testing of display
-devices, directly by using *DRM* devices.
+Applicable platforms: STM32MP157-DK1, STM32MP157-DK2, STM32MP135-DK
+
+The different platforms have the following capabilities:
+* STM32MP157-DK1: HDMI output
+* STM32MP157-DK2: DSI display panel and HDMI output
+* STM32MP135-DK: DSI display panel
+
+The *demo* configurations for all platforms include the `modetest`
+utility, which allows low-level testing of display devices, directly
+by using *DRM* devices.
 
 First you can run `modetest -c` to enumerate the connectors available
-on your system. On the Discovery Kit 2, the output looks like this:
+on your system. On the STM32MP157-DK2, the output looks like this:
 
 ```
 # modetest -c
@@ -29,19 +35,46 @@ id      encoder status          name            size (mm)       modes   encoders
 ```
 
 So we can see that we have two connectors: connector `32` is the HDMI
-output, while connector `34` is the DSI panel. Obviously, on the DK1,
-the connector corresponding to the DSI panel will not be available.
+output, while connector `34` is the DSI panel. Obviously, the results
+on other platforms will be different.
 
-You can then test the HDMI output by displaying `modetest` default
-picture, for example in a 720p resolution:
+## STM32MP157-DK1
+
+You can test the HDMI output by displaying `modetest` default picture,
+for example in a 720p resolution:
 
 ```
 # modetest -s 32:1280x720
 ```
 
-You can test the DSI output by displaying the same `modetest` default
-picture, in the native DSI panel resolution:
+## STM32MP157-DK2
+
+You can test the HDMI output by displaying `modetest` default picture,
+for example in a 720p resolution:
+
+```
+# modetest -s 32:1280x720
+```
+
+You can test the DSI display panel by displaying the `modetest`
+default picture, in the native DSI panel resolution:
 
 ```
 # modetest -s 34:480x800
+```
+
+## STM32MP135-DK
+
+You can test the DSI display panel by first enabling the display
+backlight:
+
+```
+echo 1 >  /sys/class/backlight/panel-backlight/brightness
+```
+
+And then displaying the `modetest` default picture, in the native DSI
+panel resolution:
+
+```
+# modetest -s 32:480x272
 ```

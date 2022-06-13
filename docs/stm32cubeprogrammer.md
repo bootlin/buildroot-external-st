@@ -1,5 +1,7 @@
 # Using STM32 Cube Programmer
 
+Applicable platforms: STM32MP157-DK1, STM32MP157-DK2, STM32MP135-DK
+
 [STM32 Cube
 Programmer](https://www.st.com/en/development-tools/stm32cubeprog.html)
 is a utility provided by ST that allows to reflash an STM32MP1
@@ -15,10 +17,10 @@ unfortunately requires having an account on *st.com*. We tested with
 version 2.8.0, and the below instructions assume that STM32 Cube
 Programmer is installed in the `$HOME/stm32cube` folder.
 
-As the STM32MP1 Discovery Kit 1 and 2 do not provide any non-removable
-storage device, our demonstration will use the SD card: STM32 Cube
-Programmer will be used to reflash the SD card, with the SD card
-inserted in the STM32MP1 platform.
+As the STM32MP157-DK1/DK2 or the STM32135F-DK do not provide any
+non-removable storage device, our demonstration will use the SD card:
+STM32 Cube Programmer will be used to reflash the SD card, with the SD
+card inserted in the STM32MP1 platform.
 
 Follow these steps:
 
@@ -27,14 +29,14 @@ Follow these steps:
 3. Run these commands to flash the SDCard:
 ```bash
 $ cd output/images/
-$ sudo ~/stm32cube/bin/STM32_Programmer_CLI -c port=usb1 -w ../../../buildroot-external-st/board/stmicroelectronics/stm32mp157/flash.tsv
+$ sudo ~/stm32cube/bin/STM32_Programmer_CLI -c port=usb1 -w flash.tsv
 ```
 4. Switch back the boot mode switch to SD boot
 5. Reboot the platform
 
-The `flash.tsv` file is part of our `BR2_EXTERNAL` tree and tells
-STM32 Cube Programmer what to flash. If you want to reflash an eMMC
-storage device instead, this `flash.tsv` file will have to be adapted.
+The `flash.tsv` file has been produced by Buildroot and tells STM32
+Cube Programmer what to flash. If you want to reflash an eMMC storage
+device instead, this `flash.tsv` file will have to be adapted.
 
 Additional information:
 

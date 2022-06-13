@@ -1,6 +1,8 @@
 # Using Bluetooth
 
-This only applies to the Discovery Kit 2, with its *demo* configuration.
+Applicable platforms: STM32MP157-DK2, STM32MP135-DK.
+
+Bluetooth support is only enabled in the *demo* configurations.
 
 Use the `bluetoothctl` command to scan and connect close Bluetooth devices.
 ```
@@ -19,5 +21,6 @@ Discovery started
 [bluetooth]# connect xx:xx:xx:xx:xx:xx
 ```
 
-Of course, if necessary, Buildroot supports adding network management
-tools such as *Network Manager* or *Connman*.
+The full BlueZ stack is installed as part of the *demo*
+configuration. See the [BlueZ](http://www.bluez.org/) website for more
+details.
