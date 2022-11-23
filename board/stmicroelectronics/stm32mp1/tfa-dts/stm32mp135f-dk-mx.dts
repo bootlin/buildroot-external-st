@@ -21,8 +21,8 @@
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP135F-DK STM32CubeMX board - openstlinux-5.15-yocto-kirkstone-mp1-v22.06.15";
-	compatible = "st,stm32mp135f-mx", "st,stm32mp135";
+	model = "STMicroelectronics STM32MP135F-DK STM32CubeMX board - openstlinux-5.15-yocto-kirkstone-mp1-v22.11.23";
+	compatible = "st,stm32mp135f-dk-mx", "st,stm32mp135";
 
 	memory@c0000000 {
 		device_type = "memory";
@@ -85,11 +85,11 @@
 			/* USER CODE BEGIN clk_hse */
 			/* USER CODE END clk_hse */
 		};
-		clk_i2s_ckin: i2s_ckin {
+		clk_i2sin: clk-i2sin {
 			status = "disabled";
 
-			/* USER CODE BEGIN clk_i2s_ckin */
-			/* USER CODE END clk_i2s_ckin */
+			/* USER CODE BEGIN clk_i2sin */
+			/* USER CODE END clk_i2sin */
 		};
 	};
 
@@ -309,6 +309,7 @@
 		CLK_I2C4_HSI
 		CLK_USBO_USBPHY
 		CLK_ADC1_CKPER
+		CLK_ADC2_CKPER
 		CLK_I2C12_HSI
 		CLK_I2C5_HSI
 		CLK_UART2_HSI
@@ -333,22 +334,22 @@
 		DIV(DIV_MCO2, 0)
 	>;
 	st,pll_vco {
-		pll1_vco_1300Mhz_mx: pll1-vco-1300Mhz-mx {
+		pll1_vco_1300Mhz: pll1-vco-1300Mhz {
 			src = < CLK_PLL12_HSE >;
 			divmn = < 2 80 >;
 			frac = < 0x800 >;
 		};
-		pll2_vco_1066Mhz_mx: pll2-vco-1066Mhz-mx {
+		pll2_vco_1066Mhz: pll2-vco-1066Mhz {
 			src = < CLK_PLL12_HSE >;
 			divmn = < 2 65 >;
 			frac = < 0x1400 >;
 		};
-		pll3_vco_417Mhz_mx: pll3-vco-417Mhz-mx {
+		pll3_vco_417Mhz: pll3-vco-417Mhz {
 			src = < CLK_PLL3_HSE >;
 			divmn = < 1 33 >;
 			frac = < 0x1a04 >;
 		};
-		pll4_vco_600Mhz_mx: pll4-vco-600Mhz-mx {
+		pll4_vco_600Mhz: pll4-vco-600Mhz {
 			src = < CLK_PLL4_HSE >;
 			divmn = < 1 49 >;
 		};
@@ -364,7 +365,7 @@
 		st,pll = < &pll1_cfg1 >;
 
 		pll1_cfg1: pll1_cfg1 {
-			st,pll_vco = < &pll1_vco_1300Mhz_mx >;
+			st,pll_vco = < &pll1_vco_1300Mhz >;
 			st,pll_div_pqr = < 0 1 1 >;
 		};
 		/* USER CODE BEGIN pll1 */
@@ -378,7 +379,7 @@
 		st,pll = < &pll2_cfg1 >;
 
 		pll2_cfg1: pll2_cfg1 {
-			st,pll_vco = < &pll2_vco_1066Mhz_mx >;
+			st,pll_vco = < &pll2_vco_1066Mhz >;
 			st,pll_div_pqr = < 1 1 0 >;
 		};
 		/* USER CODE BEGIN pll2 */
@@ -392,7 +393,7 @@
 		st,pll = < &pll3_cfg1 >;
 
 		pll3_cfg1: pll3_cfg1 {
-			st,pll_vco = < &pll3_vco_417Mhz_mx >;
+			st,pll_vco = < &pll3_vco_417Mhz >;
 			st,pll_div_pqr = < 1 16 36 >;
 		};
 		/* USER CODE BEGIN pll3 */
@@ -406,7 +407,7 @@
 		st,pll = < &pll4_cfg1 >;
 
 		pll4_cfg1: pll4_cfg1 {
-			st,pll_vco = < &pll4_vco_600Mhz_mx >;
+			st,pll_vco = < &pll4_vco_600Mhz >;
 			st,pll_div_pqr = < 11 59 11 >;
 		};
 		/* USER CODE BEGIN pll4 */

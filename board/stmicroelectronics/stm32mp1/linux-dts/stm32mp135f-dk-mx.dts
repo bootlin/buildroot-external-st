@@ -22,8 +22,8 @@
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP135F-DK STM32CubeMX board - openstlinux-5.15-yocto-kirkstone-mp1-v22.06.15";
-	compatible = "st,stm32mp135f-mx", "st,stm32mp135";
+	model = "STMicroelectronics STM32MP135F-DK STM32CubeMX board - openstlinux-5.15-yocto-kirkstone-mp1-v22.11.23";
+	compatible = "st,stm32mp135f-dk-mx", "st,stm32mp135";
 
 	memory@c0000000 {
 		device_type = "memory";
@@ -152,9 +152,22 @@
 		compatible = "mmc-pwrseq-simple";
 		reset-gpios = <&mcp23017 11 GPIO_ACTIVE_LOW>;
 	};
+
+	wake_up{
+		compatible = "gpio-keys";
+		status = "okay";
+
+		button{
+			label = "wake-up";
+			linux,code = <KEY_WAKEUP>;
+			interrupts-extended = <&optee 0>;
+			status = "okay";
+		};
+	};
 	/* USER CODE END root */
 
 	clocks {
+
 		/* USER CODE BEGIN clocks */
 
 		clk_ext_camera:clk-ext-camera{
@@ -169,7 +182,6 @@
 			clock-frequency = <24000000>;
 		};
 		/* USER CODE END clocks */
-
 	};
 
 }; /*root*/
@@ -541,9 +553,17 @@
 	vref-supply = <&scmi_vdd_adc>;
 
 	adc1:adc@0{
-		st,min-sample-time-nsecs = <5000>;
-		st,adc-channels = <6 12>;
 		status = "okay";
+
+		channel@6{
+			reg = <6>;
+			st,min-sample-time-ns = <5000>;
+		};
+
+		channel@12{
+			reg = <12>;
+			st,min-sample-time-ns = <5000>;
+		};
 	};
 	/* USER CODE END adc_1 */
 };
@@ -646,8 +666,7 @@
 			compatible = "ethernet-phy-id0007.c131";
 			reset-gpios = <&mcp23017 9 GPIO_ACTIVE_LOW>;
 			reg = <0>;
-			interrupt-parent = <&gpioi>;
-			interrupts = <3 IRQ_TYPE_EDGE_RISING>;
+			wakeup-source;
 		};
 	};
 	/* USER CODE END eth1 */
@@ -712,12 +731,8 @@
 	stm32g0@53{
 		compatible = "st,stm32g0-typec";
 		reg = <0x53>;
-		interrupts = <2 IRQ_TYPE_EDGE_FALLING>;
-		interrupt-parent = <&gpioi>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&stm32g0_intn_pins_a>;
+		interrupts-extended = <&optee 1>;
 		firmware-name = "stm32g0-ucsi.mp135f-dk.fw";
-		power-domains = <&pd_core>;
 		wakeup-source;
 
 		connector{
@@ -920,7 +935,6 @@
 	status = "okay";
 
 	/* USER CODE BEGIN sdmmc2 */
-	arm,primecell-periphid = <0x10153180>;
 	non-removable;
 	st,neg-edge;
 	bus-width = <4>;
