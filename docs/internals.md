@@ -71,7 +71,7 @@ flash the board with STM32 Cube Programmer.
 ```
 BR2_LINUX_KERNEL=y
 BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,STMicroelectronics,linux)v5.15-stm32mp-r1.tar.gz"
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,STMicroelectronics,linux)v5.15-stm32mp-r2.tar.gz"
 BR2_LINUX_KERNEL_DEFCONFIG="multi_v7"
 BR2_LINUX_KERNEL_CONFIG_FRAGMENT_FILES="$(LINUX_DIR)/arch/arm/configs/fragment-01-multiv7_cleanup.config $(LINUX_DIR)/arch/arm/configs/fragment-02-multiv7_addons.config $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/linux-disable-etnaviv.config"
 BR2_LINUX_KERNEL_DTS_SUPPORT=y
@@ -83,7 +83,7 @@ BR2_LINUX_KERNEL_NEEDS_HOST_OPENSSL=y
 This set of options tells Buildroot to build a Linux kernel, with the
 source code fetched using Git from the repository at
 [https://github.com/STMicroelectronics/linux](https://github.com/STMicroelectronics/linux). The
-Git tag `v5.15-stm32mp-r1` will be used as the kernel version. The
+Git tag `v5.15-stm32mp-r2` will be used as the kernel version. The
 kernel will be configured using the configuration file
 [multi_v7_defconfig](https://github.com/STMicroelectronics/linux/arch/arm/configs/multi_v7_defconfig)
 extended with three configuration fragments:
@@ -121,7 +121,7 @@ image, which is a tarball (`.tar`).
 ```
 BR2_TARGET_ARM_TRUSTED_FIRMWARE=y
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_CUSTOM_TARBALL=y
-BR2_TARGET_ARM_TRUSTED_FIRMWARE_CUSTOM_TARBALL_LOCATION="$(call github,STMicroelectronics,arm-trusted-firmware)v2.6-stm32mp-r1.tar.gz"
+BR2_TARGET_ARM_TRUSTED_FIRMWARE_CUSTOM_TARBALL_LOCATION="$(call github,STMicroelectronics,arm-trusted-firmware)v2.6-stm32mp-r2.tar.gz"
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_PLATFORM="stm32mp1"
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_FIP=y
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_BL32_OPTEE=y
@@ -135,7 +135,7 @@ BR2_TARGET_ARM_TRUSTED_FIRMWARE_NEEDS_DTC=y
 These options tell Buildroot how to build TF-A, the Trusted
 Firmware. It is retrieved from the Git repository at
 [https://github.com/STMicroelectronics/arm-trusted-firmware](https://github.com/STMicroelectronics/arm-trusted-firmware),
-using version `v2.6-stm32mp-r1`. TF-A is configured for the `stm32mp1`
+using version `v2.6-stm32mp-r2`. TF-A is configured for the `stm32mp1`
 platform with OP-TEE as BL32, and we use the mechanism of
 [FIP](https://trustedfirmware-a.readthedocs.io/en/latest/getting_started/tools-build.html)
 images. The Device Tree file being used in TF-A comes from the TF-A
@@ -146,7 +146,7 @@ BR2_PACKAGE_OPTEE_CLIENT=y
 ...
 BR2_TARGET_OPTEE_OS=y
 BR2_TARGET_OPTEE_OS_CUSTOM_TARBALL=y
-BR2_TARGET_OPTEE_OS_CUSTOM_TARBALL_LOCATION="$(call github,STMicroelectronics,optee_os)3.16.0-stm32mp-r1.tar.gz"
+BR2_TARGET_OPTEE_OS_CUSTOM_TARBALL_LOCATION="$(call github,STMicroelectronics,optee_os)3.16.0-stm32mp-r2.tar.gz"
 BR2_TARGET_OPTEE_OS_PLATFORM="stm32mp1"
 BR2_TARGET_OPTEE_OS_PLATFORM_FLAVOR="157C_DK2"
 ```
@@ -155,14 +155,14 @@ These options configure the build of OP-TEE as a trusted execution
 environment, as well as the user-space OP-TEE client programs.
 It is fetched from the Git repository
 [https://github.com/STMicroelectronics/optee_os](https://github.com/STMicroelectronics/optee_os),
-in version `3.16.0-stm32mp-r1`. The platform is `stm32mp1` and its flavor
+in version `3.16.0-stm32mp-r2`. The platform is `stm32mp1` and its flavor
 is `157C_DK2`
 
 ```
 BR2_TARGET_UBOOT=y
 BR2_TARGET_UBOOT_BUILD_SYSTEM_KCONFIG=y
 BR2_TARGET_UBOOT_CUSTOM_TARBALL=y
-BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="$(call github,STMicroelectronics,u-boot)v2021.10-stm32mp-r1.tar.gz"
+BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="$(call github,STMicroelectronics,u-boot)v2021.10-stm32mp-r2.tar.gz"
 BR2_TARGET_UBOOT_BOARD_DEFCONFIG="stm32mp15"
 # BR2_TARGET_UBOOT_FORMAT_BIN is not set
 BR2_TARGET_UBOOT_FORMAT_CUSTOM=y
@@ -173,7 +173,7 @@ BR2_TARGET_UBOOT_CUSTOM_MAKEOPTS="DEVICE_TREE=stm32mp157c-dk2"
 These options tell Buildroot how to build U-Boot: it is fetched from
 the Git repository at
 [https://github.com/STMicroelectronics/u-boot](https://github.com/STMicroelectronics/u-boot),
-in version `v2021.10-stm32mp-r1`. The configuration used is
+in version `v2021.10-stm32mp-r2`. The configuration used is
 `stm32mp15`, and we install both the `u-boot-nodtb.bin` and
 `u-boot.dtb` images as both are used for the TF-A build. The Device
 Tree file used comes from the U-Boot source code, and is named
@@ -197,6 +197,13 @@ In this section, we describe the demo configuration
 [st_stm32mp157c_dk2_demo_defconfig](/configs/st_stm32mp157c_dk2_demo_defconfig)
 for the STM32MP157C Discovery Kit 2. Here as well, all other *demo*
 configurations for the other platforms are very similar.
+
+```
+BR2_TOOLCHAIN_EXTERNAL_BOOTLIN=y
+BR2_TOOLCHAIN_EXTERNAL_BOOTLIN_ARMV7_EABIHF_GLIBC_STABLE=y
+```
+We use Bootlin toolchain instead of ARM toolchain because we need glibc
+2.34 for the latest gcnano-binary libraries.
 
 ```
 BR2_ROOTFS_DEVICE_CREATION_DYNAMIC_EUDEV=y
@@ -394,14 +401,14 @@ M4 from [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git).
 ## Changes compared to upstream Buildroot
 
 The `st/2022.02` branch of this `BR2_EXTERNAL` is designed to work
-with Buildroot 2022.02. However, we needed a few changes compared to
-upstream Buildroot 2022.02, which can be seen at
-[https://github.com/bootlin/buildroot/commits/st/2022.02](https://github.com/bootlin/buildroot/commits/st/2022.02). We
+with Buildroot 2022.02.7 However, we needed a few changes compared to
+upstream Buildroot 2022.02.7, which can be seen at
+[https://github.com/bootlin/buildroot/commits/st/2022.02.7](https://github.com/bootlin/buildroot/commits/st/2022.02.7). We
 have just 9 changes on top of Buildroot 2022.02, and they can easily
 be rebased on top of the latest Buildroot 2022.02.x to continue to
 benefit from the security fixes provided by the Buildroot community.
 
-Here are the 9 changes:
+Here are the 10 changes:
 
 * Update the `gcnano-binaries` package to a newer version. This
   package contains the closed-source OpenGL user-space libraries,
@@ -424,18 +431,22 @@ Here are the 9 changes:
   needed to build OP-TEE version from ST. The commit has been cherry
   picked from mainline Buildroot.
 
-* Enable the host variant of the `python-pillow` Buildroot
-  package. This is needed to build the OP-TEE version from ST. This
-  change has been accepted in upstream Buildroot.
-
-* Add support to build OP-TEE with `python-pillow`. This is needed to
-  build OP-TEE version from ST. This change has been accepted in
-  upstream Buildroot.
-
 * Update the `gcnano-binaries` package to the 6.4.7 version. This
   package contains the closed-source OpenGL user-space libraries,
-  which need to be in sync with the kernel side.
+  which need to be in sync with the kernel side. This change has been
+  accepted in upstream Buildroot.
 
 * Add support to retrieve OP-TEE OS from custom tarball URL. This
   allows to use a tarball instead of a Git repository. This change has
   been accepted in upstream Buildroot.
+
+* Revert `arm-gnu-toolchain` package to version 10 because of bug in 11.x.
+  The commit has been cherry picked from mainline Buildroot.
+
+* Bump `wayland` package to version 1.20.0. This version is needed for the
+  last version of gcnano-binaries. The commit has been cherry picked from
+  mainline Buildroot.
+
+* Update the `gcnano-binaries` package to the 6.4.9 version. This
+  package contains the closed-source OpenGL user-space libraries,
+  which need to be in sync with the kernel side.

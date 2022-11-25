@@ -83,10 +83,10 @@ configurations:
 
 | Feature | st_stm32mp157*_dk1 | st_stm32mp157*_dk2 | st_stm32mp157*_dk1_demo | st_stm32mp157*_dk2_demo | st_stm32mp135f_dk | st_stm32mp135f_dk_demo |
 | ------- | ------------------ | ------------------ | ----------------------- | ----------------------- | ----------------------- | ----------------------- |
-| TF-A    | v2.6-stm32mp-r1 | v2.6-stm32mp-r1 | v2.6-stm32mp-r1 | v2.6-stm32mp-r1 | v2.6-stm32mp-r1 | v2.6-stm32mp-r1 |
-| U-Boot  | v2021.10-stm32mp-r1 | v2021.10-stm32mp-r1 | v2021.10-stm32mp-r1 | v2021.10-stm32mp-r1 | v2021.10-stm32mp-r1 | v2021.10-stm32mp-r1 |
-| Linux   | v5.15-stm32mp-r1 | v5.15-stm32mp-r1 | v5.15-stm32mp-r1 | v5.15-stm32mp-r1 | v5.15-stm32mp-r1 | v5.15-stm32mp-r1 |
-| OP-TEE  | 3.16.0-stm32mp-r1 | 3.16.0-stm32mp-r1 | 3.16.0-stm32mp-r1 | 3.16.0-stm32mp-r1 | 3.16.0-stm32mp-r1 | 3.16.0-stm32mp-r1 |
+| TF-A    | v2.6-stm32mp-r2 | v2.6-stm32mp-r2 | v2.6-stm32mp-r2 | v2.6-stm32mp-r2 | v2.6-stm32mp-r2 | v2.6-stm32mp-r2 |
+| U-Boot  | v2021.10-stm32mp-r2 | v2021.10-stm32mp-r2 | v2021.10-stm32mp-r2 | v2021.10-stm32mp-r2 | v2021.10-stm32mp-r2 | v2021.10-stm32mp-r2 |
+| Linux   | v5.15-stm32mp-r2 | v5.15-stm32mp-r2 | v5.15-stm32mp-r2 | v5.15-stm32mp-r2 | v5.15-stm32mp-r2 | v5.15-stm32mp-r2 |
+| OP-TEE  | 3.16.0-stm32mp-r2 | 3.16.0-stm32mp-r2 | 3.16.0-stm32mp-r2 | 3.16.0-stm32mp-r2 | 3.16.0-stm32mp-r2 | 3.16.0-stm32mp-r2 |
 | Qt5     | No | No | Yes | Yes | No | Yes |
 | OpenGL  | No | No | Yes | Yes | No | Yes |
 | WiFi    | N/A | No | N/A | Yes | No | Yes |
@@ -131,10 +131,10 @@ This `BR2_EXTERNAL` tree is designed to work with the latest LTS
 version of Buildroot, `2022.02.x`. However, we needed a few changes on
 top of upstream Buildroot, so you need to use our own Buildroot fork
 together with this `BR2_EXTERNAL` tree, and more precisely its
-`st/2022.02` branch.
+`st/2022.02.7` branch.
 
 ```bash
-$ git clone -b st/2022.02 https://github.com/bootlin/buildroot.git
+$ git clone -b st/2022.02.7 https://github.com/bootlin/buildroot.git
 ```
 
 See our documentation on [internal details](docs/internals.md) for more
