@@ -24,7 +24,7 @@
 
 / {
 	model = "STMicroelectronics STM32MP157C-DK2 STM32CubeMX board - openstlinux-5.15-yocto-kirkstone-mp1-v22.11.23";
-	compatible = "st,stm32mp157c-dk2-mx", "st,stm32mp157";
+	compatible = "st,stm32mp157c-dk2", "st,stm32mp157";
 
 	memory@c0000000 {
 		device_type = "memory";
