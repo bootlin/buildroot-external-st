@@ -143,7 +143,7 @@ information about the changes we have compared to upstream Buildroot.
 Now, clone the matching branch of the `BR2_EXTERNAL` tree:
 
 ```bash
-$ git clone -b st/2022.02 https://github.com/bootlin/buildroot-external-st.git
+$ git clone -b st/2022.02.7 https://github.com/bootlin/buildroot-external-st.git
 ```
 
 You now have side-by-side a `buildroot` directory and a

@@ -308,6 +308,16 @@ execution environment, and to use a Device Tree file produced by STM32
 Cube MX, called `stm32mp157c-dk2-mx.dtb`.
 
 ```
+BR2_TARGET_OPTEE_OS_CUSTOM_DTS_PATH="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/optee-dts/*"
+BR2_TARGET_OPTEE_OS_ADDITIONAL_VARIABLES="CFG_EMBED_DTB_SOURCE_FILE=stm32mp157c-dk2-mx.dts CFG_STM32MP15=y"
+```
+
+These options customize the build of OPTEE-OS to use a Device Tree file
+produced by STM32 Cube MX, called `stm32mp157c-dk2-mx`. The option
+`CFG_EMBED_DTB_SOURCE_FILE=stm32mp157c-dk2-mx.dts CFG_STM32MP15=y` has been
+added to OPTEE-OS make options, to build the external devicetree.
+
+```
 BR2_TARGET_UBOOT_CUSTOM_DTS_PATH="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/uboot-dts/*"
 BR2_TARGET_UBOOT_CUSTOM_MAKEOPTS="dtb-y=stm32mp157c-dk2-mx.dtb DEVICE_TREE=stm32mp157c-dk2-mx"
 ```
@@ -342,6 +352,9 @@ M4 from [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git).
         used by the demo configurations.
       * [`uboot-dts/`](/board/stmicroelectronics/stm32mp1/uboot-dts),
         Device Tree files produced by STM32 Cube MX for U-Boot. Only
+        used by the demo configurations.
+      * [`optee-dts/`](/board/stmicroelectronics/stm32mp1/optee-dts),
+        Device Tree files produced by STM32 Cube MX for OPTEE-OS. Only
         used by the demo configurations.
       * [`flash.tsv`](/board/stmicroelectronics/stm32mp1/flash.tsv),
         configuration file for the STM32 Cube Programmer. Only valid
@@ -408,7 +421,7 @@ have just 9 changes on top of Buildroot 2022.02, and they can easily
 be rebased on top of the latest Buildroot 2022.02.x to continue to
 benefit from the security fixes provided by the Buildroot community.
 
-Here are the 10 changes:
+Here are the 11 changes:
 
 * Update the `gcnano-binaries` package to a newer version. This
   package contains the closed-source OpenGL user-space libraries,
@@ -450,3 +463,7 @@ Here are the 10 changes:
 * Update the `gcnano-binaries` package to the 6.4.9 version. This
   package contains the closed-source OpenGL user-space libraries,
   which need to be in sync with the kernel side.
+
+* Improvement of the OPTEE-OS package to be able to use arbitrary
+  out-of-tree Device Tree files, like was already possible for U-Boot or
+  Linux.
