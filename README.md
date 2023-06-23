@@ -83,10 +83,10 @@ configurations:
 
 | Feature | st_stm32mp157*_dk1 | st_stm32mp157*_dk2 | st_stm32mp157*_dk1_demo | st_stm32mp157*_dk2_demo | st_stm32mp135f_dk | st_stm32mp135f_dk_demo |
 | ------- | ------------------ | ------------------ | ----------------------- | ----------------------- | ----------------------- | ----------------------- |
-| TF-A    | v2.6-stm32mp-r2 | v2.6-stm32mp-r2 | v2.6-stm32mp-r2 | v2.6-stm32mp-r2 | v2.6-stm32mp-r2 | v2.6-stm32mp-r2 |
-| U-Boot  | v2021.10-stm32mp-r2 | v2021.10-stm32mp-r2 | v2021.10-stm32mp-r2 | v2021.10-stm32mp-r2 | v2021.10-stm32mp-r2 | v2021.10-stm32mp-r2 |
-| Linux   | v5.15-stm32mp-r2 | v5.15-stm32mp-r2 | v5.15-stm32mp-r2 | v5.15-stm32mp-r2 | v5.15-stm32mp-r2 | v5.15-stm32mp-r2 |
-| OP-TEE  | 3.16.0-stm32mp-r2 | 3.16.0-stm32mp-r2 | 3.16.0-stm32mp-r2 | 3.16.0-stm32mp-r2 | 3.16.0-stm32mp-r2 | 3.16.0-stm32mp-r2 |
+| TF-A    | v2.8-stm32mp-r1 | v2.8-stm32mp-r1 | v2.8-stm32mp-r1 | v2.8-stm32mp-r1 | v2.8-stm32mp-r1 | v2.8-stm32mp-r1 |
+| U-Boot  | v2022.10-stm32mp-r1 | v2022.10-stm32mp-r1 | v2022.10-stm32mp-r1 | v2022.10-stm32mp-r1 | v2022.10-stm32mp-r1 | v2022.10-stm32mp-r1 |
+| Linux   | v6.1-stm32mp-r1 | v6.1-stm32mp-r1 | v6.1-stm32mp-r1 | v6.1-stm32mp-r1 | v6.1-stm32mp-r1 | v6.1-stm32mp-r1 |
+| OP-TEE  | 3.19.0-stm32mp-r1 | 3.19.0-stm32mp-r1 | 3.19.0-stm32mp-r1 | 3.19.0-stm32mp-r1 | 3.19.0-stm32mp-r1 | 3.19.0-stm32mp-r1 |
 | Qt5     | No | No | Yes | Yes | No | Yes |
 | OpenGL  | No | No | Yes | Yes | No | Yes |
 | WiFi    | N/A | No | N/A | Yes | No | Yes |
@@ -128,13 +128,13 @@ Please see the [corresponding manual section](https://buildroot.org/downloads/ma
 ### Getting the code
 
 This `BR2_EXTERNAL` tree is designed to work with the latest LTS
-version of Buildroot, `2022.02.x`. However, we needed a few changes on
+version of Buildroot, `2023.02.x`. However, we needed a few changes on
 top of upstream Buildroot, so you need to use our own Buildroot fork
 together with this `BR2_EXTERNAL` tree, and more precisely its
-`st/2022.02.7` branch.
+`st/2023.02.1` branch.
 
 ```bash
-$ git clone -b st/2022.02.7 https://github.com/bootlin/buildroot.git
+$ git clone -b st/2023.02.1 https://github.com/bootlin/buildroot.git
 ```
 
 See our documentation on [internal details](docs/internals.md) for more
@@ -143,7 +143,7 @@ information about the changes we have compared to upstream Buildroot.
 Now, clone the matching branch of the `BR2_EXTERNAL` tree:
 
 ```bash
-$ git clone -b st/2022.02.7 https://github.com/bootlin/buildroot-external-st.git
+$ git clone -b st/2023.02.1 https://github.com/bootlin/buildroot-external-st.git
 ```
 
 You now have side-by-side a `buildroot` directory and a
