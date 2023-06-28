@@ -1,6 +1,6 @@
-/* SPDX-License-Identifier: (GPL-2.0+ OR BSD-3-Clause) */
+// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
 /*
- * Copyright (C) STMicroelectronics 2022 - All Rights Reserved
+ * Copyright (C) 2023, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -18,12 +18,14 @@
 #include "stm32mp15xxac-pinctrl.dtsi"
 
 /* USER CODE BEGIN includes */
+#include <dt-bindings/gpio/stm32mp_gpio.h>
 #include <dt-bindings/power/stm32mp1-power.h>
+#include <dt-bindings/mfd/st,stpmic1.h>
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP157F-DK2 STM32CubeMX board - openstlinux-5.15-yocto-kirkstone-mp1-v22.11.23";
-	compatible = "st,stm32mp157f-dk2", "st,stm32mp157";
+	model = "STMicroelectronics STM32MP157F-DK2 STM32CubeMX board - openstlinux-6.1-yocto-mickledore-mp1-v23.06.21";
+	compatible = "st,stm32mp157f-dk2-mx", "st,stm32mp157f-dk2", "st,stm32mp157";
 
 	memory@c0000000 {
 		device_type = "memory";
@@ -39,10 +41,69 @@
 		ranges;
 
 		/* USER CODE BEGIN reserved-memory */
+
+		mcuram2:mcuram2@10000000{
+			compatible = "shared-dma-pool";
+			reg = <0x10000000 0x40000>;
+			no-map;
+		};
+
+		vdev0vring0:vdev0vring0@10040000{
+			compatible = "shared-dma-pool";
+			reg = <0x10040000 0x1000>;
+			no-map;
+		};
+
+		vdev0vring1:vdev0vring1@10041000{
+			compatible = "shared-dma-pool";
+			reg = <0x10041000 0x1000>;
+			no-map;
+		};
+
+		vdev0buffer:vdev0buffer@10042000{
+			compatible = "shared-dma-pool";
+			reg = <0x10042000 0x4000>;
+			no-map;
+		};
+
+		mcuram:mcuram@30000000{
+			compatible = "shared-dma-pool";
+			reg = <0x30000000 0x40000>;
+			no-map;
+		};
+
+		retram:retram@38000000{
+			compatible = "shared-dma-pool";
+			reg = <0x38000000 0x10000>;
+			no-map;
+		};
+
+		gpu_reserved:gpu@d4000000{
+			reg = <0xd4000000 0x4000000>;
+			no-map;
+		};
 		/* USER CODE END reserved-memory */
 	};
 
 	/* USER CODE BEGIN root */
+
+	aliases{
+		serial0 = &uart4;
+		serial1 = &usart3;
+		serial2 = &uart7;
+		serial3 = &usart2;
+	};
+
+	led{
+		compatible = "gpio-leds";
+
+		led-blue{
+			label = "heartbeat";
+			gpios = <&gpiod 11 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "heartbeat";
+			default-state = "off";
+		};
+	};
 
 	vin:vin{
 		compatible = "regulator-fixed";
@@ -50,13 +111,6 @@
 		regulator-min-microvolt = <5000000>;
 		regulator-max-microvolt = <5000000>;
 		regulator-always-on;
-	};
-
-	aliases{
-		serial0 = &uart4;
-		serial1 = &usart3;
-		serial2 = &uart7;
-		serial3 = &usart2;
 	};
 
 	chosen{
@@ -142,7 +196,7 @@
 		st,non-secure-otp;
 	};
 
-	huk_otp:huk_otp@f0{
+	huk_otp:huk-otp@f0{
 		reg = <0xf0 0x10>;
 	};
 	/* USER CODE END bsec */
@@ -172,6 +226,7 @@
 	DECPROT(STM32MP1_ETZPC_DDRCTRL_ID, DECPROT_NS_R_S_W, DECPROT_LOCK)
 	DECPROT(STM32MP1_ETZPC_DDRPHYC_ID, DECPROT_NS_R_S_W, DECPROT_LOCK)
 	/*"Secured" peripherals*/
+	DECPROT(STM32MP1_ETZPC_IWDG1_ID, DECPROT_S_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_RNG1_ID, DECPROT_S_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_STGENC_ID, DECPROT_S_RW, DECPROT_UNLOCK)
 
@@ -199,10 +254,13 @@
 	i2c-scl-rising-time-ns = <185>;
 	i2c-scl-falling-time-ns = <20>;
 	clock-frequency = <400000>;
+	/delete-property/ dmas;
+	/delete-property/ dma-names;
 
 	pmic:stpmic@33{
 		compatible = "st,stpmic1";
 		reg = <0x33>;
+		interrupts-extended = <&gpioa 0 IRQ_TYPE_EDGE_FALLING>;
 		interrupt-controller;
 		#interrupt-cells = <2>;
 		status = "okay";
@@ -321,6 +379,7 @@
 				regulator-min-microvolt = <1800000>;
 				regulator-max-microvolt = <1800000>;
 				regulator-always-on;
+				interrupts = <IT_CURLIM_LDO1 0>;
 
 				standby-ddr-sr{
 					regulator-off-in-suspend;
@@ -336,6 +395,7 @@
 				regulator-min-microvolt = <3300000>;
 				regulator-max-microvolt = <3300000>;
 				regulator-always-on;
+				interrupts = <IT_CURLIM_LDO2 0>;
 
 				standby-ddr-sr{
 					regulator-off-in-suspend;
@@ -367,6 +427,7 @@
 
 			vdd_usb:ldo4{
 				regulator-name = "vdd_usb";
+				interrupts = <IT_CURLIM_LDO4 0>;
 
 				standby-ddr-sr{
 					regulator-off-in-suspend;
@@ -381,6 +442,7 @@
 				regulator-name = "vdda";
 				regulator-min-microvolt = <2900000>;
 				regulator-max-microvolt = <2900000>;
+				interrupts = <IT_CURLIM_LDO5 0>;
 				regulator-boot-on;
 
 				standby-ddr-sr{
@@ -397,6 +459,7 @@
 				regulator-min-microvolt = <1200000>;
 				regulator-max-microvolt = <1200000>;
 				regulator-always-on;
+				interrupts = <IT_CURLIM_LDO6 0>;
 
 				standby-ddr-sr{
 					regulator-off-in-suspend;
@@ -410,7 +473,6 @@
 			vref_ddr:vref_ddr{
 				regulator-name = "vref_ddr";
 				regulator-always-on;
-				regulator-over-current-protection;
 
 				lp-stop{
 					regulator-on-in-suspend;
@@ -427,14 +489,17 @@
 
 			bst_out:boost{
 				regulator-name = "bst_out";
+				interrupts = <IT_OCP_BOOST 0>;
 			};
 
 			vbus_otg:pwr_sw1{
 				regulator-name = "vbus_otg";
+				interrupts = <IT_OCP_OTG 0>;
 			};
 
 			vbus_sw:pwr_sw2{
 				regulator-name = "vbus_sw";
+				interrupts = <IT_OCP_SWOUT 0>;
 				regulator-active-discharge = <1>;
 			};
 		};
@@ -442,13 +507,12 @@
 	/* USER CODE END i2c4 */
 };
 
-&iwdg2{
+&iwdg1{
 	status = "okay";
 
-	/* USER CODE BEGIN iwdg2 */
+	/* USER CODE BEGIN iwdg1 */
 	timeout-sec = <32>;
-	secure-timeout-sec = <15>;
-	/* USER CODE END iwdg2 */
+	/* USER CODE END iwdg1 */
 };
 
 &pwr_regulators{
@@ -473,79 +537,105 @@
 	/* USER CODE END rcc */
 
 	st,clksrc = <
+		CLK_CKPER_HSE
+		CLK_ETH_PLL4P
+		CLK_SDMMC12_PLL4P
+		CLK_STGEN_HSE
+		CLK_SPI2S23_PLL3Q
+		CLK_I2C46_HSI
+		CLK_USBO_USBPHY
+		CLK_ADC_CKPER
+		CLK_CEC_LSE
+		CLK_I2C12_HSI
+		CLK_UART24_HSI
+		CLK_SAI2_PLL3Q
+		CLK_RNG1_CSI
 		CLK_MPU_PLL1P
 		CLK_AXI_PLL2P
 		CLK_MCU_PLL3P
-		CLK_PLL12_HSE
-		CLK_PLL3_HSE
-		CLK_PLL4_HSE
 		CLK_RTC_LSE
 		CLK_MCO1_DISABLED
 		CLK_MCO2_DISABLED
 	>;
 	st,clkdiv = <
-		1 		/*MPU*/
-		0 		/*AXI*/
-		0 		/*MCU*/
-		1 		/*APB1*/
-		1 		/*APB2*/
-		1 		/*APB3*/
-		1 		/*APB4*/
-		2 		/*APB5*/
-		23 		/*RTC*/
-		0 		/*MCO1*/
-		0 		/*MCO2*/
+		DIV(DIV_MPU, 1)
+		DIV(DIV_AXI, 0)
+		DIV(DIV_MCU, 0)
+		DIV(DIV_APB1, 1)
+		DIV(DIV_APB2, 1)
+		DIV(DIV_APB3, 1)
+		DIV(DIV_APB4, 1)
+		DIV(DIV_APB5, 2)
+		DIV(DIV_RTC, 23)
+		DIV(DIV_MCO1, 0)
+		DIV(DIV_MCO2, 0)
 	>;
-	st,pkcs = <
-		CLK_CKPER_HSE
-		CLK_ETH_PLL4P
-		CLK_SDMMC12_PLL4P
-		CLK_DSI_DSIPLL
-		CLK_STGEN_HSE
-		CLK_USBPHY_HSE
-		CLK_SPI2S1_DISABLED
-		CLK_SPI2S23_PLL3Q
-		CLK_SPI45_DISABLED
-		CLK_SPI6_DISABLED
-		CLK_I2C46_HSI
-		CLK_SDMMC3_DISABLED
-		CLK_USBO_USBPHY
-		CLK_ADC_CKPER
-		CLK_CEC_LSE
-		CLK_I2C12_HSI
-		CLK_I2C35_DISABLED
-		CLK_UART1_DISABLED
-		CLK_UART24_HSI
-		CLK_UART35_DISABLED
-		CLK_UART6_DISABLED
-		CLK_UART78_DISABLED
-		CLK_SPDIF_DISABLED
-		CLK_SAI1_DISABLED
-		CLK_SAI2_PLL3Q
-		CLK_SAI3_DISABLED
-		CLK_SAI4_DISABLED
-		CLK_RNG1_CSI
-		CLK_LPTIM1_DISABLED
-		CLK_LPTIM23_DISABLED
-		CLK_LPTIM45_DISABLED
-	>;
+	st,pll_vco {
+		pll2_vco_1066Mhz: pll2-vco-1066Mhz {
+			src = < CLK_PLL12_HSE >;
+			divmn = < 2 65 >;
+			frac = < 0x1400 >;
+		};
+		pll3_vco_417Mhz: pll3-vco-417Mhz {
+			src = < CLK_PLL3_HSE >;
+			divmn = < 1 33 >;
+			frac = < 0x1a04 >;
+		};
+		pll4_vco_594Mhz: pll4-vco-594Mhz {
+			src = < CLK_PLL4_HSE >;
+			divmn = < 3 98 >;
+		};
+		/* USER CODE BEGIN rcc_st-pll_vco */
+
+		pll4_vco_600Mhz:pll4-vco-600Mhz{
+			src = <CLK_PLL4_HSE>;
+			divmn = <3 98>;
+		};
+		/* USER CODE END rcc_st-pll_vco */
+	};
+
 	pll2:st,pll@1 {
 		compatible = "st,stm32mp1-pll";
 		reg = <1>;
-		cfg = < 2 65 1 0 0 PQR(1,1,1) >;
-		frac = < 0x1400 >;
+
+		st,pll = < &pll2_cfg1 >;
+
+		pll2_cfg1: pll2_cfg1 {
+			st,pll_vco = < &pll2_vco_1066Mhz >;
+			st,pll_div_pqr = < 1 0 0 >;
+		};
+		/* USER CODE BEGIN pll2 */
+		/* USER CODE END pll2 */
 	};
+
 	pll3:st,pll@2 {
 		compatible = "st,stm32mp1-pll";
 		reg = <2>;
-		cfg = < 1 33 1 16 36 PQR(1,1,0) >;
-		frac = < 0x1a04 >;
+
+		st,pll = < &pll3_cfg1 >;
+
+		pll3_cfg1: pll3_cfg1 {
+			st,pll_vco = < &pll3_vco_417Mhz >;
+			st,pll_div_pqr = < 1 16 36 >;
+		};
+		/* USER CODE BEGIN pll3 */
+		/* USER CODE END pll3 */
 	};
+
 	pll4:st,pll@3 {
 		compatible = "st,stm32mp1-pll";
 		reg = <3>;
-		cfg = < 3 98 5 7 7 PQR(1,1,0) >;
+
+		st,pll = < &pll4_cfg1 >;
+
+		pll4_cfg1: pll4_cfg1 {
+			st,pll_vco = < &pll4_vco_594Mhz >;
+			st,pll_div_pqr = < 5 7 7 >;
+		};
+		/* USER CODE BEGIN pll4 */
+		/* USER CODE END pll4 */
 	};
+
 };
 
 &rng1{
@@ -584,7 +674,15 @@
 
 /* USER CODE BEGIN addons */
 
+&gpu{
+	contiguous-area = <&gpu_reserved>;
+};
+
 &cpu0{
+	cpu-supply = <&vddcore>;
+};
+
+&cpu1{
 	cpu-supply = <&vddcore>;
 };
 
@@ -599,8 +697,28 @@
 	};
 };
 
-&cpu1{
-	cpu-supply = <&vddcore>;
+&usbphyc_port0{
+	phy-supply = <&vdd_usb>;
+	st,tune-hs-dc-level = <2>;
+	st,enable-fs-rftime-tuning;
+	st,enable-hs-rftime-reduction;
+	st,trim-hs-current = <15>;
+	st,trim-hs-impedance = <1>;
+	st,tune-squelch-level = <3>;
+	st,tune-hs-rx-offset = <2>;
+	st,no-lsfs-sc;
+};
+
+&usbphyc_port1{
+	phy-supply = <&vdd_usb>;
+	st,tune-hs-dc-level = <2>;
+	st,enable-fs-rftime-tuning;
+	st,enable-hs-rftime-reduction;
+	st,trim-hs-current = <15>;
+	st,trim-hs-impedance = <1>;
+	st,tune-squelch-level = <3>;
+	st,tune-hs-rx-offset = <2>;
+	st,no-lsfs-sc;
 };
 
 

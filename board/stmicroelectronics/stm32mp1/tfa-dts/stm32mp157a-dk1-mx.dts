@@ -1,6 +1,6 @@
-/* SPDX-License-Identifier: (GPL-2.0+ OR BSD-3-Clause) */
+// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
 /*
- * Copyright (C) STMicroelectronics 2022 - All Rights Reserved
+ * Copyright (C) 2023, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -11,21 +11,20 @@
 /dts-v1/;
 #include <dt-bindings/pinctrl/stm32-pinfunc.h>
 #include <dt-bindings/clock/stm32mp1-clksrc.h>
-#include <dt-bindings/soc/st,stm32-etzpc.h>
 #include "stm32mp15-mx.dtsi"
 
 #include "stm32mp157.dtsi"
 #include "stm32mp15xa.dtsi"
+#include "stm32mp15-pinctrl.dtsi"
 #include "stm32mp15xxac-pinctrl.dtsi"
 #include "stm32mp15-ddr.dtsi"
 
 /* USER CODE BEGIN includes */
-#include <dt-bindings/power/stm32mp1-power.h>
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP157A-DK1 STM32CubeMX board - openstlinux-5.15-yocto-kirkstone-mp1-v22.11.23";
-	compatible = "st,stm32mp157a-dk1", "st,stm32mp157";
+	model = "STMicroelectronics STM32MP157A-DK1 STM32CubeMX board - openstlinux-6.1-yocto-mickledore-mp1-v23.06.21";
+	compatible = "st,stm32mp157a-dk1-mx", "st,stm32mp157a-dk1", "st,stm32mp157";
 
 	memory@c0000000 {
 		device_type = "memory";
@@ -136,57 +135,6 @@
 	/* USER CODE END pinctrl_z */
 };
 
-&bsec{
-	status = "okay";
-
-	/* USER CODE BEGIN bsec */
-
-	board_id:board_id@ec{
-		reg = <0xec 0x4>;
-		st,non-secure-otp;
-	};
-	/* USER CODE END bsec */
-};
-
-&etzpc{
-	status = "okay";
-	st,decprot = <
-	/*"Non Secured" peripherals*/
-	DECPROT(STM32MP1_ETZPC_ADC_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
-	DECPROT(STM32MP1_ETZPC_DMA1_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
-	DECPROT(STM32MP1_ETZPC_DMA2_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
-	DECPROT(STM32MP1_ETZPC_DMAMUX_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
-	DECPROT(STM32MP1_ETZPC_ETH_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
-	DECPROT(STM32MP1_ETZPC_HASH1_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
-	DECPROT(STM32MP1_ETZPC_CEC_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
-	DECPROT(STM32MP1_ETZPC_I2C1_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
-	DECPROT(STM32MP1_ETZPC_I2C4_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
-	DECPROT(STM32MP1_ETZPC_SPI2_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
-	DECPROT(STM32MP1_ETZPC_SAI2_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
-	DECPROT(STM32MP1_ETZPC_UART4_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
-	DECPROT(STM32MP1_ETZPC_OTG_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
-	DECPROT(STM32MP1_ETZPC_VREFBUF_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
-	DECPROT(STM32MP1_ETZPC_RNG1_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
-	/*"NS_R S_W" peripherals*/
-	DECPROT(STM32MP1_ETZPC_DDRCTRL_ID, DECPROT_NS_R_S_W, DECPROT_LOCK)
-	DECPROT(STM32MP1_ETZPC_DDRPHYC_ID, DECPROT_NS_R_S_W, DECPROT_LOCK)
-	/*"Secured" peripherals*/
-	DECPROT(STM32MP1_ETZPC_STGENC_ID, DECPROT_S_RW, DECPROT_UNLOCK)
-
-	/*Restriction: following IDs are not managed  - please to use User-Section if needed:
-		  STM32MP1_ETZPC_SRAMx_ID  STM32MP1_ETZPC_RETRAM_ID  STM32MP1_ETZPC_BKPSRAM_ID*/
-
-	/* USER CODE BEGIN etzpc_decprot */
-		/*STM32CubeMX generates a basic and standard configuration for ETZPC.
-		Additional device configurations can be added here if needed.
-		"etzpc" node could be also overloaded in "addons" User-Section.*/
-	/* USER CODE END etzpc_decprot */
-	>;
-
-	/* USER CODE BEGIN etzpc */
-	/* USER CODE END etzpc */
-};
-
 &hash1{
 	status = "okay";
 
@@ -236,19 +184,6 @@
 				regulator-always-on;
 				regulator-initial-mode = <0>;
 				regulator-over-current-protection;
-
-				lp-stop{
-					regulator-on-in-suspend;
-					regulator-suspend-microvolt = <1200000>;
-				};
-
-				standby-ddr-sr{
-					regulator-off-in-suspend;
-				};
-
-				standby-ddr-off{
-					regulator-off-in-suspend;
-				};
 			};
 
 			vdd_ddr:buck2{
@@ -258,20 +193,6 @@
 				regulator-always-on;
 				regulator-initial-mode = <0>;
 				regulator-over-current-protection;
-
-				lp-stop{
-					regulator-suspend-microvolt = <1350000>;
-					regulator-on-in-suspend;
-				};
-
-				standby-ddr-sr{
-					regulator-suspend-microvolt = <1350000>;
-					regulator-on-in-suspend;
-				};
-
-				standby-ddr-off{
-					regulator-off-in-suspend;
-				};
 			};
 
 			vdd:buck3{
@@ -282,21 +203,6 @@
 				st,mask-reset;
 				regulator-initial-mode = <0>;
 				regulator-over-current-protection;
-
-				lp-stop{
-					regulator-suspend-microvolt = <3300000>;
-					regulator-on-in-suspend;
-				};
-
-				standby-ddr-sr{
-					regulator-suspend-microvolt = <3300000>;
-					regulator-on-in-suspend;
-				};
-
-				standby-ddr-off{
-					regulator-suspend-microvolt = <3300000>;
-					regulator-on-in-suspend;
-				};
 			};
 
 			v3v3:buck4{
@@ -306,19 +212,6 @@
 				regulator-always-on;
 				regulator-over-current-protection;
 				regulator-initial-mode = <0>;
-
-				lp-stop{
-					regulator-suspend-microvolt = <3300000>;
-					regulator-on-in-suspend;
-				};
-
-				standby-ddr-sr{
-					regulator-off-in-suspend;
-				};
-
-				standby-ddr-off{
-					regulator-off-in-suspend;
-				};
 			};
 
 			v1v8_audio:ldo1{
@@ -326,14 +219,6 @@
 				regulator-min-microvolt = <1800000>;
 				regulator-max-microvolt = <1800000>;
 				regulator-always-on;
-
-				standby-ddr-sr{
-					regulator-off-in-suspend;
-				};
-
-				standby-ddr-off{
-					regulator-off-in-suspend;
-				};
 			};
 
 			v3v3_hdmi:ldo2{
@@ -341,14 +226,6 @@
 				regulator-min-microvolt = <3300000>;
 				regulator-max-microvolt = <3300000>;
 				regulator-always-on;
-
-				standby-ddr-sr{
-					regulator-off-in-suspend;
-				};
-
-				standby-ddr-off{
-					regulator-off-in-suspend;
-				};
 			};
 
 			vtt_ddr:ldo3{
@@ -356,32 +233,12 @@
 				regulator-always-on;
 				regulator-over-current-protection;
 				st,regulator-sink-source;
-
-				lp-stop{
-					regulator-off-in-suspend;
-				};
-
-				standby-ddr-sr{
-					regulator-off-in-suspend;
-				};
-
-				standby-ddr-off{
-					regulator-off-in-suspend;
-				};
 			};
 
 			vdd_usb:ldo4{
 				regulator-name = "vdd_usb";
 				regulator-min-microvolt = <3300000>;
 				regulator-max-microvolt = <3300000>;
-
-				standby-ddr-sr{
-					regulator-off-in-suspend;
-				};
-
-				standby-ddr-off{
-					regulator-off-in-suspend;
-				};
 			};
 
 			vdda:ldo5{
@@ -389,14 +246,6 @@
 				regulator-min-microvolt = <2900000>;
 				regulator-max-microvolt = <2900000>;
 				regulator-boot-on;
-
-				standby-ddr-sr{
-					regulator-off-in-suspend;
-				};
-
-				standby-ddr-off{
-					regulator-off-in-suspend;
-				};
 			};
 
 			v1v2_hdmi:ldo6{
@@ -404,31 +253,11 @@
 				regulator-min-microvolt = <1200000>;
 				regulator-max-microvolt = <1200000>;
 				regulator-always-on;
-
-				standby-ddr-sr{
-					regulator-off-in-suspend;
-				};
-
-				standby-ddr-off{
-					regulator-off-in-suspend;
-				};
 			};
 
 			vref_ddr:vref_ddr{
 				regulator-name = "vref_ddr";
 				regulator-always-on;
-
-				lp-stop{
-					regulator-on-in-suspend;
-				};
-
-				standby-ddr-sr{
-					regulator-on-in-suspend;
-				};
-
-				standby-ddr-off{
-					regulator-off-in-suspend;
-				};
 			};
 
 			bst_out:boost{
@@ -448,126 +277,118 @@
 	/* USER CODE END i2c4 */
 };
 
-&iwdg2{
+&iwdg1{
 	status = "okay";
 
-	/* USER CODE BEGIN iwdg2 */
+	/* USER CODE BEGIN iwdg1 */
 	timeout-sec = <32>;
-	secure-timeout-sec = <5>;
-	/* USER CODE END iwdg2 */
-};
-
-&pwr_regulators{
-	status = "okay";
-
-	/* USER CODE BEGIN pwr_regulators */
-	system_suspend_supported_soc_modes = <
-		STM32_PM_CSLEEP_RUN
-		STM32_PM_CSTOP_ALLOW_LP_STOP
-		STM32_PM_CSTOP_ALLOW_STANDBY_DDR_SR
-	>;
-	system_off_soc_mode = <STM32_PM_CSTOP_ALLOW_STANDBY_DDR_OFF>;
-	vdd-supply = <&vdd>;
-	vdd_3v3_usbfs-supply = <&vdd_usb>;
-	/* USER CODE END pwr_regulators */
+	/* USER CODE END iwdg1 */
 };
 
 &rcc{
 	status = "okay";
 
 	/* USER CODE BEGIN rcc */
-	st,hsi-cal;
-	st,csi-cal;
-	st,cal-sec = <60>;
+	compatible = "st,stm32mp1-rcc-secure", "st,stm32mp1-rcc", "syscon";
 	/* USER CODE END rcc */
 
 	st,clksrc = <
+		CLK_CKPER_HSE
+		CLK_SDMMC12_PLL4P
+		CLK_STGEN_HSE
+		CLK_I2C46_HSI
+		CLK_USBO_USBPHY
+		CLK_UART24_HSI
 		CLK_MPU_PLL1P
 		CLK_AXI_PLL2P
 		CLK_MCU_PLL3P
-		CLK_PLL12_HSE
-		CLK_PLL3_HSE
-		CLK_PLL4_HSE
-		CLK_RTC_LSE
-		CLK_MCO1_DISABLED
-		CLK_MCO2_DISABLED
 	>;
 	st,clkdiv = <
-		1 		/*MPU*/
-		0 		/*AXI*/
-		0 		/*MCU*/
-		1 		/*APB1*/
-		1 		/*APB2*/
-		1 		/*APB3*/
-		1 		/*APB4*/
-		2 		/*APB5*/
-		23 		/*RTC*/
-		0 		/*MCO1*/
-		0 		/*MCO2*/
+		DIV(DIV_MPU, 1)
+		DIV(DIV_AXI, 0)
+		DIV(DIV_MCU, 0)
+		DIV(DIV_APB1, 1)
+		DIV(DIV_APB2, 1)
+		DIV(DIV_APB3, 1)
+		DIV(DIV_APB4, 1)
+		DIV(DIV_APB5, 2)
+		DIV(DIV_RTC, 23)
+		DIV(DIV_MCO1, 0)
+		DIV(DIV_MCO2, 0)
 	>;
-	st,pkcs = <
-		CLK_CKPER_HSE
-		CLK_ETH_PLL4P
-		CLK_SDMMC12_PLL4P
-		CLK_STGEN_HSE
-		CLK_USBPHY_HSE
-		CLK_SPI2S1_DISABLED
-		CLK_SPI2S23_PLL3Q
-		CLK_SPI45_DISABLED
-		CLK_SPI6_DISABLED
-		CLK_I2C46_HSI
-		CLK_SDMMC3_DISABLED
-		CLK_USBO_USBPHY
-		CLK_ADC_CKPER
-		CLK_CEC_LSE
-		CLK_I2C12_HSI
-		CLK_I2C35_DISABLED
-		CLK_UART1_DISABLED
-		CLK_UART24_HSI
-		CLK_UART35_DISABLED
-		CLK_UART6_DISABLED
-		CLK_UART78_DISABLED
-		CLK_SPDIF_DISABLED
-		CLK_SAI1_DISABLED
-		CLK_SAI2_PLL3Q
-		CLK_SAI3_DISABLED
-		CLK_SAI4_DISABLED
-		CLK_RNG1_CSI
-		CLK_LPTIM1_DISABLED
-		CLK_LPTIM23_DISABLED
-		CLK_LPTIM45_DISABLED
-	>;
+	st,pll_vco {
+		pll2_vco_1066Mhz: pll2-vco-1066Mhz {
+			src = < CLK_PLL12_HSE >;
+			divmn = < 2 65 >;
+			frac = < 0x1400 >;
+		};
+		pll3_vco_417Mhz: pll3-vco-417Mhz {
+			src = < CLK_PLL3_HSE >;
+			divmn = < 1 33 >;
+			frac = < 0x1a04 >;
+		};
+		pll4_vco_594Mhz: pll4-vco-594Mhz {
+			src = < CLK_PLL4_HSE >;
+			divmn = < 3 98 >;
+		};
+		/* USER CODE BEGIN rcc_st-pll_vco */
+
+		pll1_vco_1300Mhz:pll1-vco-1300Mhz{
+			src = < CLK_PLL12_HSE >;
+			divmn = < 2 80 >;
+			frac = < 0x800 >;
+		};
+
+		pll3_vco_417_8Mhz:pll3-vco-417_8Mhz{
+			src = < CLK_PLL3_HSE >;
+			divmn = < 1 33 >;
+			frac = < 0x1a04 >;
+		};
+		/* USER CODE END rcc_st-pll_vco */
+	};
+
 	pll2:st,pll@1 {
 		compatible = "st,stm32mp1-pll";
 		reg = <1>;
-		cfg = < 2 65 1 0 0 PQR(1,1,1) >;
-		frac = < 0x1400 >;
+
+		st,pll = < &pll2_cfg1 >;
+
+		pll2_cfg1: pll2_cfg1 {
+			st,pll_vco = < &pll2_vco_1066Mhz >;
+			st,pll_div_pqr = < 1 0 0 >;
+		};
+		/* USER CODE BEGIN pll2 */
+		/* USER CODE END pll2 */
 	};
+
 	pll3:st,pll@2 {
 		compatible = "st,stm32mp1-pll";
 		reg = <2>;
-		cfg = < 1 33 1 16 36 PQR(1,1,0) >;
-		frac = < 0x1a04 >;
+
+		st,pll = < &pll3_cfg1 >;
+
+		pll3_cfg1: pll3_cfg1 {
+			st,pll_vco = < &pll3_vco_417Mhz >;
+			st,pll_div_pqr = < 1 16 36 >;
+		};
+		/* USER CODE BEGIN pll3 */
+		/* USER CODE END pll3 */
 	};
+
 	pll4:st,pll@3 {
 		compatible = "st,stm32mp1-pll";
 		reg = <3>;
-		cfg = < 3 98 5 7 7 PQR(1,1,0) >;
+
+		st,pll = < &pll4_cfg1 >;
+
+		pll4_cfg1: pll4_cfg1 {
+			st,pll_vco = < &pll4_vco_594Mhz >;
+			st,pll_div_pqr = < 5 7 7 >;
+		};
+		/* USER CODE BEGIN pll4 */
+		/* USER CODE END pll4 */
 	};
-};
 
-&rng1{
-	status = "okay";
-
-	/* USER CODE BEGIN rng1 */
-	/* USER CODE END rng1 */
-};
-
-&rtc{
-	status = "okay";
-
-	/* USER CODE BEGIN rtc */
-	/* USER CODE END rtc */
 };
 
 &sdmmc1{
@@ -581,13 +402,6 @@
 	bus-width = <4>;
 	vmmc-supply = <&v3v3>;
 	/* USER CODE END sdmmc1 */
-};
-
-&tamp{
-	status = "okay";
-
-	/* USER CODE BEGIN tamp */
-	/* USER CODE END tamp */
 };
 
 &uart4{
@@ -634,6 +448,14 @@
 
 /* USER CODE BEGIN addons */
 
+&bsec{
+
+	board_id:board_id@ec{
+		reg = <0xec 0x4>;
+		st,non-secure-otp;
+	};
+};
+
 &cpu0{
 	cpu-supply = <&vddcore>;
 };
@@ -642,10 +464,17 @@
 	cpu-supply = <&vddcore>;
 };
 
-&timers15{
+&pwr_regulators{
+	vdd-supply = <&vdd>;
+	vdd_3v3_usbfs-supply = <&vdd_usb>;
+};
+
+&rng1{
 	status = "okay";
-	st,hsi-cal-input = <7>;
-	st,csi-cal-input = <8>;
+};
+
+&rtc{
+	status = "okay";
 };
 /* USER CODE END addons */
 

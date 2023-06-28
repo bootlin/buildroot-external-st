@@ -1,6 +1,6 @@
-/* SPDX-License-Identifier: (GPL-2.0+ OR BSD-3-Clause) */
+// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
 /*
- * Copyright (C) STMicroelectronics 2022 - All Rights Reserved
+ * Copyright (C) 2023, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -19,11 +19,12 @@
 /* USER CODE BEGIN includes */
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/mfd/st,stpmic1.h>
+#include "stm32mp157a-dk1-scmi.dtsi"
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP157A-DK1 STM32CubeMX board - openstlinux-5.15-yocto-kirkstone-mp1-v22.11.23";
-	compatible = "st,stm32mp157a-dk1", "st,stm32mp157";
+	model = "STMicroelectronics STM32MP157A-DK1 STM32CubeMX board - openstlinux-6.1-yocto-mickledore-mp1-v23.06.21";
+	compatible = "st,stm32mp157a-dk1-mx", "st,stm32mp157a-dk1", "st,stm32mp157";
 
 	memory@c0000000 {
 		device_type = "memory";
@@ -64,7 +65,7 @@
 			no-map;
 		};
 
-		mcu_rsc_table:mcu_rsc_table@10048000{
+		mcu_rsc_table:mcu-rsc-table@10048000{
 			compatible = "shared-dma-pool";
 			reg = <0x10048000 0x8000>;
 			no-map;
@@ -84,11 +85,6 @@
 
 		gpu_reserved:gpu@d4000000{
 			reg = <0xd4000000 0x4000000>;
-			no-map;
-		};
-
-		optee@de000000{
-			reg = <0xde000000 0x2000000>;
 			no-map;
 		};
 		/* USER CODE END reserved-memory */
@@ -114,7 +110,7 @@
 		};
 	};
 
-	sound:sound{
+	sound{
 		compatible = "audio-graph-card";
 		label = "STM32MP15-DK";
 		routing = "Playback", "MCLK",
@@ -137,7 +133,7 @@
 	};
 	/* USER CODE END root */
 
-	clocks {
+	clocks{
 
 		/* USER CODE BEGIN clocks */
 		/* USER CODE END clocks */
@@ -435,6 +431,16 @@
 		};
 	};
 
+	uart4_idle_pins_mx: uart4_idle_mx-0 {
+		pins1 {
+			pinmux = <STM32_PINMUX('B', 2, AF8)>; /* UART4_RX */
+			bias-disable;
+		};
+		pins2 {
+			pinmux = <STM32_PINMUX('G', 11, ANALOG)>; /* UART4_TX */
+		};
+	};
+
 	uart4_sleep_pins_mx: uart4_sleep_mx-0 {
 		pins {
 			pinmux = <STM32_PINMUX('B', 2, ANALOG)>, /* UART4_RX */
@@ -553,7 +559,6 @@
 	status = "okay";
 
 	/* USER CODE BEGIN dma1 */
-	sram = <&dma_pool>;
 	/* USER CODE END dma1 */
 };
 
@@ -561,7 +566,6 @@
 	status = "okay";
 
 	/* USER CODE BEGIN dma2 */
-	sram = <&dma_pool>;
 	/* USER CODE END dma2 */
 };
 
@@ -854,7 +858,7 @@
 				interrupts = <IT_CURLIM_LDO6 0>;
 			};
 
-			vref_ddr:vref_ddr{
+			vref_ddr:vref-ddr{
 				regulator-name = "vref_ddr";
 				regulator-always-on;
 			};
@@ -864,12 +868,12 @@
 				interrupts = <IT_OCP_BOOST 0>;
 			};
 
-			vbus_otg:pwr_sw1{
+			vbus_otg:pwr-sw1{
 				regulator-name = "vbus_otg";
 				interrupts = <IT_OCP_OTG 0>;
 			};
 
-			vbus_sw:pwr_sw2{
+			vbus_sw:pwr-sw2{
 				regulator-name = "vbus_sw";
 				interrupts = <IT_OCP_SWOUT 0>;
 				regulator-active-discharge = <1>;
@@ -920,14 +924,6 @@
 	/* USER CODE END ipcc */
 };
 
-&iwdg2{
-	status = "okay";
-
-	/* USER CODE BEGIN iwdg2 */
-	timeout-sec = <32>;
-	/* USER CODE END iwdg2 */
-};
-
 &ltdc{
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&ltdc_pins_mx>;
@@ -938,8 +934,7 @@
 
 	port{
 
-		ltdc_ep0_out:endpoint@0{
-			reg = <0>;
+		ltdc_ep0_out:endpoint{
 			remote-endpoint = <&sii9022_in>;
 		};
 	};
@@ -1054,9 +1049,10 @@
 };
 
 &uart4{
-	pinctrl-names = "default", "sleep";
+	pinctrl-names = "default", "idle", "sleep";
 	pinctrl-0 = <&uart4_pins_mx>;
-	pinctrl-1 = <&uart4_sleep_pins_mx>;
+	pinctrl-1 = <&uart4_idle_pins_mx>;
+	pinctrl-2 = <&uart4_sleep_pins_mx>;
 	status = "okay";
 
 	/* USER CODE BEGIN uart4 */
@@ -1070,6 +1066,14 @@
 
 	/* USER CODE BEGIN usbh_ehci */
 	phys = <&usbphyc_port0>;
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	hub@1{
+		compatible = "usb424,2514";
+		reg = <1>;
+		vdd-supply = <&v3v3>;
+	};
 	/* USER CODE END usbh_ehci */
 };
 
@@ -1117,11 +1121,6 @@
 	st,tune-squelch-level = <3>;
 	st,tune-hs-rx-offset = <2>;
 	st,no-lsfs-sc;
-
-	connector{
-		compatible = "usb-a-connector";
-		vbus-supply = <&v3v3>;
-	};
 	/* USER CODE END usbphyc_port0 */
 };
 
@@ -1153,20 +1152,17 @@
 
 /* USER CODE BEGIN addons */
 
+&arm_wdt{
+	timeout-sec = <32>;
+	status = "okay";
+};
+
 &cpu0{
 	cpu-supply = <&vddcore>;
 };
 
 &cpu1{
 	cpu-supply = <&vddcore>;
-};
-
-&sram{
-
-	dma_pool:dma_pool@0{
-		reg = <0x50000 0x10000>;
-		pool;
-	};
 };
 
 &pinctrl{
