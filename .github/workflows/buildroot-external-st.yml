@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           repository: bootlin/buildroot
-          ref: st/2022.02
+          ref: st/2023.02.2
           path: buildroot
       - name: Configure Buildroot
         run: make -C buildroot BR2_EXTERNAL=../buildroot-external-st O=../output ${{ matrix.config }}
