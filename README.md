@@ -127,11 +127,11 @@ Please see the [corresponding manual section](https://buildroot.org/downloads/ma
 
 ### Getting the code
 
-This `BR2_EXTERNAL` tree is designed to work with the latest LTS
-version of Buildroot, `2023.02.x`. However, we needed a few changes on
-top of upstream Buildroot, so you need to use our own Buildroot fork
-together with this `BR2_EXTERNAL` tree, and more precisely its
-`st/2023.02.1` branch.
+This `BR2_EXTERNAL` tree is designed to work with the `2023.02.x` LTS
+version of Buildroot. However, we needed a few changes on top of
+upstream Buildroot, so you need to use our own Buildroot fork together
+with this `BR2_EXTERNAL` tree, and more precisely its `st/2023.02.1`
+branch.
 
 ```bash
 $ git clone -b st/2023.02.1 https://github.com/bootlin/buildroot.git
