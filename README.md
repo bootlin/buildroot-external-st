@@ -201,14 +201,22 @@ buildroot/ $ dd if=output/images/sdcard.img of=/dev/sdX bs=1M
 
 Then:
 
-1. Insert the microSD card in connector CN15
+1. Insert the microSD card
+   - STM32MP157: connector CN15
+   - STM32MP135: connector CN3
 
-2. Plug a micro-USB cable in connector CN11 and run your serial
-communication program on /dev/ttyACM0.
+2. Plug a micro-USB cable and run your serial communication program on
+/dev/ttyACM0.
+   - STM32MP157: connector CN11
+   - STM32MP135: connector CN10
 
 3. Configure the SW1 switch to boot on SD card
+   - STM32MP157: BOOT0 and BOOT2 to ON
+   - STM32MP135: BOOT0 to ON, BOOT1 to OFF, BOOT2 to ON
 
-4. Plug a USB-C cable in CN6 to power-up the board.
+4. Plug a USB-C cable to power-up the board
+   - STM32MP157: connector CN6
+   - STM32MP135: connectoer CN12
 
 5. The system will start, with the console on UART. You can log-in as
 `root` with no password for the minimal configuration, or with `root`
