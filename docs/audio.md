@@ -8,13 +8,12 @@ utilities installed in the root filesystem.
 Get started with:
 
 ```
-# modprobe snd_soc_cs42l51_i2c
 # alsactl restore
 ```
 
-These two commands load the audio codec kernel module and the ALSA
-setup configuration for the soundcard. You just need to plug you
-headphones to the Jack connector and play a sound.
+This command loads the ALSA setup configuration for the soundcard. You
+just need to plug you headphones to the Jack connector and play a
+sound.
 
 ```
 # aplay /usr/share/sounds/alsa/Front_Center.wav
