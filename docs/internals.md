@@ -27,6 +27,14 @@ reduce the build time of the overall system, and use a well-known
 toolchain provided by ARM.
 
 ```
+BR2_GLOBAL_PATCH_DIR="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/patches/"
+```
+
+We need to apply one patch to the Linux kernel, which is located in
+`board/stmicroelectronics/stm32mp1/patches/`. This configuration
+option tells Buildroot where to find the patches to apply.
+
+```
 BR2_ROOTFS_DEVICE_CREATION_DYNAMIC_MDEV=y
 ```
 
@@ -127,7 +135,7 @@ BR2_TARGET_ARM_TRUSTED_FIRMWARE_FIP=y
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_BL32_OPTEE=y
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_UBOOT_AS_BL33=y
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_UBOOT_BL33_IMAGE="u-boot-nodtb.bin"
-BR2_TARGET_ARM_TRUSTED_FIRMWARE_ADDITIONAL_VARIABLES="STM32MP_SDMMC=1 AARCH32_SP=optee DTB_FILE_NAME=stm32mp157c-dk2.dtb BL33_CFG=$(BINARIES_DIR)/u-boot.dtb STM32MP_USB_PROGRAMMER=1"
+BR2_TARGET_ARM_TRUSTED_FIRMWARE_ADDITIONAL_VARIABLES="STM32MP_SDMMC=1 AARCH32_SP=optee DTB_FILE_NAME=stm32mp157c-dk2.dtb BL33_CFG=$(BINARIES_DIR)/u-boot.dtb STM32MP_USB_PROGRAMMER=1 STM32MP1_OPTEE_IN_SYSRAM"
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_IMAGES="*.stm32 fip.bin"
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_NEEDS_DTC=y
 ```
@@ -149,6 +157,7 @@ BR2_TARGET_OPTEE_OS_CUSTOM_TARBALL=y
 BR2_TARGET_OPTEE_OS_CUSTOM_TARBALL_LOCATION="$(call github,STMicroelectronics,optee_os)3.19.0-stm32mp-r1.tar.gz"
 BR2_TARGET_OPTEE_OS_PLATFORM="stm32mp1"
 BR2_TARGET_OPTEE_OS_PLATFORM_FLAVOR="157C_DK2"
+BR2_TARGET_OPTEE_OS_ADDITIONAL_VARIABLES="CFG_STM32MP1_OPTEE_IN_SYSRAM=y"
 ```
 
 These options configure the build of OP-TEE as a trusted execution
@@ -283,6 +292,7 @@ This option, which implies `BR2_PACKAGE_LIBDRM=y` installs the
 
 ```
 BR2_PACKAGE_IW=y
+BR2_PACKAGE_WIRELESS_REGDB=y
 BR2_PACKAGE_WPA_SUPPLICANT=y
 BR2_PACKAGE_WPA_SUPPLICANT_AP_SUPPORT=y
 BR2_PACKAGE_WPA_SUPPLICANT_WIFI_DISPLAY=y
@@ -293,14 +303,14 @@ BR2_PACKAGE_WPA_SUPPLICANT_PASSPHRASE=y
 ```
 
 These options install the user-space utilities to manage and configure
-WiFi.
+WiFi, as well as the wireless regulatory database.
 
 
 ```
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_BL32_OPTEE=y
 ..
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_CUSTOM_DTS_PATH="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/tfa-dts/*"
-BR2_TARGET_ARM_TRUSTED_FIRMWARE_ADDITIONAL_VARIABLES="STM32MP_SDMMC=1 AARCH32_SP=optee DTB_FILE_NAME=stm32mp157c-dk2-mx.dtb STM32MP_USB_PROGRAMMER=1"
+BR2_TARGET_ARM_TRUSTED_FIRMWARE_ADDITIONAL_VARIABLES="STM32MP_SDMMC=1 AARCH32_SP=optee DTB_FILE_NAME=stm32mp157c-dk2-mx.dtb STM32MP_USB_PROGRAMMER=1 STM32MP1_OPTEE_IN_SYSRAM=1"
 ```
 
 These options customize the build of TF-A to load OP-TEE as a trusted
@@ -309,7 +319,7 @@ Cube MX, called `stm32mp157c-dk2-mx.dtb`.
 
 ```
 BR2_TARGET_OPTEE_OS_CUSTOM_DTS_PATH="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/optee-dts/*"
-BR2_TARGET_OPTEE_OS_ADDITIONAL_VARIABLES="CFG_EMBED_DTB_SOURCE_FILE=stm32mp157c-dk2-mx.dts CFG_STM32MP15=y"
+BR2_TARGET_OPTEE_OS_ADDITIONAL_VARIABLES="CFG_EMBED_DTB_SOURCE_FILE=stm32mp157c-dk2-mx.dts CFG_STM32MP15=y CFG_STM32MP1_OPTEE_IN_SYSRAM=y"
 ```
 
 These options customize the build of OPTEE-OS to use a Device Tree file
@@ -377,6 +387,9 @@ M4 from [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git).
         *fbdev* emulation of the DRM subsystem, which is needed on the
         STM32MP135 platform to be able to use the *linuxfb* backend of
         Qt5, in the absence of GPU/OpenGL
+      * [`patches`](/board/stmicroelectronics/stm32mp1/patches), which
+        contains one patch for the Linux kernel, fixing a module
+        loading issue for the audio codec driver.
 * [`package/m4projects`](/package/m4projects), a Buildroot package
   that builds and installs all the Cortex-M4 examples of the
   [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git)
@@ -413,16 +426,19 @@ M4 from [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git).
 
 ## Changes compared to upstream Buildroot
 
-The `st/2023.02.1` branch of this `BR2_EXTERNAL` is designed to work
-with Buildroot 2023.02.1 However, we needed a few changes compared to
-upstream Buildroot 2023.02.1, which can be seen at
-[https://github.com/bootlin/buildroot/commits/st/2023.02.1](https://github.com/bootlin/buildroot/commits/st/2023.02.1). We
-have just 1 changes on top of Buildroot 2023.02.1, and they can easily
+The `st/2023.02.2` branch of this `BR2_EXTERNAL` is designed to work
+with Buildroot 2023.02.2 However, we needed a few changes compared to
+upstream Buildroot 2023.02.2, which can be seen at
+[https://github.com/bootlin/buildroot/commits/st/2023.02.2](https://github.com/bootlin/buildroot/commits/st/2023.02.2). We
+have just 2 changes on top of Buildroot 2023.02.2, and they can easily
 be rebased on top of the latest Buildroot 2023.02.x to continue to
 benefit from the security fixes provided by the Buildroot community.
 
-Here are the 1 changes:
+Here are the 2 changes:
 
 * Update the `gcnano-binaries` package to a newer version. This
   package contains the closed-source OpenGL user-space libraries,
   which need to be in sync with the kernel side.
+
+* Fix a regression in the `optee-test` package by backporting two
+  patches from upstream OP-TEE.
