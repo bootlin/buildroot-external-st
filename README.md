@@ -240,6 +240,7 @@ details.
 * [Using Qt5 demos](docs/qt5.md)
 * [Using OP-TEE](docs/optee.md)
 * [Internal details](docs/internals.md) on this `BR2_EXTERNAL` tree
+* [Release notes](docs/release-notes.md)
 
 # References
 
