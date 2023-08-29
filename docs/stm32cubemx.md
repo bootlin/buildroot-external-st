@@ -71,6 +71,11 @@ OPTEE-OS.
 You might need to modify the post-image.sh script to use a different
 naming of the TF-A binary.
 
+If Cube MX does not generated the devicetree as expected you can manually
+verify the content of them with the help of the
+[Wiki from ST](https://wiki.st.com/stm32mpu/wiki/Category:Platform_configuration
+"ST Wiki").
+
 ---
 
 Note: U-boot is parsing the compatible string of the Device Tree.
