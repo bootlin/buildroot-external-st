@@ -298,15 +298,20 @@
 		CLK_AXI_PLL2P
 		CLK_MLAHBS_PLL3
 		CLK_CKPER_HSE
+		CLK_RTC_LSE
 		CLK_SDMMC1_PLL4P
+		CLK_SDMMC2_PLL4P
 		CLK_STGEN_HSE
+		CLK_USBPHY_HSE
 		CLK_I2C4_HSI
+		CLK_USBO_USBPHY
+		CLK_I2C12_HSI
+		CLK_UART2_HSI
 		CLK_UART4_HSI
-		CLK_RNG1_PLL4R
 		CLK_SAES_AXI
 	>;
+
 	st,clkdiv = <
-		DIV(DIV_MPU, 1)
 		DIV(DIV_AXI, 0)
 		DIV(DIV_MLAHB, 0)
 		DIV(DIV_APB1, 1)
@@ -315,31 +320,35 @@
 		DIV(DIV_APB4, 1)
 		DIV(DIV_APB5, 2)
 		DIV(DIV_APB6, 1)
+		DIV(DIV_RTC, 0)
 	>;
+
 	st,pll_vco {
 		pll1_vco_1300Mhz: pll1-vco-1300Mhz {
 			src = < CLK_PLL12_HSE >;
 			divmn = < 2 80 >;
 			frac = < 0x800 >;
 		};
+
 		pll2_vco_1066Mhz: pll2-vco-1066Mhz {
 			src = < CLK_PLL12_HSE >;
 			divmn = < 2 65 >;
 			frac = < 0x1400 >;
 		};
-		pll3_vco_417Mhz: pll3-vco-417Mhz {
+
+		pll3_vco_417_8Mhz: pll3-vco-417_8Mhz {
 			src = < CLK_PLL3_HSE >;
 			divmn = < 1 33 >;
 			frac = < 0x1a04 >;
 		};
+
 		pll4_vco_600Mhz: pll4-vco-600Mhz {
 			src = < CLK_PLL4_HSE >;
 			divmn = < 1 49 >;
 		};
-		/* USER CODE BEGIN rcc_st-pll_vco */
-		/* USER CODE END rcc_st-pll_vco */
 	};
 
+	/* VCO = 1300.0 MHz => P = 650 (CPU) */
 	pll1:st,pll@0 {
 		compatible = "st,stm32mp1-pll";
 		reg = <0>;
@@ -350,10 +359,9 @@
 			st,pll_vco = < &pll1_vco_1300Mhz >;
 			st,pll_div_pqr = < 0 1 1 >;
 		};
-		/* USER CODE BEGIN pll1 */
-		/* USER CODE END pll1 */
 	};
 
+	/* VCO = 1066.0 MHz => P = 266 (AXI), Q = 266, R = 533 (DDR) */
 	pll2:st,pll@1 {
 		compatible = "st,stm32mp1-pll";
 		reg = <1>;
@@ -364,10 +372,9 @@
 			st,pll_vco = < &pll2_vco_1066Mhz >;
 			st,pll_div_pqr = < 1 1 0 >;
 		};
-		/* USER CODE BEGIN pll2 */
-		/* USER CODE END pll2 */
 	};
 
+	/* VCO = 417.8 MHz => P = 209, Q = 24, R = 209 */
 	pll3:st,pll@2 {
 		compatible = "st,stm32mp1-pll";
 		reg = <2>;
@@ -375,13 +382,12 @@
 		st,pll = < &pll3_cfg1 >;
 
 		pll3_cfg1: pll3_cfg1 {
-			st,pll_vco = < &pll3_vco_417Mhz >;
-			st,pll_div_pqr = < 1 16 36 >;
+			st,pll_vco = < &pll3_vco_417_8Mhz >;
+			st,pll_div_pqr = < 1 16 1 >;
 		};
-		/* USER CODE BEGIN pll3 */
-		/* USER CODE END pll3 */
 	};
 
+	/* VCO = 600.0 MHz => P = 50, Q = 10, R = 100 */
 	pll4:st,pll@3 {
 		compatible = "st,stm32mp1-pll";
 		reg = <3>;
@@ -390,12 +396,9 @@
 
 		pll4_cfg1: pll4_cfg1 {
 			st,pll_vco = < &pll4_vco_600Mhz >;
-			st,pll_div_pqr = < 11 59 11 >;
+			st,pll_div_pqr = < 11 59 5 >;
 		};
-		/* USER CODE BEGIN pll4 */
-		/* USER CODE END pll4 */
 	};
-
 };
 
 &rng{
