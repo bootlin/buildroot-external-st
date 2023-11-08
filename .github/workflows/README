@@ -14,3 +14,9 @@ make -C buildroot O=../output legal-info
 
 - Build the SDK
 make -C buildroot O=../output sdk
+
+You will find the #CONFIG# image and sdk here:
+buildroot/output/images
+
+You will find the #CONFIG# licenses and sources here:
+buildroot/output/legal-info
