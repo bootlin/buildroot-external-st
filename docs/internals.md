@@ -81,7 +81,7 @@ BR2_LINUX_KERNEL=y
 BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,STMicroelectronics,linux)v6.1-stm32mp-r1.tar.gz"
 BR2_LINUX_KERNEL_DEFCONFIG="multi_v7"
-BR2_LINUX_KERNEL_CONFIG_FRAGMENT_FILES="$(LINUX_DIR)/arch/arm/configs/fragment-01-multiv7_cleanup.config $(LINUX_DIR)/arch/arm/configs/fragment-02-multiv7_addons.config $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/linux-disable-etnaviv.config"
+BR2_LINUX_KERNEL_CONFIG_FRAGMENT_FILES="$(LINUX_DIR)/arch/arm/configs/fragment-01-multiv7_cleanup.config $(LINUX_DIR)/arch/arm/configs/fragment-02-multiv7_addons.config $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/linux-disable-etnaviv.config $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/linux-rauc.config"
 BR2_LINUX_KERNEL_DTS_SUPPORT=y
 BR2_LINUX_KERNEL_INTREE_DTS_NAME="stm32mp157c-dk2"
 BR2_LINUX_KERNEL_INSTALL_TARGET=y
@@ -108,6 +108,10 @@ additional kernel drivers/features taht are relevant on STM32MP1
 which comes from this `BR2_EXTERNAL`, and is in charge of disabling
 the Etnaviv GPU kernel driver, as we use the proprietary GPU driver
 provided by ST instead.
+
+4. [linux-enable-rauc.config](/board/stmicroelectronics/stm32mp1/linux-enable-rauc.config),
+which comes from this `BR2_EXTERNAL`, and is in charge of enabling
+the requisite kernel drivers to use RAUC OTA tool.
 
 The option `BR2_LINUX_KERNEL_INTREE_DTS_NAME` indicates that the
 `stm32mp157c-dk2.dtb` Device Tree file will be produced and should be
@@ -387,6 +391,9 @@ M4 from [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git).
         *fbdev* emulation of the DRM subsystem, which is needed on the
         STM32MP135 platform to be able to use the *linuxfb* backend of
         Qt5, in the absence of GPU/OpenGL
+      * [`linux-enable-rauc.config`](/board/stmicroelectronics/stm32mp1/linux-enable-rauc.config),
+        a Linux kernel configuration file fragment that enables the
+        requisite kernel driver to use RAUC.
       * [`patches`](/board/stmicroelectronics/stm32mp1/patches), which
         contains one patch for the Linux kernel, fixing a module
         loading issue for the audio codec driver.
