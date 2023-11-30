@@ -33,6 +33,9 @@ main()
 
 	rm -f ${GENIMAGE_CFG}
 
+	gzip -fk ${BINARIES_DIR}/sdcard.img
+	${HOST_DIR}/bin/bmaptool create -o ${BINARIES_DIR}/sdcard.img.bmap ${BINARIES_DIR}/sdcard.img
+
 	sed -e "s/%ATFBIN%/${ATFBIN}/" \
 		${SCRIPT_PATH}/flash.tsv > ${BINARIES_DIR}/flash.tsv
 
