@@ -22,16 +22,17 @@ main()
 		echo "Can not find ATF binary ${ATFBIN}"
 		exit 1
 	fi
-	local GENIMAGE_CFG="$(mktemp --suffix genimage.cfg)"
+	local GENIMAGE_CFG=${2}
+	local GENIMAGE_CFG_TMP="$(mktemp --suffix .genimage.cfg)"
 	local GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
 	local SCRIPT_PATH=$(dirname "$0")
 
 	sed -e "s/%ATFBIN%/${ATFBIN}/" \
-		${SCRIPT_PATH}/genimage.cfg > ${GENIMAGE_CFG}
+		${SCRIPT_PATH}/${GENIMAGE_CFG} > ${GENIMAGE_CFG_TMP}
 
-	support/scripts/genimage.sh -c ${GENIMAGE_CFG}
+	support/scripts/genimage.sh -c ${GENIMAGE_CFG_TMP}
 
-	rm -f ${GENIMAGE_CFG}
+	rm -f ${GENIMAGE_CFG_TMP}
 
 	gzip -fk ${BINARIES_DIR}/sdcard.img
 	${HOST_DIR}/bin/bmaptool create -o ${BINARIES_DIR}/sdcard.img.bmap ${BINARIES_DIR}/sdcard.img
