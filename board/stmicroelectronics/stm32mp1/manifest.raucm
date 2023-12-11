@@ -1,0 +1,9 @@
+[update]
+compatible=%RAUC_COMPATIBLE%
+version=%RAUC_VERSION%
+
+[bundle]
+format=verity
+
+[image.rootfs]
+filename=rootfs.squashfs
