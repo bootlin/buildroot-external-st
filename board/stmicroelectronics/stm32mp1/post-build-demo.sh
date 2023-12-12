@@ -26,5 +26,13 @@ set_rauc_info()
 	echo "${RAUC_VERSION}" > ${TARGET_DIR}/etc/rauc/version
 }
 
+create_data_dir()
+{
+	if [ ! -d "${TARGET_DIR}/data" ]; then
+		mkdir ${TARGET_DIR}/data
+	fi
+}
+
 add_wifi_fw_symlinks $@
 set_rauc_info $@
+create_data_dir $@
