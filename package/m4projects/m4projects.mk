@@ -70,9 +70,8 @@ endef
 
 define M4PROJECTS_INSTALL_TARGET_CMDS
 	$(foreach project, $(M4PROJECTS_PROJECTS_LIST), \
-		mkdir -p $(TARGET_DIR)/usr/lib/Cube-M4-examples/$(notdir $(project))/lib/firmware/ ; \
 		$(INSTALL) -D -m 0755 $(@D)/$(project)/out/$(M4PROJECTS_BUILD_CONFIG)/$(notdir $(project)).elf \
-			$(TARGET_DIR)/usr/lib/Cube-M4-examples/$(notdir $(project))/lib/firmware/ ; \
+			$(TARGET_DIR)/lib/firmware/ ; \
 		if [ -e $(@D)/Projects/$(project)/Remoteproc/fw_cortex_m4.sh ]; then \
 			$(INSTALL) -m 0755 $(@D)/Projects/$(project)/Remoteproc/fw_cortex_m4.sh \
 				$(TARGET_DIR)/usr/lib/Cube-M4-examples/$(notdir $(project)) ; \
