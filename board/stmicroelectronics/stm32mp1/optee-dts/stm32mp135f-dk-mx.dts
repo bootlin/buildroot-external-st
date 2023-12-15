@@ -124,6 +124,14 @@
 
 }; /*root*/
 
+&sdmmc1_io {
+	vddsd1-supply = <&vdd>;
+};
+
+&sdmmc2_io {
+	vddsd2-supply = <&vdd>;
+};
+
 /*Warning: the configuration of the secured GPIOs should be added in (addons) User Section*/
 &pinctrl {
 	i2c4_pins_mx: i2c4_mx-0 {
