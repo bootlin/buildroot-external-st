@@ -77,9 +77,16 @@ file using a tool called `genimage` and deploys the `flash.tsv` file to
 flash the board with STM32 Cube Programmer.
 
 ```
+BR2_ROOTFS_POST_SCRIPT_ARGS="genimage.cfg"
+```
+
+This is an argument passed to the scripts. It is used by `post-image.sh`
+to know which genimage config to use.
+
+```
 BR2_LINUX_KERNEL=y
 BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,STMicroelectronics,linux)v6.1-stm32mp-r1.tar.gz"
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,STMicroelectronics,linux)v6.1-stm32mp-r1.1.tar.gz"
 BR2_LINUX_KERNEL_DEFCONFIG="multi_v7"
 BR2_LINUX_KERNEL_CONFIG_FRAGMENT_FILES="$(LINUX_DIR)/arch/arm/configs/fragment-01-multiv7_cleanup.config $(LINUX_DIR)/arch/arm/configs/fragment-02-multiv7_addons.config $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/linux-disable-etnaviv.config $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/linux-rauc.config"
 BR2_LINUX_KERNEL_DTS_SUPPORT=y
@@ -133,7 +140,7 @@ image, which is a tarball (`.tar`).
 ```
 BR2_TARGET_ARM_TRUSTED_FIRMWARE=y
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_CUSTOM_TARBALL=y
-BR2_TARGET_ARM_TRUSTED_FIRMWARE_CUSTOM_TARBALL_LOCATION="$(call github,STMicroelectronics,arm-trusted-firmware)v2.8-stm32mp-r1.tar.gz"
+BR2_TARGET_ARM_TRUSTED_FIRMWARE_CUSTOM_TARBALL_LOCATION="$(call github,STMicroelectronics,arm-trusted-firmware)v2.8-stm32mp-r1.1.tar.gz"
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_PLATFORM="stm32mp1"
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_FIP=y
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_BL32_OPTEE=y
@@ -158,7 +165,7 @@ BR2_PACKAGE_OPTEE_CLIENT=y
 ...
 BR2_TARGET_OPTEE_OS=y
 BR2_TARGET_OPTEE_OS_CUSTOM_TARBALL=y
-BR2_TARGET_OPTEE_OS_CUSTOM_TARBALL_LOCATION="$(call github,STMicroelectronics,optee_os)3.19.0-stm32mp-r1.tar.gz"
+BR2_TARGET_OPTEE_OS_CUSTOM_TARBALL_LOCATION="$(call github,STMicroelectronics,optee_os)3.19.0-stm32mp-r1.1.tar.gz"
 BR2_TARGET_OPTEE_OS_PLATFORM="stm32mp1"
 BR2_TARGET_OPTEE_OS_PLATFORM_FLAVOR="157C_DK2"
 BR2_TARGET_OPTEE_OS_ADDITIONAL_VARIABLES="CFG_STM32MP1_OPTEE_IN_SYSRAM=y"
@@ -175,7 +182,7 @@ is `157C_DK2`
 BR2_TARGET_UBOOT=y
 BR2_TARGET_UBOOT_BUILD_SYSTEM_KCONFIG=y
 BR2_TARGET_UBOOT_CUSTOM_TARBALL=y
-BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="$(call github,STMicroelectronics,u-boot)v2022.10-stm32mp-r1.tar.gz"
+BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="$(call github,STMicroelectronics,u-boot)v2022.10-stm32mp-r1.1.tar.gz"
 BR2_TARGET_UBOOT_BOARD_DEFCONFIG="stm32mp15"
 # BR2_TARGET_UBOOT_FORMAT_BIN is not set
 BR2_TARGET_UBOOT_FORMAT_CUSTOM=y
@@ -191,6 +198,13 @@ in version `v2022.10-stm32mp-r1`. The configuration used is
 `u-boot.dtb` images as both are used for the TF-A build. The Device
 Tree file used comes from the U-Boot source code, and is named
 `stm32mp157c-dk2`.
+
+```
+BR2_PACKAGE_HOST_BMAP_TOOLS=y
+```
+
+This option tells Buildroot to build the `bmap` utility for the host. This
+is used to produce block map files alongside the image.
 
 ```
 BR2_PACKAGE_HOST_GENIMAGE=y
@@ -219,12 +233,28 @@ We use Bootlin toolchain instead of ARM toolchain because we need glibc
 2.34 for the latest gcnano-binary libraries.
 
 ```
+BR2_GLOBAL_PATCH_DIR="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/patches/ $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/patches-demo/"
+```
+
+Add patches-demo folder in addition to global patch directory.
+
+```
 BR2_ROOTFS_DEVICE_CREATION_DYNAMIC_EUDEV=y
 ```
 
 This option enables *eudev* instead of *mdev* selected by the basic
 configuration. It manages devices node and handles all user space actions
 when adding or removing devices.
+
+```
+BR2_ROOTFS_POST_BUILD_SCRIPT="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/post-build.sh $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/post-build-demo.sh"
+BR2_ROOTFS_POST_IMAGE_SCRIPT="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/post-image.sh $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/post-image-demo.sh"
+BR2_ROOTFS_POST_SCRIPT_ARGS="genimage-demo.cfg"
+```
+
+Add demo post-build and post-image scripts in addition of basique scripts
+alongside with genimage-demo args to tell which partition configuratoin
+to use.
 
 ```
 BR2_TARGET_GENERIC_ROOT_PASSWD="root"
@@ -255,6 +285,15 @@ BR2_PACKAGE_OPTEE_TEST=y
 These options enable OP-TEE tests and examples.
 
 ```
+BR2_PACKAGE_ALSA_UTILS=y
+BR2_PACKAGE_ALSA_UTILS_AMIXER=y
+BR2_PACKAGE_ALSA_UTILS_APLAY=y
+BR2_PACKAGE_ALSA_UTILS_SPEAKER_TEST=y
+```
+
+These options enable alsa-utils and examples.
+
+```
 BR2_PACKAGE_DEJAVU=y
 BR2_PACKAGE_QT5=y
 BR2_PACKAGE_QT5BASE_EXAMPLES=y
@@ -275,10 +314,12 @@ This option enables the dropbear SSH server.
 ```
 BR2_PACKAGE_LINUX_FIRMWARE=y
 BR2_PACKAGE_LINUX_FIRMWARE_BRCM_BCM43XXX=y
+BR2_PACKAGE_MURATA_CYW_FW=y
+BR2_PACKAGE_MURATA_CYW_FW_CYW43430=y
 ```
 
 These options enable the installation of the firmware file needed for
-the WiFi chip.
+the WiFi and Bluetooth chips.
 
 ```
 BR2_PACKAGE_GCNANO_BINARIES=y
@@ -288,11 +329,27 @@ This option enables the installation of the closed-source user-space
 library that provide OpenGL support.
 
 ```
+BR2_PACKAGE_LIBUBOOTENV=y
+```
+
+This option enable tools to read and write the U-boot environment from
+Linux. It is requisite to have the [OTA](/docs/ota.md) working properly.
+
+```
 BR2_PACKAGE_LIBDRM_INSTALL_TESTS=y
 ```
 
 This option, which implies `BR2_PACKAGE_LIBDRM=y` installs the
 `modetest` utility that we use for [display testing](/docs/display.md).
+
+```
+BR2_PACKAGE_BLUEZ_TOOLS=y
+BR2_PACKAGE_BLUEZ5_UTILS=y
+BR2_PACKAGE_BLUEZ5_UTILS_CLIENT=y
+```
+
+These options install the user-space utilities to manage and configure
+Bluetooth.
 
 ```
 BR2_PACKAGE_IW=y
@@ -309,6 +366,23 @@ BR2_PACKAGE_WPA_SUPPLICANT_PASSPHRASE=y
 These options install the user-space utilities to manage and configure
 WiFi, as well as the wireless regulatory database.
 
+```
+BR2_PACKAGE_RAUC=y
+BR2_PACKAGE_RAUC_DBUS=y
+BR2_PACKAGE_RAUC_GPT=y
+BR2_PACKAGE_RAUC_NETWORK=y
+BR2_PACKAGE_RAUC_STREAMING=y
+BR2_PACKAGE_RAUC_JSON=y
+```
+
+These options install the rauc tool for [OTA](/docs/ota.md).
+
+```
+BR2_TARGET_ROOTFS_SQUASHFS=y
+```
+
+This options tell Buildroot to generate a *squashfs* read-only filesystem
+image for the root filesystem;
 
 ```
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_BL32_OPTEE=y
@@ -342,6 +416,20 @@ produced by STM32 Cube MX, called `stm32mp157c-dk2-mx`. The option
 build the external devicetree.
 
 ```
+BR2_PACKAGE_HOST_GENEXT2FS=y
+```
+
+This option enables `genext2fs` tool, to be able to generate *ext4*
+partition with `genimage`.
+
+```
+BR2_PACKAGE_HOST_RAUC=y
+```
+
+This option enables `rauc` tool for the host to generate a RAUC update
+bundle.
+
+```
 BR2_PACKAGE_M4PROJECTS=y
 ```
 
@@ -357,10 +445,14 @@ M4 from [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git).
         Tree files produced by STM32 Cube MX for TF-A. Only used by
         the demo configurations.
       * [`overlay/`](/board/stmicroelectronics/stm32mp1/overlay/),
-        the boot filesytem overlay for the all the configurations. It
+        the boot filesytem overlay for the basic configurations. It
         contributes `/boot/extlinux.conf` to the root filesystem to select
-        the right devicetree name. It also adds the Wifi firmware and the
-        sound configuration files.
+        the right devicetree name.
+      * [`overlay-demo/`](/board/stmicroelectronics/stm32mp1/overlay-demo/),
+        the boot filesytem overlay for the demo configurations. It
+        contributes `/boot/extlinux.conf` to the root filesystem to select
+        the right devicetree name. It also adds the Wifi firmware, the
+        sound configuration files and RAUC configuration files.
       * [`linux-dts/`](/board/stmicroelectronics/stm32mp1/linux-dts),
         Device Tree files produced by STM32 Cube MX for Linux. Only
         used by the demo configurations.
@@ -376,13 +468,24 @@ M4 from [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git).
       * [`genimage.cfg`](/board/stmicroelectronics/stm32mp1/genimage.cfg),
         configuration file for the `genimage` utility, which produces
         the final `sdcard.img` SD card image. It describes the
-        partition layout of the SD card.
+        partition layout of the SD card. Only used by basic configurations.
+      * [`genimage-demo.cfg`](/board/stmicroelectronics/stm32mp1/genimage-demo.cfg),
+        configuration file for the `genimage` utility, which produces
+        the final `sdcard.img` SD card image. It describes the
+        partition layout of the SD card. Only used by demo configurations.
       * [`post-build.sh`](/board/stmicroelectronics/stm32mp1/post-build.sh),
         the script executed by Buildroot at the end of the rootfs generation
         to produce update the `extlinux.conf` with the right devicetree name.
+      * [`post-build-demo.sh`](/board/stmicroelectronics/stm32mp1/post-build-demo.sh),
+        the script executed by Buildroot for demo configuration at the end
+        of the rootfs generation. It creates Wifi firmware links, update
+        RAUC configurations files and creates `/data` directory.
       * [`post-image.sh`](/board/stmicroelectronics/stm32mp1/post-image.sh),
         the script executed by Buildroot at the end of the build to
         produce the SD card image and deploy the flash.tsv file.
+      * [`post-image.sh`](/board/stmicroelectronics/stm32mp1/post-image.sh),
+        the script executed by Buildroot for demo configurations at the end
+        of the build to produces the RAUC update bundle.
       * [`linux-disable-etnaviv.config`](/board/stmicroelectronics/stm32mp1/linux-disable-etnaviv.config),
         a Linux kernel configuration file fragment that disables the
         Etnaviv GPU driver.
@@ -397,6 +500,9 @@ M4 from [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git).
       * [`patches`](/board/stmicroelectronics/stm32mp1/patches), which
         contains one patch for the Linux kernel, fixing a module
         loading issue for the audio codec driver.
+      * [`patches-demo`](/board/stmicroelectronics/stm32mp1/patches-demo),
+        which contains one patch for the U-boot Bootloader, adding OTA
+        special environment.
 * [`package/m4projects`](/package/m4projects), a Buildroot package
   that builds and installs all the Cortex-M4 examples of the
   [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git)
@@ -433,15 +539,15 @@ M4 from [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git).
 
 ## Changes compared to upstream Buildroot
 
-The `st/2023.02.2` branch of this `BR2_EXTERNAL` is designed to work
-with Buildroot 2023.02.2 However, we needed a few changes compared to
-upstream Buildroot 2023.02.2, which can be seen at
-[https://github.com/bootlin/buildroot/commits/st/2023.02.2](https://github.com/bootlin/buildroot/commits/st/2023.02.2). We
-have just 2 changes on top of Buildroot 2023.02.2, and they can easily
+The `st/2023.02.6` branch of this `BR2_EXTERNAL` is designed to work
+with Buildroot 2023.02.6 However, we needed a few changes compared to
+upstream Buildroot 2023.02.6, which can be seen at
+[https://github.com/bootlin/buildroot/commits/st/2023.02.6](https://github.com/bootlin/buildroot/commits/st/2023.02.6). We
+have just 3 changes on top of Buildroot 2023.02.6, and they can easily
 be rebased on top of the latest Buildroot 2023.02.x to continue to
 benefit from the security fixes provided by the Buildroot community.
 
-Here are the 2 changes:
+Here are the 3 changes:
 
 * Update the `gcnano-binaries` package to a newer version. This
   package contains the closed-source OpenGL user-space libraries,
@@ -449,3 +555,6 @@ Here are the 2 changes:
 
 * Fix a regression in the `optee-test` package by backporting two
   patches from upstream OP-TEE.
+
+* Fix the build of TF-A fip tool in the `arm-trusted-firmware` package.
+  This patch has been cherry picked from Builroot mainline.

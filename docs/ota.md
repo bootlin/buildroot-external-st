@@ -18,7 +18,7 @@ Booted from: rootfs.0 (A)
 
 === Bootloader ===
 Activated: rootfs.0 (A)
-
+zsh:1: command not found: :w
 === Slot States ===
 o [rootfs.1] (/dev/mmcblk0p6, raw, inactive)
 	bootname: B
@@ -30,10 +30,13 @@ x [rootfs.0] (/dev/mmcblk0p5, raw, booted)
 
 ```
 
-Buildroot is generating a update bundle in the image directory:
+Buildroot generates an update bundle in the image directory:
 `output/images/rootfs.raucb`.
-Get the RAUC update bundle on the board using Wifi, USB or whatever.
-Use `rauc info` to read the bundle information.
+To deploy this RAUC update bundle onto the target board, employ
+connectivity options such as WiFi, USB, or any applicable method.
+Once transferred, utilize the `rauc info` command to glean information from
+the update bundle, like its content and configuration.
+
 ```
 # rauc info /mnt/rootfs.raucb
 rauc-Message: 00:01:12.201: Config option 'statusfile=<path>/per-slot' unset, falling back to per-slot status

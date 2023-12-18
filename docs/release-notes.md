@@ -1,6 +1,22 @@
 # Release notes
 
-## openstlinux-6.1-buildroot-mp1-v23.06.21
+## openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18
+
+Changes in this release:
+
+- Based on Buildroot 2023.02.6
+
+- Based on last revision on the BSP components of ST, no change in major
+  version.
+
+- Addition of starter package for easy accessibility of prebuilt images.
+
+- Add support for OTA with RAUC tool. The OTA configuration is using two
+  rootfs partition containing the read only root file system and an
+  additional data read write partition. The boot switch is managed by
+  U-boot with custom environment.
+
+## openstlinux-6.1-buildroot-2023.02-mp1-v23.06.21
 
 Changes in this release:
 
