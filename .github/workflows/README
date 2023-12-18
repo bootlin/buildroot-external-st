@@ -1,7 +1,9 @@
 Here is the procedure to obtain these #CONFIG# Binaries Packages:
 - Clone the repositories
-git clone git@github.com:bootlin/buildroot -b #REV#
-git clone git@github.com:bootlin/buildroot-external-st.git -b #REV#
+git clone git@github.com:bootlin/buildroot
+git -C buildroot checkout #BR_REV#
+git clone git@github.com:bootlin/buildroot-external-st.git
+git -C buildroot-external-st checkout #BR_EXT_REV#
 
 - Configure the Buildroot
 make -C buildroot BR2_EXTERNAL=../buildroot-external-st O=../output #CONFIG#_defconfig
