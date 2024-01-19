@@ -83,10 +83,10 @@ configurations:
 
 | Feature | st_stm32mp157*_dk1 | st_stm32mp157*_dk2 | st_stm32mp157*_dk1_demo | st_stm32mp157*_dk2_demo | st_stm32mp135f_dk | st_stm32mp135f_dk_demo |
 | ------- | ------------------ | ------------------ | ----------------------- | ----------------------- | ----------------------- | ----------------------- |
-| TF-A    | v2.8-stm32mp-r1 | v2.8-stm32mp-r1 | v2.8-stm32mp-r1 | v2.8-stm32mp-r1 | v2.8-stm32mp-r1 | v2.8-stm32mp-r1 |
-| U-Boot  | v2022.10-stm32mp-r1 | v2022.10-stm32mp-r1 | v2022.10-stm32mp-r1 | v2022.10-stm32mp-r1 | v2022.10-stm32mp-r1 | v2022.10-stm32mp-r1 |
-| Linux   | v6.1-stm32mp-r1 | v6.1-stm32mp-r1 | v6.1-stm32mp-r1 | v6.1-stm32mp-r1 | v6.1-stm32mp-r1 | v6.1-stm32mp-r1 |
-| OP-TEE  | 3.19.0-stm32mp-r1 | 3.19.0-stm32mp-r1 | 3.19.0-stm32mp-r1 | 3.19.0-stm32mp-r1 | 3.19.0-stm32mp-r1 | 3.19.0-stm32mp-r1 |
+| TF-A    | v2.8-stm32mp-r1.1 | v2.8-stm32mp-r1.1 | v2.8-stm32mp-r1.1 | v2.8-stm32mp-r1.1 | v2.8-stm32mp-r1.1 | v2.8-stm32mp-r1.1 |
+| U-Boot  | v2022.10-stm32mp-r1.1 | v2022.10-stm32mp-r1.1 | v2022.10-stm32mp-r1.1 | v2022.10-stm32mp-r1.1 | v2022.10-stm32mp-r1.1 | v2022.10-stm32mp-r1.1 |
+| Linux   | v6.1-stm32mp-r1.1 | v6.1-stm32mp-r1.1 | v6.1-stm32mp-r1.1 | v6.1-stm32mp-r1.1 | v6.1-stm32mp-r1.1 | v6.1-stm32mp-r1.1 |
+| OP-TEE  | 3.19.0-stm32mp-r1.1 | 3.19.0-stm32mp-r1.1 | 3.19.0-stm32mp-r1.1 | 3.19.0-stm32mp-r1.1 | 3.19.0-stm32mp-r1.1 | 3.19.0-stm32mp-r1.1 |
 | Qt5     | No | No | Yes | Yes | No | Yes |
 | OpenGL  | No | No | Yes | Yes | No | Yes |
 | WiFi    | N/A | No | N/A | Yes | No | Yes |
