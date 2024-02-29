@@ -1,24 +1,33 @@
-Here is the procedure to obtain these #CONFIG# Binaries Packages:
-- Clone the repositories
-git clone git@github.com:bootlin/buildroot
-git -C buildroot checkout #BR_REV#
-git clone git@github.com:bootlin/buildroot-external-st.git
-git -C buildroot-external-st checkout #BR_EXT_REV#
+Here is the procedure to reproduce the Starter Package for this
+#CONFIG# Buildroot configuration:
 
-- Configure the Buildroot
-make -C buildroot BR2_EXTERNAL=../buildroot-external-st O=../output #CONFIG#_defconfig
+1. Clone the repositories:
 
-- Build the #CONFIG# image
-make -C buildroot O=../output
+   git clone git@github.com:bootlin/buildroot
+   git -C buildroot checkout #BR_REV#
+   git clone git@github.com:bootlin/buildroot-external-st.git
+   git -C buildroot-external-st checkout #BR_EXT_REV#
 
-- Generate info about license compliance
-make -C buildroot O=../output legal-info
+2. Configure Buildroot
 
-- Build the SDK
-make -C buildroot O=../output sdk
+   make -C buildroot BR2_EXTERNAL=../buildroot-external-st O=../output #CONFIG#_defconfig
 
-You will find the #CONFIG# image and sdk here:
-buildroot/output/images
+3. Build the #CONFIG# image
 
-You will find the #CONFIG# licenses and sources here:
-buildroot/output/legal-info
+   make -C buildroot O=../output
+
+4. Generate license compliance information
+
+   make -C buildroot O=../output legal-info
+
+5. Build the SDK
+
+   make -C buildroot O=../output sdk
+
+You will find the #CONFIG# image and sdk in:
+
+  buildroot/output/images
+
+You will find the #CONFIG# licenses and sources in:
+
+  buildroot/output/legal-info

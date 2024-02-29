@@ -104,12 +104,35 @@ use the versions provided and supported by ST.
 
 ## Starter package
 
-Upon release and for every Buildroot configuration, a prebuilt image is
-generated. Alongside the image, you can download the licenses, sources,
-SDK, and a README file.
+If want to use Buildroot on STM32MP1 platforms without building
+everything yourself from source, we provide below a *Starter
+Package*. For each release and each Buildroot configuration, we
+provide:
 
-For example for the latest `openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18`
-release, you can download the starter package here:
+* A README file that documents how the *Starter Package* has been
+  built
+
+* A pre-built image, ready to flash on an SD card, together with a
+  *Block map* (which can be used with `bmaptool` to optimize the
+  flashing process). This image contains a fully working system, with
+  bootloaders, Linux kernel and root filesystem. Look at the [flash
+  and boot section](#Flashing-and-booting-the-system) to discover how
+  to use the prebuilt images.
+
+* A Software Development Kit (SDK) that contains a cross-compiler and
+  set of libraries that allow you to build applications for the
+  target. See the Buildroot [advanced usage
+  documentation](https://buildroot.org/downloads/manual/manual.html#_advanced_usage)
+  to find out how to use the SDK.
+
+* The complete list of open-source licenses and complete source code
+  of all software components included in the pre-built image, for
+  license compliance.
+
+The following table provides the links to all these artifacts,
+compiled with the latest
+`openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18` release:
+
 | Configuration | README | Image | Block map | SDK | Licences | Sources |
 | ------------- | ------ | ----- | --------- | --- | -------- | ------- |
 | st_stm32mp157a_dk1 | [URL](https://bootlin.com/pub/buildroot-st/openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18/README-st_stm32mp157a_dk1) | [URL](https://bootlin.com/pub/buildroot-st/openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18/sdcard-st_stm32mp157a_dk1.img.gz) | [URL](https://bootlin.com/pub/buildroot-st/openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18/sdcard-st_stm32mp157a_dk1.img.bmap) | [URL](https://bootlin.com/pub/buildroot-st/openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18/arm-buildroot-linux-gnueabihf_sdk-st_stm32mp157a_dk1.tar.gz) | [URL](https://bootlin.com/pub/buildroot-st/openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18/licenses-st_stm32mp157a_dk1.tar.gz) | [URL](https://bootlin.com/pub/buildroot-st/openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18/sources-st_stm32mp157a_dk1.tar.gz) |
@@ -122,12 +145,6 @@ release, you can download the starter package here:
 | st_stm32mp157f_dk2_demo | [URL](https://bootlin.com/pub/buildroot-st/openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18/README-st_stm32mp157f_dk2_demo) | [URL](https://bootlin.com/pub/buildroot-st/openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18/sdcard-st_stm32mp157f_dk2_demo.img.gz) | [URL](https://bootlin.com/pub/buildroot-st/openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18/sdcard-st_stm32mp157f_dk2_demo.img.bmap) | [URL](https://bootlin.com/pub/buildroot-st/openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18/arm-buildroot-linux-gnueabihf_sdk-st_stm32mp157f_dk2_demo.tar.gz) | [URL](https://bootlin.com/pub/buildroot-st/openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18/licenses-st_stm32mp157f_dk2_demo.tar.gz) | [URL](https://bootlin.com/pub/buildroot-st/openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18/sources-st_stm32mp157f_dk2_demo.tar.gz) |
 | st_stm32mp135f_dk | [URL](https://bootlin.com/pub/buildroot-st/openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18/README-st_stm32mp157f_dk) | [URL](https://bootlin.com/pub/buildroot-st/openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18/sdcard-st_stm32mp157f_dk.img.gz) | [URL](https://bootlin.com/pub/buildroot-st/openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18/sdcard-st_stm32mp157f_dk.img.bmap) | [URL](https://bootlin.com/pub/buildroot-st/openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18/arm-buildroot-linux-gnueabihf_sdk-st_stm32mp157f_dk.tar.gz) | [URL](https://bootlin.com/pub/buildroot-st/openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18/licenses-st_stm32mp157f_dk.tar.gz) | [URL](https://bootlin.com/pub/buildroot-st/openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18/sources-st_stm32mp157f_dk.tar.gz) |
 | st_stm32mp135f_dk_demo | [URL](https://bootlin.com/pub/buildroot-st/openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18/README-st_stm32mp157f_dk_demo) | [URL](https://bootlin.com/pub/buildroot-st/openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18/sdcard-st_stm32mp157f_dk_demo.img.gz) | [URL](https://bootlin.com/pub/buildroot-st/openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18/sdcard-st_stm32mp157f_dk_demo.img.bmap) | [URL](https://bootlin.com/pub/buildroot-st/openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18/arm-buildroot-linux-gnueabihf_sdk-st_stm32mp157f_dk_demo.tar.gz) | [URL](https://bootlin.com/pub/buildroot-st/openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18/licenses-st_stm32mp157f_dk_demo.tar.gz) | [URL](https://bootlin.com/pub/buildroot-st/openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18/sources-st_stm32mp157f_dk_demo.tar.gz) |
-
-Look at the [flash and boot section](#Flashing-and-booting-the-system) to
-discover how to use the prebuilt images.
-
-See the Buildroot [advanced usage documentation](https://buildroot.org/downloads/manual/manual.html#_advanced_usage)
-to find out how to use the SDK.
 
 ## Building Buildroot from source
 
