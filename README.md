@@ -216,7 +216,7 @@ Then:
 
 4. Plug a USB-C cable to power-up the board
    - STM32MP157: connector CN6
-   - STM32MP135: connectoer CN12
+   - STM32MP135: connector CN12
 
 5. The system will start, with the console on UART. You can log-in as
 `root` with no password for the minimal configuration, or with `root`
