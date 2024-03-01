@@ -21,35 +21,41 @@ jobs:
           python-version: '3.11'
       - name: Install b2
         run: pip install b2
+      - name: Register to b2
+        run: b2 authorize_account ${{ secrets.B2_KEY_ID }} ${{ secrets.B2_APPLICATION_KEY }}
       - name: Configure Buildroot
         run: make -C buildroot BR2_EXTERNAL=../buildroot-external-st O=../output ${{ matrix.config }}_defconfig
       - name: Build Buildroot
         run: make -C buildroot O=../output
-      - name: Generate legal-info
-        run: make -C buildroot O=../output legal-info
+      - name: Store image
+        run: |
+             b2 upload-file bootlin-buildroot-st output/images/sdcard.img.gz ${{ github.ref_name }}/sdcard-${{ matrix.config }}.img.gz
+             b2 upload-file bootlin-buildroot-st output/images/sdcard.img.bmap ${{ github.ref_name }}/sdcard-${{ matrix.config }}.img.bmap
       - name: Build SDK
         run: make -C buildroot O=../output sdk
+      - name: Store SDK
+        run: b2 upload-file bootlin-buildroot-st output/images/arm-buildroot-linux-gnueabihf_sdk-buildroot.tar.gz ${{ github.ref_name }}/arm-buildroot-linux-gnueabihf_sdk-${{ matrix.config }}.tar.gz
+      - name: Clean images
+        run: rm -rf output/images
+      - name: Generate legal-info
+        run: make -C buildroot O=../output legal-info
       - name: Archive and compress sources
         run: tar -cf - -C output/legal-info sources | gzip -9 - > sources-${{ matrix.config }}.tar.gz
       - name: Archive and compress licenses
         run: tar -cf - -C output/legal-info licenses | gzip -9 - > licenses-${{ matrix.config }}.tar.gz
+      - name: Store sources
+        run: b2 upload-file bootlin-buildroot-st sources-${{ matrix.config }}.tar.gz ${{ github.ref_name }}/sources-${{ matrix.config }}.tar.gz
+      - name: Store licenses
+        run: b2 upload-file bootlin-buildroot-st licenses-${{ matrix.config }}.tar.gz ${{ github.ref_name }}/licenses-${{ matrix.config }}.tar.gz
+      - name: Clean legal-info
+        run: rm -rf output/legal-info sources-${{ matrix.config }}.tar.gz licenses-${{ matrix.config }}.tar.gz
       - name: Update the README
         run: |
              cp buildroot-external-st/.github/workflows/README README
              sed -ie "s|#CONFIG#|${{ matrix.config }}|" README
              sed -ie "s|#BR_REV#|${{ env.repo_version }}|" README
              sed -ie "s|#BR_EXT_REV#|${{ github.ref_name }}|" README
-      - name: Register to b2
-        run: b2 authorize_account ${{ secrets.B2_KEY_ID }} ${{ secrets.B2_APPLICATION_KEY }}
-      - name: Store image
-        run: |
-             b2 upload-file bootlin-buildroot-st output/images/sdcard.img.gz ${{ github.ref_name }}/sdcard-${{ matrix.config }}.img.gz
-             b2 upload-file bootlin-buildroot-st output/images/sdcard.img.bmap ${{ github.ref_name }}/sdcard-${{ matrix.config }}.img.bmap
-      - name: Store SDK
-        run: b2 upload-file bootlin-buildroot-st output/images/arm-buildroot-linux-gnueabihf_sdk-buildroot.tar.gz ${{ github.ref_name }}/arm-buildroot-linux-gnueabihf_sdk-${{ matrix.config }}.tar.gz
-      - name: Store sources
-        run: b2 upload-file bootlin-buildroot-st sources-${{ matrix.config }}.tar.gz ${{ github.ref_name }}/sources-${{ matrix.config }}.tar.gz
-      - name: Store licenses
-        run: b2 upload-file bootlin-buildroot-st licenses-${{ matrix.config }}.tar.gz ${{ github.ref_name }}/licenses-${{ matrix.config }}.tar.gz
       - name: Store the README
         run: b2 upload-file bootlin-buildroot-st README ${{ github.ref_name }}/README-${{ matrix.config }}
+      - name: Full build cleanup
+        run: rm -rf output
