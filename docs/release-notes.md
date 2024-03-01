@@ -1,10 +1,10 @@
 # Release notes
 
-## openstlinux-6.1-buildroot-2023.02.6-mp1-v23.10.18
+## openstlinux-6.1-buildroot-2023.02.9-mp1-v23.11.15
 
 Changes in this release:
 
-- Based on Buildroot 2023.02.6
+- Based on Buildroot 2023.02.9
 
 - Based on last revision on the BSP components of ST, no change in major
   version.

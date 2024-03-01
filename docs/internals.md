@@ -539,11 +539,11 @@ M4 from [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git).
 
 ## Changes compared to upstream Buildroot
 
-The `st/2023.02.6` branch of this `BR2_EXTERNAL` is designed to work
-with Buildroot 2023.02.6 However, we needed a few changes compared to
-upstream Buildroot 2023.02.6, which can be seen at
-[https://github.com/bootlin/buildroot/commits/st/2023.02.6](https://github.com/bootlin/buildroot/commits/st/2023.02.6). We
-have just 3 changes on top of Buildroot 2023.02.6, and they can easily
+The `st/2023.02.9` branch of this `BR2_EXTERNAL` is designed to work
+with Buildroot 2023.02.9 However, we needed a few changes compared to
+upstream Buildroot 2023.02.9, which can be seen at
+[https://github.com/bootlin/buildroot/commits/st/2023.02.9](https://github.com/bootlin/buildroot/commits/st/2023.02.6). We
+have just 3 changes on top of Buildroot 2023.02.9, and they can easily
 be rebased on top of the latest Buildroot 2023.02.x to continue to
 benefit from the security fixes provided by the Buildroot community.
 
