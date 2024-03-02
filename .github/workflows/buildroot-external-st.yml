@@ -3,7 +3,7 @@ jobs:
   build-all:
     runs-on: ubuntu-22.04
     env:
-      repo_version: st/2023.02.9
+      repo_version: st/2023.02.10
     strategy:
       matrix:
         config: [ st_stm32mp157a_dk1, st_stm32mp157a_dk1_demo, st_stm32mp157d_dk1, st_stm32mp157d_dk1_demo, st_stm32mp157c_dk2, st_stm32mp157c_dk2_demo, st_stm32mp157f_dk2, st_stm32mp157f_dk2_demo, st_stm32mp135f_dk, st_stm32mp135f_dk_demo]
