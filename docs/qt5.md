@@ -43,9 +43,9 @@ The STM32MP135 SoC does not have a GPU. Therefore, OpenGL support is
 not available. Qt5 is therefore compiled to use the *linuxfb* backend.
 
 You can start various Qt examples. After enabling the backlight, you
-can start any Qt example with the `-platform linuxfb` argument:
+can start any Qt examples:
 
 ```
 # echo 1 >  /sys/class/backlight/panel-backlight/brightness
-# /usr/lib/qt/examples/gui/analogclock/analogclock -platform linuxfb
+# /usr/lib/qt/examples/gui/analogclock/analogclock
 ```

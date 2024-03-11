@@ -4,7 +4,7 @@ Applicable platforms: STM32MP157-DK1, STM32MP157-DK2, STM32MP135-DK
 
 OTA support is only enabled in the *demo* configurations.
 
-RAUC is configured to use symmetric woth two rootfs.0 and rootfs.1
+RAUC is configured to use symmetric with two rootfs.0 and rootfs.1
 partition.
 
 
