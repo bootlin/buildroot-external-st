@@ -1,0 +1,36 @@
+From 144617e083d47cbe7249bccab26ed4ae0cedad45 Mon Sep 17 00:00:00 2001
+From: Romain Gantois <romain.gantois@bootlin.com>
+Date: Mon, 22 Apr 2024 15:11:12 +0200
+Subject: [PATCH] plat: st: stm32mp2: Include --soc-fw-config binary as payload
+ instead of external image
+
+Currently, the bl31 dtb file used for the --soc-fw-config FIP component is
+included using the TOOL_ADD_IMAGE macro, which is meant for external images.
+This means that two make commands have to be issued for the fip target to be
+built. Buildroot builds ATF in one go so this doesn't work.
+
+Use TOOL_ADD_PAYLOAD to include the --soc-fw-config FIP component, so that
+Buildroot can build the fip target in one go. The downside of this approach is
+that the ENCRYPTED_BL31 flag is ignored.
+
+Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
+---
+ plat/st/stm32mp2/platform.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/plat/st/stm32mp2/platform.mk b/plat/st/stm32mp2/platform.mk
+index 309b4e1..5d6ae72 100644
+--- a/plat/st/stm32mp2/platform.mk
++++ b/plat/st/stm32mp2/platform.mk
+@@ -108,7 +108,7 @@ FDT_SOURCES		+=	$(addprefix $(DT_SOURCE_PATH)/, $(patsubst %.dtb,%.dts,$(STM32MP
+ # Add the FW_CONFIG to FIP and specify the same to certtool
+ $(eval $(call TOOL_ADD_PAYLOAD,${STM32MP_FW_CONFIG},--fw-config))
+ # Add the SOC_FW_CONFIG to FIP and specify the same to certtool
+-$(eval $(call TOOL_ADD_IMG,STM32MP_SOC_FW_CONFIG,--soc-fw-config,,$(ENCRYPT_BL31)))
++$(eval $(call TOOL_ADD_PAYLOAD,${STM32MP_SOC_FW_CONFIG},--soc-fw-config))
+ ifeq (${STM32MP_DDR_FIP_IO_STORAGE},1)
+ # Add the FW_DDR to FIP and specify the same to certtool
+ $(eval $(call TOOL_ADD_IMG,STM32MP_DDR_FW,--ddr-fw))
+-- 
+2.44.0
+
