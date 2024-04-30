@@ -10,8 +10,8 @@ Yocto BSP 5.0.0, ST has chosen to load OP-TEE into DDR instead of the
 SYSRAM memory. As the DDR is not encrypted, ST has chosen to disable
 the support of user Trusted Application (TA), breaking the usage of
 OP-TEE from Linux user-space applications. In the current Buildroot
-integration, we have chosen to keep OP-TEE in SYSRAM, preserving this
-functionality.
+integration for STM32MP1 platforms, we have chosen to keep OP-TEE in
+SYSRAM, preserving this functionality.
 
 From Linux, OP-TEE can be tested using a few [example OP-TEE
 applications](https://optee.readthedocs.io/en/latest/building/gits/optee_examples/optee_examples.html).

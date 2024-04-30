@@ -1,11 +1,12 @@
 # Testing display support
 
-Applicable platforms: STM32MP157-DK1, STM32MP157-DK2, STM32MP135-DK
+Applicable platforms: STM32MP257F-EV1, STM32MP157-DK1, STM32MP157-DK2, STM32MP135-DK
 
 The different platforms have the following capabilities:
 * STM32MP157-DK1: HDMI output
 * STM32MP157-DK2: DSI display panel and HDMI output
 * STM32MP135-DK: DSI display panel
+* STM32MP257-EV1: LVDS display panel
 
 The *demo* configurations for all platforms include the `modetest`
 utility, which allows low-level testing of display devices, directly
@@ -79,12 +80,12 @@ You can test the DSI display panel by first enabling the display
 backlight:
 
 ```
-echo 1 >  /sys/class/backlight/panel-backlight/brightness
+# echo 1 >  $(realpath /sys/class/backlight/panel-*)/brightness
 ```
 
-And then displaying the `modetest` default picture, in the native DSI
+And then displaying the `modetest` default picture, in the default DSI
 panel resolution:
 
 ```
-# modetest -M stm -s 32:480x272
+# modetest -M stm -s 32:#0
 ```
