@@ -1,0 +1,33 @@
+arch=arm
+autoload=0
+baudrate=115200
+board=stm32mp2
+board_name=stm32mp257f-ev1
+BOOT_ORDER=A B
+BOOT_A_LEFT=3
+BOOT_B_LEFT=3
+try_boot_a=if test 0x${BOOT_A_LEFT} -gt 0; then setexpr BOOT_A_LEFT ${BOOT_A_LEFT} - 1; setenv distro_bootpart 9; setenv extlinux_bootpart 9; setenv raucslot "rauc.slot=A"; echo "Booting from slot A ${BOOT_A_LEFT} attempts remaining"; run boot_extlinux; fi
+try_boot_b=if test 0x${BOOT_B_LEFT} -gt 0; then setexpr BOOT_B_LEFT ${BOOT_B_LEFT} - 1; setenv distro_bootpart a; setenv extlinux_bootpart 10; setenv raucslot "rauc.slot=B"; echo "Booting from slot B ${BOOT_B_LEFT} attempts remaining"; run boot_extlinux; fi
+boot_rauc_slot=if test "x${BOOT_ORDER}" = "xA B"; then run try_boot_a; run try_boot_b; else run try_boot_b; run try_boot_a; fi
+boot_extlinux=sysboot mmc 0:${distro_bootpart} any ${scriptaddr} /boot/extlinux/extlinux.conf
+boot_instance=0
+bootcmd=run boot_rauc_slot
+bootdelay=1
+console=ttySTM0
+cpu=armv8
+distro_bootcmd=for target in ${boot_targets}; do run bootcmd_${target}; done
+env_check=if env info -p -d -q; then env save; fi
+fdt_addr_r=0x8a000000
+fdtcontroladdr=f8079ac0
+fdtfile=stm32mp257f-ev1.dtb
+fdtoverlay_addr_r=0x8a300000
+kernel_addr_r=0x88000000
+kernel_comp_addr_r=0x84000000
+kernel_comp_size=0x04000000
+loadaddr=0x84000000
+pxefile_addr_r=0x8a200000
+ramdisk_addr_r=0x8a400000
+scriptaddr=0x8a100000
+serverip=192.168.1.1
+soc=stm32mp
+vendor=st

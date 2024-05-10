@@ -1,6 +1,6 @@
 # RAUC OTA support
 
-Applicable platforms: STM32MP157-DK1, STM32MP157-DK2, STM32MP135-DK
+Applicable platforms: STM32MP257-EV1, STM32MP157-DK1, STM32MP157-DK2, STM32MP135-DK
 
 OTA support is only enabled in the *demo* configurations.
 

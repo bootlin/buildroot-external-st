@@ -1,6 +1,6 @@
 generate_rauc_bundle()
 {
-	local DTB_NAME="$(sed -n 's/^BR2_LINUX_KERNEL_INTREE_DTS_NAME="\(.*\)"$/\1/p' ${BR2_CONFIG} | cut -d'.' -f1)"
+        local DTB_NAME="$(sed -n 's/^BR2_LINUX_KERNEL_INTREE_DTS_NAME="\(.*\)"$/\1/p' ${BR2_CONFIG} | cut -d '/' -f 2 | cut -d'.' -f1)"
 	# Pass VERSION as an environment variable (eg: export from a top-level Makefile)
 	# If VERSION is unset, fallback to the Buildroot version
 	local RAUC_VERSION=${VERSION:-${BR2_VERSION_FULL}}
