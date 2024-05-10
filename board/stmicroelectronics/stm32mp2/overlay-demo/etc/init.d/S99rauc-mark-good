@@ -1,0 +1,16 @@
+#!/bin/sh
+#
+# Rauc Good-marking Service
+#
+
+case "$1" in
+  start)
+	/usr/bin/rauc status mark-good
+	;;
+  *)
+	echo "Usage: $0 {start}"
+	exit 1
+esac
+
+exit $?
+
