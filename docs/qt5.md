@@ -1,6 +1,6 @@
 # Using Qt5 examples
 
-Applicable platforms: STM32MP157-DK1, STM32MP157-DK2, STM32MP135-DK.
+Applicable platforms: STM32MP257F-EV1, STM32MP157-DK1, STM32MP157-DK2, STM32MP135-DK.
 
 The Qt5 graphical toolkit is enabled in the *demo* configurations,
 together with a number of example applications. Note that only the
@@ -10,11 +10,11 @@ Buildroot supports several additional Qt5 modules if necessary.
 The Qt5 examples are installed in the target at
 `/usr/lib/qt/examples/`.
 
-## STM32MP157
+## STM32MP257 and STM32MP157
 
-The STM32MP157 SoC has a GPU, for which the support is enabled in the
-*demo* configuration. Qt5 is compiled with OpenGL support, and uses
-the *eglfs* backend.
+The STM32MP257 and STM32MP157 SoCs have a GPU, for which the support is enabled
+in the *demo* configuration. Qt5 is compiled with OpenGL support, and uses the
+*eglfs* backend.
 
 udev autoloads the `galcore` Linux kernel module, which is the kernel
 driver needed to use the GPU. You can verify that this kernel module
@@ -28,6 +28,7 @@ galcore               319488  0
 Then you can start the different Qt examples, for example:
 
 ```
+# echo 1 >  $(realpath /sys/class/backlight/panel*)/brightness
 # /usr/lib/qt/examples/opengl/hellogl2/hellogl2
 ```
 
