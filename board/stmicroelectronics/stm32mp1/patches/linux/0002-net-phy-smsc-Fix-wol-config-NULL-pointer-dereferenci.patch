@@ -1,0 +1,43 @@
+From a0d19136607b24f8c14305c7233a1abd726b46f6 Mon Sep 17 00:00:00 2001
+From: Kory Maincent <kory.maincent@bootlin.com>
+Date: Thu, 16 May 2024 15:07:08 +0200
+Subject: [PATCH] net: phy: smsc: Fix wol config NULL pointer dereferencing
+
+In case of a suspend resume flow config_init() function is called.
+If the network interface have not been set up before the suspend resume
+the attached_dev pointer is NULL.
+config_init() call the smsc_phy_config_wol() function whoch dereference
+attached_dev. This cause this koops kernel NULL pointer dereference:
+[   33.682809] Unable to handle kernel NULL pointer dereference at virtual address 000001d4
+[   33.690893] [000001d4] *pgd=00000000
+[   33.694490] Internal error: Oops: 5 [#1] PREEMPT SMP ARM
+[   33.699754] Modules linked in: ...
+[   33.740777] CPU: 0 PID: 186 Comm: sh Not tainted 6.1.28 #1
+[   33.746141] Hardware name: STM32 (Device Tree Support)
+[   33.751295] PC is at smsc_phy_config_wol+0x14/0xac
+[   33.756065] LR is at smsc_phy_config_init+0x70/0x74
+
+This patch fixes the issue by returning -ENODEV if attached_dev is NULL.
+
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+---
+ drivers/net/phy/smsc.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/net/phy/smsc.c b/drivers/net/phy/smsc.c
+index ec48a9fca826..0d08f1739f3c 100644
+--- a/drivers/net/phy/smsc.c
++++ b/drivers/net/phy/smsc.c
+@@ -108,6 +108,9 @@ static int smsc_phy_config_wol(struct phy_device *phydev)
+ 	int i, wol_ctrl, wol_filter;
+ 	u16 pwd[3] = {0, 0, 0};
+ 
++	if (!phydev->attached_dev)
++		return -ENODEV;
++
+ 	/* Write @MAC in LAN8742_MMD3_MAC_ADDRA/B/C registers */
+ 	const u8 *mac_addr = phydev->attached_dev->dev_addr;
+ 	/* Store the device address for the magic packet */
+-- 
+2.34.1
+
