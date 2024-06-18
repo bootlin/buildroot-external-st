@@ -1,10 +1,10 @@
 BR2_aarch64=y
 BR2_cortex_a35=y
 BR2_TOOLCHAIN_EXTERNAL=y
-BR2_GLOBAL_PATCH_DIR="$(BR2_EXTERNAL_ST)/board/stmicroelectronics/stm32mp2/patches"
-BR2_ROOTFS_OVERLAY="$(BR2_EXTERNAL_ST)/board/stmicroelectronics/stm32mp2/overlay"
+BR2_GLOBAL_PATCH_DIR="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp2/patches"
+BR2_ROOTFS_OVERLAY="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp2/overlay"
 BR2_ROOTFS_POST_IMAGE_SCRIPT="support/scripts/genimage.sh"
-BR2_ROOTFS_POST_SCRIPT_ARGS="-c $(BR2_EXTERNAL_ST)/board/stmicroelectronics/stm32mp2/genimage.cfg"
+BR2_ROOTFS_POST_SCRIPT_ARGS="-c $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp2/genimage.cfg"
 BR2_LINUX_KERNEL=y
 BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
 BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,stm32mpu-oem,linux)v6.1-stm32mp25-beta-r1.tar.gz"
