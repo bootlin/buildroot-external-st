@@ -1,0 +1,30 @@
+From 8793c0d0a3c97598a2ee00bfc0b82322cf412771 Mon Sep 17 00:00:00 2001
+From: Kory Maincent <kory.maincent@bootlin.com>
+Date: Mon, 24 Jun 2024 15:19:03 +0200
+Subject: [PATCH] platform: stm32mp2: gen_dt.cmake: Use NO_CMAKE_FIND_ROOT_PATH
+ option
+
+As we are using absolute path in the find_file() call we have to set the
+NO_CMAKE_FIND_ROOT_PATH options to use the base root path.
+
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+---
+ platform/ext/target/stm/common/devicetree/gen_dt.cmake | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/platform/ext/target/stm/common/devicetree/gen_dt.cmake b/platform/ext/target/stm/common/devicetree/gen_dt.cmake
+index 4b65b9b0e..c96302eea 100644
+--- a/platform/ext/target/stm/common/devicetree/gen_dt.cmake
++++ b/platform/ext/target/stm/common/devicetree/gen_dt.cmake
+@@ -200,7 +200,7 @@ macro(add_devicetree_target)
+ 	endforeach()
+ 
+ 	#check board file
+-	find_file(${ARG_TARGET}_DTS_BOARD NAME ${ARG_DTS_BOARD} PATHS ${${ARG_TARGET}_DTS_DIR})
++	find_file(${ARG_TARGET}_DTS_BOARD NAME ${ARG_DTS_BOARD} PATHS ${${ARG_TARGET}_DTS_DIR} NO_CMAKE_FIND_ROOT_PATH)
+ 	if(${ARG_TARGET}_DTS_BOARD STREQUAL ${ARG_TARGET}_DTS_BOARD-NOTFOUND)
+ 		message(FATAL_ERROR "devicetree: board ${ARG_DTS_BOARD} not found in:\n ${${ARG_TARGET}_DTS_DIR}")
+ 	endif()
+-- 
+2.34.1
+

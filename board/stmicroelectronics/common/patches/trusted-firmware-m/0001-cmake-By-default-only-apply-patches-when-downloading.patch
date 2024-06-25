@@ -1,0 +1,176 @@
+From 083ebe445b3de6d902059a2defced858ea59eac0 Mon Sep 17 00:00:00 2001
+From: Joakim Andersson <joakim.andersson@nordicsemi.no>
+Date: Wed, 18 Jan 2023 12:00:36 +0100
+Subject: [PATCH] cmake: By default only apply patches when downloading remote
+ libraries
+
+By default only apply the required patches to remote libraries when they
+are using the DOWNLOAD strategy.
+When remote library locations are provided manually the patches
+should be manually managed.
+Add option to force applying patches always.
+
+Change-Id: I7c121a70851d8545bc7e61e0022b2692157fb3ef
+Signed-off-by: Joakim Andersson <joakim.andersson@nordicsemi.no>
+---
+ cmake/remote_library.cmake                                 | 7 +++++--
+ config/config_base.cmake                                   | 2 ++
+ lib/ext/mbedcrypto/CMakeLists.txt                          | 1 +
+ lib/ext/psa_arch_tests/CMakeLists.txt                      | 1 +
+ platform/ext/target/arm/corstone1000/config.cmake          | 1 +
+ .../arm/corstone1000/openamp/ext/libmetal/CMakeLists.txt   | 1 +
+ platform/ext/target/cypress/psoc64/config.cmake            | 2 ++
+ .../target/cypress/psoc64/libs/mtb-pdl-cat1/CMakeLists.txt | 1 +
+ .../target/cypress/psoc64/libs/p64_utils/CMakeLists.txt    | 1 +
+ 9 files changed, 15 insertions(+), 2 deletions(-)
+
+diff --git a/cmake/remote_library.cmake b/cmake/remote_library.cmake
+index b4e70704d..d1097c611 100644
+--- a/cmake/remote_library.cmake
++++ b/cmake/remote_library.cmake
+@@ -217,6 +217,8 @@ endfunction()
+ # [in]     LIB_BASE_DIR <path>  - is used to set FETCHCONTENT_BASE_DIR.
+ # [in]     LIB_PATCH_DIR <path> - optional path to local folder which contains patches
+ #           that should be applied.
++# [in]     LIB_FORCE_PATCH - optional argument to force applying patches when the path
++#            is a local folder instead of fetching from the remote repository.
+ # [in]     GIT_REPOSITORY, GIT_TAG, ... - see https://cmake.org/cmake/help/latest/module/ExternalProject.html
+ #           for more details
+ #
+@@ -227,7 +229,7 @@ endfunction()
+ function(fetch_remote_library)
+     # Parse arguments
+     set(options "")
+-    set(oneValueArgs LIB_NAME LIB_SOURCE_PATH_VAR LIB_BINARY_PATH_VAR LIB_BASE_DIR LIB_PATCH_DIR)
++    set(oneValueArgs LIB_NAME LIB_SOURCE_PATH_VAR LIB_BINARY_PATH_VAR LIB_BASE_DIR LIB_PATCH_DIR LIB_FORCE_PATCH)
+     set(multiValueArgs FETCH_CONTENT_ARGS)
+     cmake_parse_arguments(PARSE_ARGV 0 ARG "${options}" "${oneValueArgs}" "${multiValueArgs}")
+ 
+@@ -241,6 +243,7 @@ function(fetch_remote_library)
+     endif()
+ 
+     if ("${${ARG_LIB_SOURCE_PATH_VAR}}" STREQUAL "DOWNLOAD")
++        set(SOURCE_PATH_IS_DOWNLOAD TRUE)
+         # Process arguments which can be an empty string
+         # There is a feature/bug in CMake that result in problem with empty string arguments
+         # See https://gitlab.kitware.com/cmake/cmake/-/issues/16341 for details
+@@ -276,7 +279,7 @@ function(fetch_remote_library)
+         endif()
+     endif()
+ 
+-    if (ARG_LIB_PATCH_DIR)
++    if (ARG_LIB_PATCH_DIR AND (SOURCE_PATH_IS_DOWNLOAD OR ARG_LIB_FORCE_PATCH))
+         # look for patch files
+         file(GLOB PATCH_FILES "${ARG_LIB_PATCH_DIR}/*.patch")
+ 
+diff --git a/config/config_base.cmake b/config/config_base.cmake
+index b6c760888..accde885b 100755
+--- a/config/config_base.cmake
++++ b/config/config_base.cmake
+@@ -122,6 +122,7 @@ set(TFM_PARTITION_PLATFORM              OFF         CACHE BOOL      "Enable Plat
+ ################################## Dependencies ################################
+ 
+ set(MBEDCRYPTO_PATH                     "DOWNLOAD"  CACHE PATH      "Path to Mbed Crypto (or DOWNLOAD to fetch automatically")
++set(MBEDCRYPTO_FORCE_PATCH              OFF         CACHE BOOL      "Always apply MBed Crypto patches")
+ set(MBEDCRYPTO_VERSION                  "mbedtls-3.2.1" CACHE STRING "The version of Mbed Crypto to use")
+ set(MBEDCRYPTO_GIT_REMOTE               "https://github.com/Mbed-TLS/mbedtls.git" CACHE STRING "The URL (or path) to retrieve MbedTLS from.")
+ set(MBEDCRYPTO_BUILD_TYPE               "${CMAKE_BUILD_TYPE}" CACHE STRING "Build type of Mbed Crypto library")
+@@ -140,6 +141,7 @@ set(MCUBOOT_VERSION                     "v1.9.0"    CACHE STRING    "The version
+ 
+ set(PSA_ARCH_TESTS_PATH                 "DOWNLOAD"  CACHE PATH      "Path to PSA arch tests (or DOWNLOAD to fetch automatically")
+ set(PSA_ARCH_TESTS_VERSION              "cf8bd71"   CACHE STRING    "The version of PSA arch tests to use")
++set(PSA_ARCH_TESTS_FORCE_PATCH          OFF         CACHE BOOL      "Always apply PSA arch tests patches")
+ 
+ set(NS_EVALUATION_APP_PATH              ""          CACHE PATH      "Path to TFM NS Evaluation Application")
+ 
+diff --git a/lib/ext/mbedcrypto/CMakeLists.txt b/lib/ext/mbedcrypto/CMakeLists.txt
+index 9316aca2b..34d93d4a3 100644
+--- a/lib/ext/mbedcrypto/CMakeLists.txt
++++ b/lib/ext/mbedcrypto/CMakeLists.txt
+@@ -11,6 +11,7 @@ fetch_remote_library(
+     LIB_NAME                mbedcrypto
+     LIB_SOURCE_PATH_VAR     MBEDCRYPTO_PATH
+     LIB_PATCH_DIR           ${CMAKE_CURRENT_LIST_DIR}
++    LIB_FORCE_PATCH         ${MBEDCRYPTO_FORCE_PATCH}
+     FETCH_CONTENT_ARGS
+         GIT_REPOSITORY      ${MBEDCRYPTO_GIT_REMOTE}
+         GIT_TAG             ${MBEDCRYPTO_VERSION}
+diff --git a/lib/ext/psa_arch_tests/CMakeLists.txt b/lib/ext/psa_arch_tests/CMakeLists.txt
+index f98fdfa8a..38ccd64c3 100644
+--- a/lib/ext/psa_arch_tests/CMakeLists.txt
++++ b/lib/ext/psa_arch_tests/CMakeLists.txt
+@@ -11,6 +11,7 @@ fetch_remote_library(
+     LIB_NAME                psa_arch_tests
+     LIB_SOURCE_PATH_VAR     PSA_ARCH_TESTS_PATH
+     LIB_PATCH_DIR           ${CMAKE_CURRENT_LIST_DIR}
++    LIB_FORCE_PATCH         PSA_ARCH_TESTS_FORCE_PATCH
+     FETCH_CONTENT_ARGS
+         GIT_REPOSITORY      https://github.com/ARM-software/psa-arch-tests.git
+         GIT_TAG             ${PSA_ARCH_TESTS_VERSION}
+diff --git a/platform/ext/target/arm/corstone1000/config.cmake b/platform/ext/target/arm/corstone1000/config.cmake
+index b71ca672f..4cb07ba82 100644
+--- a/platform/ext/target/arm/corstone1000/config.cmake
++++ b/platform/ext/target/arm/corstone1000/config.cmake
+@@ -38,6 +38,7 @@ endif()
+ # External dependency on OpenAMP and Libmetal
+ set(LIBMETAL_SRC_PATH                   "DOWNLOAD"  CACHE PATH      "Path to Libmetal (or DOWNLOAD to fetch automatically")
+ set(LIBMETAL_VERSION                    "f252f0e007fbfb8b3a52b1d5901250ddac96baad"  CACHE STRING    "The version of libmetal to use")
++set(LIBMETAL_FORCE_PATCH                OFF         CACHE BOOL      "Always apply Libmetal patches")
+ 
+ set(LIBOPENAMP_SRC_PATH                 "DOWNLOAD"  CACHE PATH      "Path to Libopenamp (or DOWNLOAD to fetch automatically")
+ set(OPENAMP_VERSION                     "347397decaa43372fc4d00f965640ebde042966d"  CACHE STRING    "The version of openamp to use")
+diff --git a/platform/ext/target/arm/corstone1000/openamp/ext/libmetal/CMakeLists.txt b/platform/ext/target/arm/corstone1000/openamp/ext/libmetal/CMakeLists.txt
+index f0b552dba..478e72eca 100644
+--- a/platform/ext/target/arm/corstone1000/openamp/ext/libmetal/CMakeLists.txt
++++ b/platform/ext/target/arm/corstone1000/openamp/ext/libmetal/CMakeLists.txt
+@@ -12,6 +12,7 @@ fetch_remote_library(
+     LIB_SOURCE_PATH_VAR     LIBMETAL_SRC_PATH
+     LIB_BINARY_PATH_VAR     LIBMETAL_BIN_PATH
+     LIB_PATCH_DIR           ${CMAKE_CURRENT_LIST_DIR}
++    LIB_FORCE_PATCH         LIBMETAL_FORCE_PATCH
+     FETCH_CONTENT_ARGS
+         GIT_REPOSITORY      https://github.com/OpenAMP/libmetal.git
+         GIT_TAG             ${LIBMETAL_VERSION}
+diff --git a/platform/ext/target/cypress/psoc64/config.cmake b/platform/ext/target/cypress/psoc64/config.cmake
+index c2e28dbb4..c03b93c53 100644
+--- a/platform/ext/target/cypress/psoc64/config.cmake
++++ b/platform/ext/target/cypress/psoc64/config.cmake
+@@ -29,9 +29,11 @@ set(TFM_PARTITION_CRYPTO                ON          CACHE BOOL      "Enable Cryp
+ 
+ set(CY_MTB_PDL_CAT1_LIB_PATH            "DOWNLOAD"  CACHE PATH      "Path to MTB_PDL_CAT1 repo (or DOWNLOAD to fetch automatically")
+ set(CY_MTB_PDL_CAT1_LIB_VERSION         "release-v2.0.0" CACHE STRING "The version of MTB_PDL_CAT1 to use")
++set(CY_MTB_PDL_CAT1_FORCE_PATCH         OFF         CACHE BOOL      "Always apply MTB_PDL_CAT1 patches")
+ 
+ set(CY_P64_UTILS_LIB_PATH               "DOWNLOAD"  CACHE PATH      "Path to p64_utils repo (or DOWNLOAD to fetch automatically")
+ set(CY_P64_UTILS_LIB_VERSION            "release-v1.0.0" CACHE STRING "The version of p64_utils to use")
++set(CY_P64_UTILS_FORCE_PATCH            OFF         CACHE BOOL      "Always apply p64_utils patches")
+ 
+ # Configure PDL to use RAM interrup vectors. This is required by P64_utils
+ add_definitions(-DRAM_VECTORS_SUPPORT)
+diff --git a/platform/ext/target/cypress/psoc64/libs/mtb-pdl-cat1/CMakeLists.txt b/platform/ext/target/cypress/psoc64/libs/mtb-pdl-cat1/CMakeLists.txt
+index ecae071f2..740700171 100644
+--- a/platform/ext/target/cypress/psoc64/libs/mtb-pdl-cat1/CMakeLists.txt
++++ b/platform/ext/target/cypress/psoc64/libs/mtb-pdl-cat1/CMakeLists.txt
+@@ -10,6 +10,7 @@ fetch_remote_library(
+     LIB_NAME                mtb-pdl-cat1
+     LIB_SOURCE_PATH_VAR     CY_MTB_PDL_CAT1_LIB_PATH
+     LIB_PATCH_DIR           ${CMAKE_CURRENT_LIST_DIR}
++    LIB_FORCE_PATCH         CY_MTB_PDL_CAT1_FORCE_PATCH
+     FETCH_CONTENT_ARGS
+         GIT_REPOSITORY      https://github.com/Infineon/mtb-pdl-cat1.git
+         GIT_TAG             ${CY_MTB_PDL_CAT1_LIB_VERSION}
+diff --git a/platform/ext/target/cypress/psoc64/libs/p64_utils/CMakeLists.txt b/platform/ext/target/cypress/psoc64/libs/p64_utils/CMakeLists.txt
+index 81667e4e6..eec9cbef3 100644
+--- a/platform/ext/target/cypress/psoc64/libs/p64_utils/CMakeLists.txt
++++ b/platform/ext/target/cypress/psoc64/libs/p64_utils/CMakeLists.txt
+@@ -10,6 +10,7 @@ fetch_remote_library(
+     LIB_NAME                p64_utils
+     LIB_SOURCE_PATH_VAR     CY_P64_UTILS_LIB_PATH
+     LIB_PATCH_DIR           ${CMAKE_CURRENT_LIST_DIR}
++    LIB_FORCE_PATCH         CY_P64_UTILS_FORCE_PATCH
+     FETCH_CONTENT_ARGS
+         GIT_REPOSITORY      https://github.com/Infineon/p64_utils.git
+         GIT_TAG             ${CY_P64_UTILS_LIB_VERSION}
+-- 
+2.34.1
+
