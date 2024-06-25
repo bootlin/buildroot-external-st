@@ -1,7 +1,7 @@
 BR2_aarch64=y
 BR2_cortex_a35=y
 BR2_TOOLCHAIN_EXTERNAL=y
-BR2_GLOBAL_PATCH_DIR="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp2/patches"
+BR2_GLOBAL_PATCH_DIR="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/common/patches"
 BR2_ROOTFS_OVERLAY="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp2/overlay"
 BR2_ROOTFS_POST_IMAGE_SCRIPT="support/scripts/genimage.sh"
 BR2_ROOTFS_POST_SCRIPT_ARGS="-c $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp2/genimage.cfg"
