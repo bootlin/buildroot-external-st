@@ -1,12 +1,15 @@
 // SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
 /*
- * Copyright (C) 2023, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2024, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
 /* For more information on Device Tree configuration, please refer to
  * https://wiki.st.com/stm32mpu/wiki/Category:Device_tree_configuration
  */
+
+/* !!! log : Internal error - unknown 'U-BOOT' dtsi  !!! */
+/*#include "???.dtsi"*/
 
 /* USER CODE BEGIN includes */
 #include "stm32mp13-u-boot.dtsi"
@@ -21,20 +24,29 @@
 	};
 
 	config{
-		u-boot,boot-led = "led-blue";
-		u-boot,error-led = "led-red";
+		u-boot,boot-led = "heartbeat";
+		u-boot,error-led = "error";
 		u-boot,mmc-env-partition = "u-boot-env";
 		st,adc_usb_pd = <&adc1 6>, <&adc1 12>;
 		st,fastboot-gpios = <&gpioa 13 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 		st,stm32prog-gpios = <&gpioa 14 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 	};
 
+	fwu-mdata{
+		compatible = "u-boot,fwu-mdata-gpt";
+		fwu-mdata-store = <&sdmmc1>;
+	};
+
 	leds{
 
 		led-red{
-			color = <LED_COLOR_ID_RED>;
+			label = "error";
 			gpios = <&gpioa 13 GPIO_ACTIVE_LOW>;
-			default-state = "off";
+		};
+
+		led-blue{
+			label = "heartbeat";
+			gpios = <&gpioa 14 GPIO_ACTIVE_LOW>;
 		};
 	};
 	/* USER CODE END root */
@@ -42,6 +54,11 @@
 }; /*root*/
 
 /* USER CODE BEGIN addons */
+
+&sdmmc2{
+	status = "disabled";
+};
+
 &uart4{
 	u-boot,dm-pre-reloc;
 };

@@ -1,54 +1,25 @@
-// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
-/*
- * Copyright (C) 2023, STMicroelectronics - All Rights Reserved
- * Author: STM32CubeMX code generation for STMicroelectronics.
- */
-
-/* For more information on Device Tree configuration, please refer to
- * https://wiki.st.com/stm32mpu/wiki/Category:Device_tree_configuration
- */
-
 /dts-v1/;
 #include <dt-bindings/pinctrl/stm32-pinfunc.h>
 #include <dt-bindings/clock/stm32mp13-clksrc.h>
 #include <dt-bindings/soc/stm32mp13-etzpc.h>
-
 #include "stm32mp135.dtsi"
 #include "stm32mp13xf.dtsi"
 
 /* USER CODE BEGIN includes */
+#include <dt-bindings/mfd/st,stpmic1.h>
 #include <dt-bindings/power/stm32mp1-power.h>
 #include <dt-bindings/random/stm32mp-rng.h>
 #include <dt-bindings/regulator/st,stm32mp13-regulator.h>
+#include <dt-bindings/soc/stm32mp-provisioning.h>
 #include <dt-bindings/soc/stm32mp-tzc400-macro.h>
 #include <dt-bindings/soc/stm32mp13-tzc400.h>
+#include <dt-bindings/tamper/st,stm32mp13-tamp.h>
+#include "stm32mp13-pinctrl.dtsi"
 /* USER CODE END includes */
 
-/ {
+/{
 	model = "STMicroelectronics STM32MP135F-DK STM32CubeMX board - openstlinux-6.1-yocto-mickledore-mp1-v23.06.21";
-	compatible = "st,stm32mp135f-dk-mx", "st,stm32mp135f-dk", "st,stm32mp135";
-
-	memory@c0000000 {
-		device_type = "memory";
-		reg = <0xc0000000 0x20000000>;
-
-		/* USER CODE BEGIN memory */
-		/* USER CODE END memory */
-	};
-
-	reserved-memory {
-		#address-cells = <1>;
-		#size-cells = <1>;
-		ranges;
-
-		/* USER CODE BEGIN reserved-memory */
-
-		optee_framebuffer:optee-framebuffer@dd000000{
-			reg = <0xdd000000 0x1000000>;
-			st,protreg = <TZC_REGION_S_RDWR 0>;
-		};
-		/* USER CODE END reserved-memory */
-	};
+	compatible = "st,stm32mp135f-board_135f-dk-mx", "st,stm32mp135f-dk", "st,stm32mp135";
 
 	/* USER CODE BEGIN root */
 
@@ -62,9 +33,20 @@
 	};
 
 	magic_wol:magic_wol{
-		compatible = "st,stm32mp1,pwr-irq-user";
+		compatible = "st,stm32mp1-pwr-irq-user";
+		wakeup-parent = <&pwr_irq>;
 		st,wakeup-pin-number = <2>;
 		status = "okay";
+	};
+
+	shadow-prov{
+		compatible = "st,provisioning";
+
+		hw2_prov{
+			nvmem-cells = <&hw2_otp>;
+			st,shadow-value = <0x000001E0>;
+			st,shadow-lock = <STICKY_LOCK_SR>;
+		};
 	};
 
 	vin:vin{
@@ -84,153 +66,164 @@
 	};
 
 	typec_wakeup:typec_wakeup{
-		compatible = "st,stm32mp1,pwr-irq-user";
+		compatible = "st,stm32mp1-pwr-irq-user";
+		wakeup-parent = <&pwr_irq>;
 		st,wakeup-pin-number = <5>;
 		st,notif-it-id = <1>;
 		status = "okay";
 	};
 	/* USER CODE END root */
 
-	clocks {
-		/* USER CODE BEGIN clocks */
-		/* USER CODE END clocks */
-
-		clk_hsi: clk-hsi {
-			clock-frequency = <64000000>;
-
-			/* USER CODE BEGIN clk_hsi */
-			/* USER CODE END clk_hsi */
-		};
-		clk_lse: clk-lse {
-			clock-frequency = <32768>;
-			st,drive = < LSEDRV_MEDIUM_HIGH >;
-
-			/* USER CODE BEGIN clk_lse */
-			/* USER CODE END clk_lse */
-		};
-		clk_hse: clk-hse {
-			clock-frequency = <24000000>;
-
-			/* USER CODE BEGIN clk_hse */
-			/* USER CODE END clk_hse */
-		};
-		clk_i2sin: clk-i2sin {
-			status = "disabled";
-
-			/* USER CODE BEGIN clk_i2sin */
-			/* USER CODE END clk_i2sin */
-		};
+	memory@c0000000{
+		device_type = "memory";
+		reg = <0xc0000000 0x20000000>;
 	};
 
-}; /*root*/
+	reserved-memory{
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
 
-&sdmmc1_io {
-	vddsd1-supply = <&vdd>;
+		/* USER CODE BEGIN reserved-memory */
+
+		optee_framebuffer:optee-framebuffer@dd000000{
+			reg = <0xdd000000 0x1000000>;
+			st,protreg = <TZC_REGION_S_RDWR 0>;
+		};
+		/* USER CODE END reserved-memory */
+	};
+
+	clocks{
+
+		clk_hsi:clk-hsi{
+			clock-frequency = <64000000>;
+		};
+
+		clk_lse:clk-lse{
+			clock-frequency = <32768>;
+			st,drive = < LSEDRV_MEDIUM_HIGH >;
+		};
+
+		clk_hse:clk-hse{
+			clock-frequency = <24000000>;
+		};
+
+		clk_i2sin:clk-i2sin{
+			status = "disabled";
+		};
+	};
 };
 
-&sdmmc2_io {
-	vddsd2-supply = <&vdd>;
-};
+&pinctrl{
 
-/*Warning: the configuration of the secured GPIOs should be added in (addons) User Section*/
-&pinctrl {
-	i2c4_pins_mx: i2c4_mx-0 {
-		pins {
-			pinmux = <STM32_PINMUX('B', 9, AF6)>, /* I2C4_SDA */
-					 <STM32_PINMUX('E', 15, AF6)>; /* I2C4_SCL */
+	i2c4_pins_mx:i2c4_mx-0{
+
+		pins{
+			pinmux = <STM32_PINMUX('B', 9, AF6)>,
+					<STM32_PINMUX('E', 15, AF6)>;
 			bias-disable;
 			drive-open-drain;
 			slew-rate = <0>;
 		};
 	};
 
-	ltdc_pins_mx: ltdc_mx-0 {
-		pins {
-			pinmux = <STM32_PINMUX('A', 15, AF11)>, /* LTDC_G7 */
-					 <STM32_PINMUX('B', 6, AF7)>, /* LTDC_B6 */
-					 <STM32_PINMUX('B', 12, AF13)>, /* LTDC_R3 */
-					 <STM32_PINMUX('C', 6, AF14)>, /* LTDC_HSYNC */
-					 <STM32_PINMUX('C', 7, AF14)>, /* LTDC_G6 */
-					 <STM32_PINMUX('D', 5, AF14)>, /* LTDC_G4 */
-					 <STM32_PINMUX('D', 9, AF13)>, /* LTDC_CLK */
-					 <STM32_PINMUX('D', 10, AF14)>, /* LTDC_B2 */
-					 <STM32_PINMUX('D', 14, AF14)>, /* LTDC_R4 */
-					 <STM32_PINMUX('E', 0, AF14)>, /* LTDC_B5 */
-					 <STM32_PINMUX('E', 7, AF14)>, /* LTDC_R5 */
-					 <STM32_PINMUX('E', 9, AF14)>, /* LTDC_R7 */
-					 <STM32_PINMUX('E', 13, AF14)>, /* LTDC_R6 */
-					 <STM32_PINMUX('F', 1, AF13)>, /* LTDC_B7 */
-					 <STM32_PINMUX('F', 2, AF14)>, /* LTDC_B3 */
-					 <STM32_PINMUX('F', 3, AF14)>, /* LTDC_G3 */
-					 <STM32_PINMUX('G', 0, AF14)>, /* LTDC_G5 */
-					 <STM32_PINMUX('G', 4, AF11)>, /* LTDC_VSYNC */
-					 <STM32_PINMUX('G', 7, AF14)>, /* LTDC_R2 */
-					 <STM32_PINMUX('H', 9, AF11)>, /* LTDC_DE */
-					 <STM32_PINMUX('H', 13, AF14)>, /* LTDC_G2 */
-					 <STM32_PINMUX('H', 14, AF11)>; /* LTDC_B4 */
+	ltdc_pins_mx:ltdc_mx-0{
+
+		pins{
+			pinmux = <STM32_PINMUX('A', 15, AF11)>,
+					<STM32_PINMUX('B', 6, AF7)>,
+					<STM32_PINMUX('B', 12, AF13)>,
+					<STM32_PINMUX('C', 6, AF14)>,
+					<STM32_PINMUX('C', 7, AF14)>,
+					<STM32_PINMUX('D', 5, AF14)>,
+					<STM32_PINMUX('D', 9, AF13)>,
+					<STM32_PINMUX('D', 10, AF14)>,
+					<STM32_PINMUX('D', 14, AF14)>,
+					<STM32_PINMUX('E', 0, AF14)>,
+					<STM32_PINMUX('E', 7, AF14)>,
+					<STM32_PINMUX('E', 9, AF14)>,
+					<STM32_PINMUX('E', 13, AF14)>,
+					<STM32_PINMUX('F', 1, AF13)>,
+					<STM32_PINMUX('F', 2, AF14)>,
+					<STM32_PINMUX('F', 3, AF14)>,
+					<STM32_PINMUX('G', 0, AF14)>,
+					<STM32_PINMUX('G', 4, AF11)>,
+					<STM32_PINMUX('G', 7, AF14)>,
+					<STM32_PINMUX('H', 9, AF11)>,
+					<STM32_PINMUX('H', 13, AF14)>,
+					<STM32_PINMUX('H', 14, AF11)>;
 			bias-disable;
 			drive-push-pull;
 			slew-rate = <0>;
 		};
 	};
 
-	rcc_pins_mx: rcc_mx-0 {
-		pins {
-			pinmux = <STM32_PINMUX('D', 7, AF0)>; /* RCC_MCO_1 */
+	rcc_pins_mx:rcc_mx-0{
+
+		pins1{
+			pinmux = <STM32_PINMUX('C', 14, ANALOG)>,
+					<STM32_PINMUX('C', 15, ANALOG)>,
+					<STM32_PINMUX('H', 0, ANALOG)>,
+					<STM32_PINMUX('H', 1, ANALOG)>;
+		};
+
+		pins2{
+			pinmux = <STM32_PINMUX('D', 7, AF0)>;
 			bias-disable;
 			drive-push-pull;
 			slew-rate = <1>;
 		};
 	};
 
-	rtc_pins_mx: rtc_mx-0 {
-		pins {
-			pinmux = <STM32_PINMUX('I', 1, ANALOG)>; /* RTC_LSCO_OUT2 */
+	rtc_pins_mx:rtc_mx-0{
+
+		pins{
+			pinmux = <STM32_PINMUX('I', 1, ANALOG)>;
 		};
 	};
-
+	
 	/* USER CODE BEGIN pinctrl */
 
-	  tamp0_in2_pin_a: tamp0_in2_pin_0 {
-	  	pins {
-	  		pinmux = <STM32_PINMUX('A', 6, RSVD)>;
-	  		st,tamp_id = <2>;
-	  	};
-	  };
-	  
-	  uart4_pins_a: uart4-0 {
-	  	pins1 {
-	  		pinmux = <STM32_PINMUX('D', 6, AF8)>; /* UART4_TX */
-	  		bias-disable;
-	  		drive-push-pull;
-	  		slew-rate = <0>;
-	  	};
-	  	pins2 {
-	  		pinmux = <STM32_PINMUX('D', 8, AF8)>; /* UART4_RX */
-	  		bias-disable;
-	  	};
-	  };
-	  
-	  wakeup_pins: wakeup_pins {
-	  	wakeup_pin_1: pins1 {
-	  		pinmux = <STM32_PINMUX('F', 8, GPIO)>;
-	  	};
-	  	wakeup_pin_2: pins2 {
-	  		pinmux = <STM32_PINMUX('I', 3, GPIO)>;
-	  	};
-	  	wakeup_pin_3: pins3 {
-	  		pinmux = <STM32_PINMUX('C', 13, GPIO)>;
-	  	};
-	  	wakeup_pin_4: pins4 {
-	  		pinmux = <STM32_PINMUX('I', 1, GPIO)>;
-	  	};
-	  	wakeup_pin_5: pins5 {
-	  		pinmux = <STM32_PINMUX('I', 2, GPIO)>;
-	  	};
-	  	wakeup_pin_6: pins6 {
-	  		pinmux = <STM32_PINMUX('A', 3, GPIO)>;
-	  	};
-	  };
+	tamp0_in2_pin_a: tamp0_in2_pin_0 {
+		pins {
+			pinmux = <STM32_PINMUX('A', 6, RSVD)>;
+			st,tamp_id = <2>;
+		};
+	};
+	
+	uart4_pins_a: uart4-0 {
+		pins1 {
+			pinmux = <STM32_PINMUX('D', 6, AF8)>; /* UART4_TX */
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <0>;
+		};
+		pins2 {
+			pinmux = <STM32_PINMUX('D', 8, AF8)>; /* UART4_RX */
+			bias-disable;
+		};
+	};
+	
+	wakeup_pins: wakeup_pins {
+		wakeup_pin_1: pins1 {
+			pinmux = <STM32_PINMUX('F', 8, GPIO)>;
+		};
+		wakeup_pin_2: pins2 {
+			pinmux = <STM32_PINMUX('I', 3, GPIO)>;
+		};
+		wakeup_pin_3: pins3 {
+			pinmux = <STM32_PINMUX('C', 13, GPIO)>;
+		};
+		wakeup_pin_4: pins4 {
+			pinmux = <STM32_PINMUX('I', 1, GPIO)>;
+		};
+		wakeup_pin_5: pins5 {
+			pinmux = <STM32_PINMUX('I', 2, GPIO)>;
+		};
+		wakeup_pin_6: pins6 {
+			pinmux = <STM32_PINMUX('A', 3, GPIO)>;
+		};
+	};
 	/* USER CODE END pinctrl */
 };
 
@@ -267,7 +260,7 @@
 &etzpc{
 	status = "okay";
 	st,decprot = <
-	/*"Non Secured" peripherals*/
+	
 	DECPROT(STM32MP1_ETZPC_ADC1_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_CRYP_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_DCMIPP_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
@@ -280,9 +273,9 @@
 	DECPROT(STM32MP1_ETZPC_USART2_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_OTG_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_USBPHYCTRL_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
-	/*"NS_R S_W" peripherals*/
+	
 	DECPROT(STM32MP1_ETZPC_DDRCTRLPHY_ID, DECPROT_NS_R_S_W, DECPROT_LOCK)
-	/*"Secured" peripherals*/
+	
 	DECPROT(STM32MP1_ETZPC_ADC2_ID, DECPROT_S_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_HASH_ID, DECPROT_S_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_I2C4_ID, DECPROT_S_RW, DECPROT_UNLOCK)
@@ -294,25 +287,15 @@
 	DECPROT(STM32MP1_ETZPC_TIM12_ID, DECPROT_S_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_STGENC_ID, DECPROT_S_RW, DECPROT_UNLOCK)
 
-	/*Restriction: following IDs are not managed  - please to use User-Section if needed:
-		  STM32MP1_ETZPC_SRAMx_ID  STM32MP1_ETZPC_BKPSRAM_ID*/
+	
 
-	/* USER CODE BEGIN etzpc_decprot */
-		/*STM32CubeMX generates a basic and standard configuration for ETZPC.
-		Additional device configurations can be added here if needed.
-		"etzpc" node could be also overloaded in "addons" User-Section.*/
-	/* USER CODE END etzpc_decprot */
+	
+	
 	>;
-
-	/* USER CODE BEGIN etzpc */
-	/* USER CODE END etzpc */
 };
 
 &hash{
 	status = "okay";
-
-	/* USER CODE BEGIN hash */
-	/* USER CODE END hash */
 };
 
 &i2c4{
@@ -329,8 +312,10 @@
 		compatible = "st,stpmic1";
 		reg = <0x33>;
 		status = "okay";
+		wakeup-parent = <&pwr_irq>;
 		st,wakeup-pin-number = <1>;
-		st,notif-it-id = <0>;
+		st,pmic-it-id = <IT_PONKEY_F IT_PONKEY_R>;
+		st,notif-it-id = <0 2>;
 
 		regulators{
 			compatible = "st,stpmic1-regulators";
@@ -535,16 +520,10 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&ltdc_pins_mx>;
 	status = "okay";
-
-	/* USER CODE BEGIN ltdc */
-	/* USER CODE END ltdc */
 };
 
 &pka{
 	status = "okay";
-
-	/* USER CODE BEGIN pka */
-	/* USER CODE END pka */
 };
 
 &pwr_regulators{
@@ -565,16 +544,9 @@
 };
 
 &rcc{
-	pinctrl-names = "default";
-	pinctrl-0 = <&rcc_pins_mx>;
 	status = "okay";
 	clocks = <&clk_hse>, <&clk_hsi>, <&clk_lse>, <&clk_lsi>, <&clk_csi>;
 	clock-names = "clk-hse", "clk-hsi", "clk-lse", "clk-lsi", "clk-csi";
-
-	/* USER CODE BEGIN rcc */
-	compatible = "st,stm32mp13-rcc", "syscon", "st,stm32mp13-rcc-mco";
-	/* USER CODE END rcc */
-
 	st,clksrc = <
 		CLK_MPU_PLL1P
 		CLK_AXI_PLL2P
@@ -616,26 +588,9 @@
 		DIV(DIV_MCO1, 0)
 		DIV(DIV_MCO2, 0)
 	>;
-	st,pll_vco {
-		pll1_vco_1300Mhz: pll1-vco-1300Mhz {
-			src = < CLK_PLL12_HSE >;
-			divmn = < 2 80 >;
-			frac = < 0x800 >;
-		};
-		pll2_vco_1066Mhz: pll2-vco-1066Mhz {
-			src = < CLK_PLL12_HSE >;
-			divmn = < 2 65 >;
-			frac = < 0x1400 >;
-		};
-		pll3_vco_417Mhz: pll3-vco-417Mhz {
-			src = < CLK_PLL3_HSE >;
-			divmn = < 1 33 >;
-			frac = < 0x1a04 >;
-		};
-		pll4_vco_600Mhz: pll4-vco-600Mhz {
-			src = < CLK_PLL4_HSE >;
-			divmn = < 1 49 >;
-		};
+
+	st,pll_vco{
+
 		/* USER CODE BEGIN rcc_st-pll_vco */
 
 		pll1_vco_2000Mhz:pll1-vco-2000Mhz{
@@ -644,18 +599,36 @@
 			frac = <0xAAA>;
 		};
 		/* USER CODE END rcc_st-pll_vco */
+
+		pll1_vco_1300Mhz:pll1-vco-1300Mhz{
+			src = < CLK_PLL12_HSE >;
+			divmn = < 2 80 >;
+			frac = < 0x800 >;
+		};
+
+		pll2_vco_1066Mhz:pll2-vco-1066Mhz{
+			src = < CLK_PLL12_HSE >;
+			divmn = < 2 65 >;
+			frac = < 0x1400 >;
+		};
+
+		pll3_vco_417Mhz:pll3-vco-417Mhz{
+			src = < CLK_PLL3_HSE >;
+			divmn = < 1 33 >;
+			frac = < 0x1a04 >;
+		};
+
+		pll4_vco_600Mhz:pll4-vco-600Mhz{
+			src = < CLK_PLL4_HSE >;
+			divmn = < 1 49 >;
+		};
 	};
 
-	pll1:st,pll@0 {
+	pll1:st,pll@0{
 		compatible = "st,stm32mp1-pll";
 		reg = <0>;
-
 		st,pll = < &pll1_cfg1 >;
 
-		pll1_cfg1: pll1_cfg1 {
-			st,pll_vco = < &pll1_vco_1300Mhz >;
-			st,pll_div_pqr = < 0 1 1 >;
-		};
 		/* USER CODE BEGIN pll1 */
 
 		pll1_cfg2:pll1_cfg2{
@@ -663,95 +636,86 @@
 			st,pll_div_pqr = <0 1 1>;
 		};
 		/* USER CODE END pll1 */
+
+		pll1_cfg1:pll1_cfg1{
+			st,pll_vco = < &pll1_vco_1300Mhz >;
+			st,pll_div_pqr = < 0 1 1 >;
+		};
 	};
 
-	pll2:st,pll@1 {
+	pll2:st,pll@1{
 		compatible = "st,stm32mp1-pll";
 		reg = <1>;
-
 		st,pll = < &pll2_cfg1 >;
 
-		pll2_cfg1: pll2_cfg1 {
+		pll2_cfg1:pll2_cfg1{
 			st,pll_vco = < &pll2_vco_1066Mhz >;
 			st,pll_div_pqr = < 1 1 0 >;
 		};
-		/* USER CODE BEGIN pll2 */
-		/* USER CODE END pll2 */
 	};
 
-	pll3:st,pll@2 {
+	pll3:st,pll@2{
 		compatible = "st,stm32mp1-pll";
 		reg = <2>;
-
 		st,pll = < &pll3_cfg1 >;
 
-		pll3_cfg1: pll3_cfg1 {
+		pll3_cfg1:pll3_cfg1{
 			st,pll_vco = < &pll3_vco_417Mhz >;
 			st,pll_div_pqr = < 1 16 36 >;
 		};
-		/* USER CODE BEGIN pll3 */
-		/* USER CODE END pll3 */
 	};
 
-	pll4:st,pll@3 {
+	pll4:st,pll@3{
 		compatible = "st,stm32mp1-pll";
 		reg = <3>;
-
 		st,pll = < &pll4_cfg1 >;
 
-		pll4_cfg1: pll4_cfg1 {
+		pll4_cfg1:pll4_cfg1{
 			st,pll_vco = < &pll4_vco_600Mhz >;
 			st,pll_div_pqr = < 11 59 11 >;
 		};
-		/* USER CODE BEGIN pll4 */
-		/* USER CODE END pll4 */
 	};
 
-	st,clk_opp {
-		/* CK_MPU clock config for MP13 */
-		st,ck_mpu {
+	st,clk_opp{
 
-			cfg_1 {
+		st,ck_mpu{
+
+			cfg_1{
 				hz = < 650000000 >;
 				st,clksrc = < CLK_MPU_PLL1P >;
 				st,pll = < &pll1_cfg1 >;
 			};
-			/* USER CODE BEGIN rcc_st-ck_mpu */
-
-			cfg_2 {
-				hz = < 1000000000 >;
-				st,clksrc = < CLK_MPU_PLL1P >;
-				st,pll = < &pll1_cfg2 >;
-			};
-			/* USER CODE END rcc_st-ck_mpu */
 		};
 
-		/* CK_AXI clock config for MP13 */
-		st,ck_axi {
+		st,ck_axi{
 
-			cfg_1 {
+			cfg_1{
 				hz = < 266500000 >;
 				st,clksrc = < CLK_AXI_PLL2P >;
 				st,clkdiv = < DIV(DIV_AXI, 0) >;
 				st,pll = < &pll2_cfg1 >;
 			};
-			/* USER CODE BEGIN rcc_st-ck_axi */
-			/* USER CODE END rcc_st-ck_axi */
 		};
 
-		/* CK_MLAHBS clock config for MP13 */
-		st,ck_mlahbs {
+		st,ck_mlahbs{
 
-			cfg_1 {
+			cfg_1{
 				hz = < 208877929 >;
 				st,clksrc = < CLK_MLAHBS_PLL3 >;
 				st,clkdiv = < DIV(DIV_MLAHB, 0) >;
 				st,pll = < &pll3_cfg1 >;
 			};
-
-			/* USER CODE BEGIN rcc_st-ck_mlahbs */
-			/* USER CODE END rcc_st-ck_mlahbs */
 		};
+	};
+
+	st,rcc{
+		pinctrl-names = "default";
+		pinctrl-0 = <&rcc_pins_mx>;
+		status = "okay";
+
+		/* USER CODE BEGIN rcc_st-rcc */
+		compatible = "st,rcc";
+		/* USER CODE END rcc_st-rcc */
 	};
 };
 
@@ -760,7 +724,6 @@
 
 	/* USER CODE BEGIN rng */
 	clock-error-detect;
-	st,rng-config = <RNG_CONFIG_NIST_B_ID>;
 	/* USER CODE END rng */
 };
 
@@ -768,28 +731,33 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&rtc_pins_mx>;
 	status = "okay";
-
-	/* USER CODE BEGIN rtc */
-	/* USER CODE END rtc */
 };
 
 &saes{
 	status = "okay";
-
-	/* USER CODE BEGIN saes */
-	/* USER CODE END saes */
 };
 
 &tamp{
 	status = "okay";
 
 	/* USER CODE BEGIN tamp */
-	st,tamp_passive_nb_sample = <4>;
-	st,tamp_passive_sample_clk_div = <16384>;
+	st,tamp-passive-nb-sample = <4>;
+	st,tamp-passive-sample-clk-div = <16384>;
+	wakeup-source;
+	wakeup-parent = <&exti>;
 
-	tamp_passive@2{
-		pinctrl-0 = <&tamp0_in2_pin_a>;
+	tamp_button:tamp-passive@2{
 		status = "okay";
+		reg = <EXT_TAMPER_2 0>;
+		pinctrl-0 = <&tamp0_in2_pin_a>;
+		st,tamp-mode = <TAMPER_CONFIRMED_MODE>;
+	};
+
+	tamp-active@3{
+		pinctrl-0 = <&tamp0_in3_pin_a &tamp0_out1_pin_a>;
+		reg = <EXT_TAMPER_3 0>;
+		st,tamp-mode = <TAMPER_POTENTIAL_MODE>;
+		status = "disabled";
 	};
 	/* USER CODE END tamp */
 };
@@ -895,6 +863,14 @@
 	};
 };
 
+&sdmmc1_io{
+	vddsd1-supply = <&vdd>;
+};
+
+&sdmmc2_io{
+	vddsd2-supply = <&vdd>;
+};
+
 &tzc400{
 	memory-region = <&optee_framebuffer>;
 };
@@ -908,7 +884,4 @@
 &wakeup_pin_5{
 	bias-pull-up;
 };
-
-
 /* USER CODE END addons */
-
