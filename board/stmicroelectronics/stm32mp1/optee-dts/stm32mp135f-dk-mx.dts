@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
 /*
- * Copyright (C) 2023, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2024, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -9,23 +9,28 @@
  */
 
 /dts-v1/;
+
 #include <dt-bindings/pinctrl/stm32-pinfunc.h>
 #include <dt-bindings/clock/stm32mp13-clksrc.h>
-#include <dt-bindings/soc/stm32mp13-etzpc.h>
 
+#include <dt-bindings/soc/stm32mp13-etzpc.h>
 #include "stm32mp135.dtsi"
 #include "stm32mp13xf.dtsi"
 
 /* USER CODE BEGIN includes */
+#include <dt-bindings/mfd/st,stpmic1.h>
 #include <dt-bindings/power/stm32mp1-power.h>
 #include <dt-bindings/random/stm32mp-rng.h>
 #include <dt-bindings/regulator/st,stm32mp13-regulator.h>
+#include <dt-bindings/soc/stm32mp-provisioning.h>
 #include <dt-bindings/soc/stm32mp-tzc400-macro.h>
 #include <dt-bindings/soc/stm32mp13-tzc400.h>
+#include <dt-bindings/tamper/st,stm32mp13-tamp.h>
+#include "stm32mp13-pinctrl.dtsi"
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP135F-DK STM32CubeMX board - openstlinux-6.1-yocto-mickledore-mp1-v23.06.21";
+	model = "STMicroelectronics STM32MP135F-DK STM32CubeMX board - openstlinux-6.1-yocto-mickledore-mpu-v24.06.26";
 	compatible = "st,stm32mp135f-dk-mx", "st,stm32mp135f-dk", "st,stm32mp135";
 
 	memory@c0000000 {
@@ -62,9 +67,20 @@
 	};
 
 	magic_wol:magic_wol{
-		compatible = "st,stm32mp1,pwr-irq-user";
+		compatible = "st,stm32mp1-pwr-irq-user";
+		wakeup-parent = <&pwr_irq>;
 		st,wakeup-pin-number = <2>;
 		status = "okay";
+	};
+
+	shadow-prov{
+		compatible = "st,provisioning";
+
+		hw2_prov{
+			nvmem-cells = <&hw2_otp>;
+			st,shadow-value = <0x000001E0>;
+			st,shadow-lock = <STICKY_LOCK_SR>;
+		};
 	};
 
 	vin:vin{
@@ -84,7 +100,8 @@
 	};
 
 	typec_wakeup:typec_wakeup{
-		compatible = "st,stm32mp1,pwr-irq-user";
+		compatible = "st,stm32mp1-pwr-irq-user";
+		wakeup-parent = <&pwr_irq>;
 		st,wakeup-pin-number = <5>;
 		st,notif-it-id = <1>;
 		status = "okay";
@@ -123,14 +140,6 @@
 	};
 
 }; /*root*/
-
-&sdmmc1_io {
-	vddsd1-supply = <&vdd>;
-};
-
-&sdmmc2_io {
-	vddsd2-supply = <&vdd>;
-};
 
 /*Warning: the configuration of the secured GPIOs should be added in (addons) User Section*/
 &pinctrl {
@@ -175,7 +184,13 @@
 	};
 
 	rcc_pins_mx: rcc_mx-0 {
-		pins {
+		pins1 {
+			pinmux = <STM32_PINMUX('C', 14, ANALOG)>, /* RCC_OSC32_IN */
+					 <STM32_PINMUX('C', 15, ANALOG)>, /* RCC_OSC32_OUT */
+					 <STM32_PINMUX('H', 0, ANALOG)>, /* RCC_OSC_IN */
+					 <STM32_PINMUX('H', 1, ANALOG)>; /* RCC_OSC_OUT */
+		};
+		pins2 {
 			pinmux = <STM32_PINMUX('D', 7, AF0)>; /* RCC_MCO_1 */
 			bias-disable;
 			drive-push-pull;
@@ -185,52 +200,52 @@
 
 	rtc_pins_mx: rtc_mx-0 {
 		pins {
-			pinmux = <STM32_PINMUX('I', 1, ANALOG)>; /* RTC_LSCO_OUT2 */
+			pinmux = <STM32_PINMUX('I', 1, ANALOG)>; /* RTC_OUT2 */
 		};
 	};
 
 	/* USER CODE BEGIN pinctrl */
 
-	  tamp0_in2_pin_a: tamp0_in2_pin_0 {
-	  	pins {
-	  		pinmux = <STM32_PINMUX('A', 6, RSVD)>;
-	  		st,tamp_id = <2>;
-	  	};
-	  };
-	  
-	  uart4_pins_a: uart4-0 {
-	  	pins1 {
-	  		pinmux = <STM32_PINMUX('D', 6, AF8)>; /* UART4_TX */
-	  		bias-disable;
-	  		drive-push-pull;
-	  		slew-rate = <0>;
-	  	};
-	  	pins2 {
-	  		pinmux = <STM32_PINMUX('D', 8, AF8)>; /* UART4_RX */
-	  		bias-disable;
-	  	};
-	  };
-	  
-	  wakeup_pins: wakeup_pins {
-	  	wakeup_pin_1: pins1 {
-	  		pinmux = <STM32_PINMUX('F', 8, GPIO)>;
-	  	};
-	  	wakeup_pin_2: pins2 {
-	  		pinmux = <STM32_PINMUX('I', 3, GPIO)>;
-	  	};
-	  	wakeup_pin_3: pins3 {
-	  		pinmux = <STM32_PINMUX('C', 13, GPIO)>;
-	  	};
-	  	wakeup_pin_4: pins4 {
-	  		pinmux = <STM32_PINMUX('I', 1, GPIO)>;
-	  	};
-	  	wakeup_pin_5: pins5 {
-	  		pinmux = <STM32_PINMUX('I', 2, GPIO)>;
-	  	};
-	  	wakeup_pin_6: pins6 {
-	  		pinmux = <STM32_PINMUX('A', 3, GPIO)>;
-	  	};
-	  };
+	tamp0_in2_pin_a: tamp0_in2_pin_0 {
+		pins {
+			pinmux = <STM32_PINMUX('A', 6, RSVD)>;
+			st,tamp_id = <2>;
+		};
+	};
+	
+	uart4_pins_a: uart4-0 {
+		pins1 {
+			pinmux = <STM32_PINMUX('D', 6, AF8)>; /* UART4_TX */
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <0>;
+		};
+		pins2 {
+			pinmux = <STM32_PINMUX('D', 8, AF8)>; /* UART4_RX */
+			bias-disable;
+		};
+	};
+	
+	wakeup_pins: wakeup_pins {
+		wakeup_pin_1: pins1 {
+			pinmux = <STM32_PINMUX('F', 8, GPIO)>;
+		};
+		wakeup_pin_2: pins2 {
+			pinmux = <STM32_PINMUX('I', 3, GPIO)>;
+		};
+		wakeup_pin_3: pins3 {
+			pinmux = <STM32_PINMUX('C', 13, GPIO)>;
+		};
+		wakeup_pin_4: pins4 {
+			pinmux = <STM32_PINMUX('I', 1, GPIO)>;
+		};
+		wakeup_pin_5: pins5 {
+			pinmux = <STM32_PINMUX('I', 2, GPIO)>;
+		};
+		wakeup_pin_6: pins6 {
+			pinmux = <STM32_PINMUX('A', 3, GPIO)>;
+		};
+	};
 	/* USER CODE END pinctrl */
 };
 
@@ -329,8 +344,10 @@
 		compatible = "st,stpmic1";
 		reg = <0x33>;
 		status = "okay";
+		wakeup-parent = <&pwr_irq>;
 		st,wakeup-pin-number = <1>;
-		st,notif-it-id = <0>;
+		st,pmic-it-id = <IT_PONKEY_F IT_PONKEY_R>;
+		st,notif-it-id = <0 2>;
 
 		regulators{
 			compatible = "st,stpmic1-regulators";
@@ -565,14 +582,11 @@
 };
 
 &rcc{
-	pinctrl-names = "default";
-	pinctrl-0 = <&rcc_pins_mx>;
 	status = "okay";
 	clocks = <&clk_hse>, <&clk_hsi>, <&clk_lse>, <&clk_lsi>, <&clk_csi>;
 	clock-names = "clk-hse", "clk-hsi", "clk-lse", "clk-lsi", "clk-csi";
 
 	/* USER CODE BEGIN rcc */
-	compatible = "st,stm32mp13-rcc", "syscon", "st,stm32mp13-rcc-mco";
 	/* USER CODE END rcc */
 
 	st,clksrc = <
@@ -717,7 +731,6 @@
 				st,pll = < &pll1_cfg1 >;
 			};
 			/* USER CODE BEGIN rcc_st-ck_mpu */
-
 			cfg_2 {
 				hz = < 1000000000 >;
 				st,clksrc = < CLK_MPU_PLL1P >;
@@ -753,6 +766,19 @@
 			/* USER CODE END rcc_st-ck_mlahbs */
 		};
 	};
+
+	/* USER CODE BEGIN rcc */
+	/* USER CODE END rcc */
+
+	st,rcc{
+		pinctrl-names = "default";
+		pinctrl-0 = <&rcc_pins_mx>;
+		status = "okay";
+
+		/* USER CODE BEGIN rcc_st-rcc */
+		compatible = "st,rcc";
+		/* USER CODE END rcc_st-rcc */
+	};
 };
 
 &rng{
@@ -760,7 +786,6 @@
 
 	/* USER CODE BEGIN rng */
 	clock-error-detect;
-	st,rng-config = <RNG_CONFIG_NIST_B_ID>;
 	/* USER CODE END rng */
 };
 
@@ -784,12 +809,23 @@
 	status = "okay";
 
 	/* USER CODE BEGIN tamp */
-	st,tamp_passive_nb_sample = <4>;
-	st,tamp_passive_sample_clk_div = <16384>;
+	st,tamp-passive-nb-sample = <4>;
+	st,tamp-passive-sample-clk-div = <16384>;
+	wakeup-source;
+	wakeup-parent = <&exti>;
 
-	tamp_passive@2{
-		pinctrl-0 = <&tamp0_in2_pin_a>;
+	tamp_button:tamp-passive@2{
 		status = "okay";
+		reg = <EXT_TAMPER_2 0>;
+		pinctrl-0 = <&tamp0_in2_pin_a>;
+		st,tamp-mode = <TAMPER_CONFIRMED_MODE>;
+	};
+
+	tamp-active@3{
+		pinctrl-0 = <&tamp0_in3_pin_a &tamp0_out1_pin_a>;
+		reg = <EXT_TAMPER_3 0>;
+		st,tamp-mode = <TAMPER_POTENTIAL_MODE>;
+		status = "disabled";
 	};
 	/* USER CODE END tamp */
 };
@@ -895,6 +931,14 @@
 	};
 };
 
+&sdmmc1_io{
+	vddsd1-supply = <&vdd>;
+};
+
+&sdmmc2_io{
+	vddsd2-supply = <&vdd>;
+};
+
 &tzc400{
 	memory-region = <&optee_framebuffer>;
 };
@@ -908,7 +952,5 @@
 &wakeup_pin_5{
 	bias-pull-up;
 };
-
-
 /* USER CODE END addons */
 
