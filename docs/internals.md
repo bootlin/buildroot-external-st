@@ -4,7 +4,7 @@
 
 In this section, we describe step by step the minimal Buildroot
 configuration
-[st_stm32mp157c_dk2_defconfig](/configs/st_stm32mp157c_dk2_defconfig)
+[st_stm32mp157f_dk2_defconfig](/configs/st_stm32mp157f_dk2_defconfig)
 which targets the STM32MP157C Discovery Kit 2 platform. The other
 Buildroot configurations for the other platforms are very similar.
 
@@ -90,7 +90,7 @@ BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,STMicroelectronics,linux
 BR2_LINUX_KERNEL_DEFCONFIG="multi_v7"
 BR2_LINUX_KERNEL_CONFIG_FRAGMENT_FILES="$(LINUX_DIR)/arch/arm/configs/fragment-01-multiv7_cleanup.config $(LINUX_DIR)/arch/arm/configs/fragment-02-multiv7_addons.config $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/linux-disable-etnaviv.config $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/linux-rauc.config"
 BR2_LINUX_KERNEL_DTS_SUPPORT=y
-BR2_LINUX_KERNEL_INTREE_DTS_NAME="stm32mp157c-dk2"
+BR2_LINUX_KERNEL_INTREE_DTS_NAME="stm32mp157f-dk2"
 BR2_LINUX_KERNEL_INSTALL_TARGET=y
 BR2_LINUX_KERNEL_NEEDS_HOST_OPENSSL=y
 ```
@@ -121,7 +121,7 @@ which comes from this `BR2_EXTERNAL`, and is in charge of enabling
 the requisite kernel drivers to use RAUC OTA tool.
 
 The option `BR2_LINUX_KERNEL_INTREE_DTS_NAME` indicates that the
-`stm32mp157c-dk2.dtb` Device Tree file will be produced and should be
+`stm32mp157f-dk2.dtb` Device Tree file will be produced and should be
 used. Finally `BR2_LINUX_KERNEL_INSTALL_TARGET=y` tells that the
 kernel image should be installed to the target root filesystem, in
 `/boot`.
@@ -146,7 +146,7 @@ BR2_TARGET_ARM_TRUSTED_FIRMWARE_FIP=y
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_BL32_OPTEE=y
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_UBOOT_AS_BL33=y
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_UBOOT_BL33_IMAGE="u-boot-nodtb.bin"
-BR2_TARGET_ARM_TRUSTED_FIRMWARE_ADDITIONAL_VARIABLES="STM32MP_SDMMC=1 AARCH32_SP=optee DTB_FILE_NAME=stm32mp157c-dk2.dtb BL33_CFG=$(BINARIES_DIR)/u-boot.dtb STM32MP_USB_PROGRAMMER=1 STM32MP1_OPTEE_IN_SYSRAM"
+BR2_TARGET_ARM_TRUSTED_FIRMWARE_ADDITIONAL_VARIABLES="STM32MP_SDMMC=1 AARCH32_SP=optee DTB_FILE_NAME=stm32mp157f-dk2.dtb BL33_CFG=$(BINARIES_DIR)/u-boot.dtb STM32MP_USB_PROGRAMMER=1 STM32MP1_OPTEE_IN_SYSRAM"
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_IMAGES="*.stm32 fip.bin"
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_NEEDS_DTC=y
 ```
@@ -158,7 +158,7 @@ using version `v2.8-stm32mp-r1`. TF-A is configured for the `stm32mp1`
 platform with OP-TEE as BL32, and we use the mechanism of
 [FIP](https://trustedfirmware-a.readthedocs.io/en/latest/getting_started/tools-build.html)
 images. The Device Tree file being used in TF-A comes from the TF-A
-source code, and is named `stm32mp157c-dk2.dtb`.
+source code, and is named `stm32mp157f-dk2.dtb`.
 
 ```
 BR2_PACKAGE_OPTEE_CLIENT=y
@@ -187,7 +187,7 @@ BR2_TARGET_UBOOT_BOARD_DEFCONFIG="stm32mp15"
 # BR2_TARGET_UBOOT_FORMAT_BIN is not set
 BR2_TARGET_UBOOT_FORMAT_CUSTOM=y
 BR2_TARGET_UBOOT_FORMAT_CUSTOM_NAME="u-boot-nodtb.bin u-boot.dtb"
-BR2_TARGET_UBOOT_CUSTOM_MAKEOPTS="DEVICE_TREE=stm32mp157c-dk2"
+BR2_TARGET_UBOOT_CUSTOM_MAKEOPTS="DEVICE_TREE=stm32mp157f-dk2"
 ```
 
 These options tell Buildroot how to build U-Boot: it is fetched from
@@ -197,7 +197,7 @@ in version `v2022.10-stm32mp-r1`. The configuration used is
 `stm32mp15`, and we install both the `u-boot-nodtb.bin` and
 `u-boot.dtb` images as both are used for the TF-A build. The Device
 Tree file used comes from the U-Boot source code, and is named
-`stm32mp157c-dk2`.
+`stm32mp157f-dk2`.
 
 ```
 BR2_PACKAGE_HOST_BMAP_TOOLS=y
@@ -221,7 +221,7 @@ embedded Linux system.
 ## Demo configurations
 
 In this section, we describe the demo configuration
-[st_stm32mp157c_dk2_demo_defconfig](/configs/st_stm32mp157c_dk2_demo_defconfig)
+[st_stm32mp157f_dk2_demo_defconfig](/configs/st_stm32mp157f_dk2_demo_defconfig)
 for the STM32MP157C Discovery Kit 2. Here as well, all other *demo*
 configurations for the other platforms are very similar.
 
@@ -264,7 +264,7 @@ This option sets the root password to `root`. The root password has to
 be set to a non-empty value to connect to the board through SSH.
 
 ```
-BR2_LINUX_KERNEL_INTREE_DTS_NAME="stm32mp157c-dk2-mx"
+BR2_LINUX_KERNEL_INTREE_DTS_NAME="stm32mp157f-dk2-mx"
 BR2_LINUX_KERNEL_CUSTOM_DTS_PATH="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/linux-dts/*"
 BR2_LINUX_KERNEL_DTB_OVERLAY_SUPPORT=y
 ```
@@ -388,31 +388,31 @@ image for the root filesystem;
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_BL32_OPTEE=y
 ..
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_CUSTOM_DTS_PATH="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/tfa-dts/*"
-BR2_TARGET_ARM_TRUSTED_FIRMWARE_ADDITIONAL_VARIABLES="STM32MP_SDMMC=1 AARCH32_SP=optee DTB_FILE_NAME=stm32mp157c-dk2-mx.dtb STM32MP_USB_PROGRAMMER=1 STM32MP1_OPTEE_IN_SYSRAM=1"
+BR2_TARGET_ARM_TRUSTED_FIRMWARE_ADDITIONAL_VARIABLES="STM32MP_SDMMC=1 AARCH32_SP=optee DTB_FILE_NAME=stm32mp157f-dk2-mx.dtb STM32MP_USB_PROGRAMMER=1 STM32MP1_OPTEE_IN_SYSRAM=1"
 ```
 
 These options customize the build of TF-A to load OP-TEE as a trusted
 execution environment, and to use a Device Tree file produced by STM32
-Cube MX, called `stm32mp157c-dk2-mx.dtb`.
+Cube MX, called `stm32mp157f-dk2-mx.dtb`.
 
 ```
 BR2_TARGET_OPTEE_OS_CUSTOM_DTS_PATH="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/optee-dts/*"
-BR2_TARGET_OPTEE_OS_ADDITIONAL_VARIABLES="CFG_EMBED_DTB_SOURCE_FILE=stm32mp157c-dk2-mx.dts CFG_STM32MP15=y CFG_STM32MP1_OPTEE_IN_SYSRAM=y"
+BR2_TARGET_OPTEE_OS_ADDITIONAL_VARIABLES="CFG_EMBED_DTB_SOURCE_FILE=stm32mp157f-dk2-mx.dts CFG_STM32MP15=y CFG_STM32MP1_OPTEE_IN_SYSRAM=y"
 ```
 
 These options customize the build of OPTEE-OS to use a Device Tree file
-produced by STM32 Cube MX, called `stm32mp157c-dk2-mx`. The option
-`CFG_EMBED_DTB_SOURCE_FILE=stm32mp157c-dk2-mx.dts CFG_STM32MP15=y` has been
+produced by STM32 Cube MX, called `stm32mp157f-dk2-mx`. The option
+`CFG_EMBED_DTB_SOURCE_FILE=stm32mp157f-dk2-mx.dts CFG_STM32MP15=y` has been
 added to OPTEE-OS make options, to build the external devicetree.
 
 ```
 BR2_TARGET_UBOOT_CUSTOM_DTS_PATH="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/uboot-dts/*"
-BR2_TARGET_UBOOT_CUSTOM_MAKEOPTS="dtb-y=stm32mp157c-dk2-mx.dtb DEVICE_TREE=stm32mp157c-dk2-mx"
+BR2_TARGET_UBOOT_CUSTOM_MAKEOPTS="dtb-y=stm32mp157f-dk2-mx.dtb DEVICE_TREE=stm32mp157f-dk2-mx"
 ```
 
 These options customize the build of U-Boot to use a Device Tree file
-produced by STM32 Cube MX, called `stm32mp157c-dk2-mx`. The option
-`dtb-y=stm32mp157c-dk2-mx.dtb` has been added to U-boot make options, to
+produced by STM32 Cube MX, called `stm32mp157f-dk2-mx`. The option
+`dtb-y=stm32mp157f-dk2-mx.dtb` has been added to U-boot make options, to
 build the external devicetree.
 
 ```
@@ -511,16 +511,12 @@ M4 from [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git).
   transform the .project and .cproject files readable by the dedicated
   [Makefile](/package/m4projects/Makefile.stm32).
 * `configs/`
-  * [`st_stm32mp157a_dk1_defconfig`](/configs/st_stm32mp157a_dk1_defconfig),
   * [`st_stm32mp157d_dk1_defconfig`](/configs/st_stm32mp157d_dk1_defconfig),
     minimal configurations for the DK1
-  * [`st_stm32mp157a_dk1_demo_defconfig`](/configs/st_stm32mp157a_dk1_demo_defconfig),
   * [`st_stm32mp157d_dk1_demo_defconfig`](/configs/st_stm32mp157d_dk1_demo_defconfig),
     demo configurations for the DK1
-  * [`st_stm32mp157c_dk2_defconfig`](/configs/st_stm32mp157c_dk2_defconfig),
   * [`st_stm32mp157f_dk2_defconfig`](/configs/st_stm32mp157f_dk2_defconfig),
     minimal configurations for the DK2
-  * [`st_stm32mp157c_dk2_demo_defconfig`](/configs/st_stm32mp157c_dk2_demo_defconfig),
   * [`st_stm32mp157f_dk2_demo_defconfig`](/configs/st_stm32mp157f_dk2_demo_defconfig),
     demo configurations for the DK2
   * [`st_stm32mp135f_dk_defconfig`](/configs/st_stm32mp135f_dk_defconfig),
