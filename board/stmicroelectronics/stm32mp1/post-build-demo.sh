@@ -5,7 +5,7 @@ add_wifi_fw_symlinks()
 	fi
 
 	pushd ${TARGET_DIR}/lib/firmware/brcm
-	for board in stm32mp157a-dk1 stm32mp157c-dk2 stm32mp157d-dk1 stm32mp157f-dk2 stm32mp135f-dk; do
+	for board in stm32mp157d-dk1 stm32mp157f-dk2 stm32mp135f-dk; do
 		ln -sf brcmfmac43430-sdio.bin brcmfmac43430-sdio.st,${board}-mx.bin
 	done
 	popd
