@@ -1348,6 +1348,16 @@
 	cpu-supply = <&vddcore>;
 };
 
+&pinctrl{
+	stusb1600_pins_a:stusb1600-0{
+
+		pins{
+			bias-pull-up;
+			pinmux = <STM32_PINMUX('I', 11, GPIO)>;
+		};
+	};
+};
+
 &usbh_ohci{
 	phys = <&usbphyc_port0>;
 };
