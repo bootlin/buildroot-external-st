@@ -15,6 +15,8 @@ set_rauc_info()
         echo "${RAUC_VERSION}" > ${TARGET_DIR}/etc/rauc/version
 }
 
+cp $BR2_EXTERNAL_ST_PATH/board/stmicroelectronics/stm32mp2/metadata.bin $BINARIES_DIR/
+
 uboot_dir=$BUILD_DIR/uboot-custom
 ENV_PART_SIZE=0x2000
 
