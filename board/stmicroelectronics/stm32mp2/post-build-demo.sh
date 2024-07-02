@@ -15,6 +15,13 @@ set_rauc_info()
         echo "${RAUC_VERSION}" > ${TARGET_DIR}/etc/rauc/version
 }
 
+create_data_dir()
+{
+	if [ ! -d "${TARGET_DIR}/data" ]; then
+		mkdir ${TARGET_DIR}/data
+	fi
+}
+
 cp $BR2_EXTERNAL_ST_PATH/board/stmicroelectronics/stm32mp2/metadata.bin $BINARIES_DIR/
 
 uboot_dir=$BUILD_DIR/uboot-custom
@@ -23,3 +30,4 @@ ENV_PART_SIZE=0x2000
 $uboot_dir/tools/mkenvimage -r -s $ENV_PART_SIZE -o $BINARIES_DIR/uEnv.bin $BR2_EXTERNAL_ST_PATH/board/stmicroelectronics/stm32mp2/uEnv.txt
 
 set_rauc_info $@
+create_data_dir $@
