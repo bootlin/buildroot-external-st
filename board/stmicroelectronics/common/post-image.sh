@@ -25,10 +25,10 @@ main()
 	local GENIMAGE_CFG=${2}
 	local GENIMAGE_CFG_TMP="$(mktemp --suffix .genimage.cfg)"
 	local GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
-	local SCRIPT_PATH=$(dirname "$0")
+	local SCRIPT_PATH=$(dirname "${GENIMAGE_CFG}")
 
 	sed -e "s/%ATFBIN%/${ATFBIN}/" \
-		${SCRIPT_PATH}/${GENIMAGE_CFG} > ${GENIMAGE_CFG_TMP}
+		${GENIMAGE_CFG} > ${GENIMAGE_CFG_TMP}
 
 	support/scripts/genimage.sh -c ${GENIMAGE_CFG_TMP}
 
