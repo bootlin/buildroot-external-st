@@ -1,5 +1,23 @@
 # Release notes
 
+## openstlinux-6.1-buildroot-2024.02.3-mpu-v24.06.26
+
+Changes in this release:
+
+- Based on Buildroot 2024.02.3
+
+- Based on the BSP components of ST's 5.1 BSP: Linux 6.1, U-Boot
+  2022.10, TF-A 2.8, OP-TEE 3.19, gcnano-binaries 6.4.15
+
+- Remove support for STM32MP157A-DK1 and STM32MP157C-DK2 board.
+
+- Add support for STM32MP257F-EV1 board.
+
+- Add support for Trusted-Firmware-M
+
+- Add support for m33projects package to build Cortex M33 application
+  examples.
+
 ## openstlinux-6.1-buildroot-2023.02.10-mp1-v23.11.15
 
 Changes in this release:

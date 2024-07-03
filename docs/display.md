@@ -89,3 +89,12 @@ panel resolution:
 ```
 # modetest -M stm -s 32:#0
 ```
+
+## STM32MP257-EV1
+
+You can test the HDMI output by displaying `modetest` default picture,
+in the default resolution:
+
+```
+# modetest -M stm -s 32:#0
+```

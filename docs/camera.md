@@ -22,11 +22,11 @@ The configuration depends on your camera:
 ## GC2145 Sensor (MB1897 camera board)
 
 ```
-# media-ctl -d /dev/media0 --set-v4l2 "'gc2145 1-003c':0[RGB565_2X8_BE/640x480@1/30 field:none]"
-# media-ctl -d /dev/media0 --set-v4l2 "'dcmipp_parallel':0[RGB565_2X8_BE/640x480]"
-# media-ctl -d /dev/media0 --set-v4l2 "'dcmipp_parallel':1[RGB565_2X8_BE/640x480]"
-# media-ctl -d /dev/media0 --set-v4l2 "'dcmipp_dump_postproc':1[fmt:RGB565_2X8_LE/640x480]" -v
-# media-ctl -d /dev/media0 --set-v4l2 "'dcmipp_dump_postproc':1[crop:(0,0)/640x480]" -v
+# media-ctl -d /dev/media0 --set-v4l2 "'gc2145 1-003c':0[fmt:RGB565_2X8_BE/640x480@1/30 field:none]"
+# media-ctl -d /dev/media0 --set-v4l2 "'dcmipp_input':0[fmt:RGB565_2X8_BE/640x480]"
+# media-ctl -d /dev/media0 --set-v4l2 "'dcmipp_input':1[fmt:RGB565_2X8_LE/640x480]"
+# media-ctl -d /dev/media0 --set-v4l2 "'dcmipp_dump_postproc':0[fmt:RGB565_2X8_LE/640x480]"
+# media-ctl -d /dev/media0 --set-v4l2 "'dcmipp_dump_postproc':1[crop:(80,104)/480x272]"
 # export camera_dev=/dev/video0
 ```
 
@@ -49,10 +49,9 @@ https://gist.github.com/tpetazzoni/63f6c29337111d64a2cf35ed8d42104b.
 
 ```
 # media-ctl -d /dev/media0 --set-v4l2 "'ov5640 1-003c':0[fmt:RGB565_2X8_LE/640x480@1/30 field:none]"
-# media-ctl -d /dev/media0 --set-v4l2 "'dcmipp_parallel':0[fmt:RGB565_2X8_LE/640x480]"
-# media-ctl -d /dev/media0 --set-v4l2 "'dcmipp_parallel':1[fmt:RGB565_2X8_LE/640x480]"
-# media-ctl -d /dev/media0 --set-v4l2 "'dcmipp_dump_postproc':1[fmt:RGB565_2X8_LE/640x480]" -v
-# media-ctl -d /dev/media0 --set-v4l2 "'dcmipp_dump_postproc':1[crop:(0,0)/640x480]" -v
+# media-ctl -d /dev/media0 --set-v4l2 "'dcmipp_input':0[fmt:RGB565_2X8_LE/640x480]"
+# media-ctl -d /dev/media0 --set-v4l2 "'dcmipp_dump_postproc':0[fmt:RGB565_2X8_LE/640x480]"
+# media-ctl -d /dev/media0 --set-v4l2 "'dcmipp_dump_postproc':1[crop:(80,104)/480x272]"
 # export camera_dev=/dev/video0
 ```
 

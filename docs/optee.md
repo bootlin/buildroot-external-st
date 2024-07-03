@@ -3,7 +3,7 @@
 OP-TEE is automatically started at boot time by TF-A, and runs as the
 Trusted Execution Environment. See
 [this page](https://wiki.st.com/stm32mpu/wiki/OP-TEE_overview) on the
-ST32MP1 Wiki for an overview of OP-TEE on STM32MP1.
+ST32MPU Wiki for an overview of OP-TEE on STM32MPU.
 
 It should be noted that on STM32MP157 platforms, starting from its
 Yocto BSP 5.0.0, ST has chosen to load OP-TEE into DDR instead of the
