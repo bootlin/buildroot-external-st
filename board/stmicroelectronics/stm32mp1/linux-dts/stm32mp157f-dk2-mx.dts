@@ -1131,6 +1131,9 @@
 
 &ltdc{
 	status = "okay";
+	pinctrl-names = "default", "sleep";
+	pinctrl-0 = <&ltdc_pins_mx>;
+	pinctrl-1 = <&ltdc_sleep_pins_mx>;
 
 	/* USER CODE BEGIN ltdc */
 	default-on;
