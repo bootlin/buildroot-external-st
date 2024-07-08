@@ -37,8 +37,15 @@ main()
 	gzip -fk ${BINARIES_DIR}/sdcard.img
 	${HOST_DIR}/bin/bmaptool create -o ${BINARIES_DIR}/sdcard.img.bmap ${BINARIES_DIR}/sdcard.img
 
+        # Copy flash layout and necessary binary files
 	sed -e "s/%ATFBIN%/${ATFBIN}/" \
 		${SCRIPT_PATH}/flash.tsv > ${BINARIES_DIR}/flash.tsv
+	if ls "${SCRIPT_PATH}/*.bin" &> /dev/null; then
+		cp "${SCRIPT_PATH}/*.bin" ${BINARIES_DIR}
+	fi
+	if ls "${SCRIPT_PATH}/*.stm32" &> /dev/null; then
+		cp "${SCRIPT_PATH}/*.stm32" ${BINARIES_DIR}
+	fi
 
 	exit $?
 }

@@ -1,5 +1,5 @@
 #opt	Id	Name		Type		Device	Offset		Binary
--	0x01	fsbl_boot	Binary		none	0x0		%ATFBIN%
--	0x02	fip_ddr		Binary		none	0x0		fip-ddr.bin
--	0x03	fip_boot	Binary		none	0x0		fip.bin
+-	0x01	fsbl_boot	Binary		none	0x0		tf-a-stm32mp257f-ev1_usb.stm32
+-	0x02	fip_ddr		Binary		none	0x0		fip-ddr_usb.bin
+-	0x03	fip_boot	Binary		none	0x0		fip_usb.bin
 P	0x10	sdcard		RawImage	mmc0	0x0		sdcard.img
