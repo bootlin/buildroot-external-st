@@ -8,7 +8,7 @@ You can perform a loopback test on one of the CAN bus ports. First, configure
 the bitrates and enable loopback:
 
 ```
-# ip link set can0 up type can bitrate 1000000 dbitrate 2000000 fd on loopback o
+# ip link set can0 up type can bitrate 1000000 dbitrate 2000000 fd on loopback on
 ```
 
 The `can-utils` package is included in the demo rootfs. You can send messages on
