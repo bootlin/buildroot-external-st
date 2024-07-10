@@ -1,12 +1,12 @@
 on: workflow_dispatch
 jobs:
   build-all:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     env:
-      repo_version: st/2023.02.10
+      repo_version: st/2024.02.3
     strategy:
       matrix:
-        config: [ st_stm32mp157d_dk1, st_stm32mp157d_dk1_demo, st_stm32mp157f_dk2, st_stm32mp157f_dk2_demo, st_stm32mp135f_dk, st_stm32mp135f_dk_demo]
+        config: [ st_stm32mp157d_dk1, st_stm32mp157d_dk1_demo, st_stm32mp157f_dk2, st_stm32mp157f_dk2_demo, st_stm32mp135f_dk, st_stm32mp135f_dk_demo, st_stm32mp257f_ev1, st_stm32mp257f_ev1_demo ]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -29,12 +29,12 @@ jobs:
         run: make -C buildroot O=../output
       - name: Store image
         run: |
-             b2 upload-file bootlin-buildroot-st output/images/sdcard.img.gz ${{ github.ref_name }}/sdcard-${{ matrix.config }}.img.gz
-             b2 upload-file bootlin-buildroot-st output/images/sdcard.img.bmap ${{ github.ref_name }}/sdcard-${{ matrix.config }}.img.bmap
+             b2 file upload bootlin-buildroot-st output/images/sdcard.img.gz ${{ github.ref_name }}/sdcard-${{ matrix.config }}.img.gz
+             b2 file upload bootlin-buildroot-st output/images/sdcard.img.bmap ${{ github.ref_name }}/sdcard-${{ matrix.config }}.img.bmap
       - name: Build SDK
         run: make -C buildroot O=../output sdk
       - name: Store SDK
-        run: b2 upload-file bootlin-buildroot-st output/images/arm-buildroot-linux-gnueabihf_sdk-buildroot.tar.gz ${{ github.ref_name }}/arm-buildroot-linux-gnueabihf_sdk-${{ matrix.config }}.tar.gz
+        run: b2 file upload bootlin-buildroot-st output/images/*_sdk-buildroot.tar.gz ${{ github.ref_name }}/arm-buildroot-linux-gnueabihf_sdk-${{ matrix.config }}.tar.gz
       - name: Clean images
         run: rm -rf output/images
       - name: Generate legal-info
@@ -44,9 +44,9 @@ jobs:
       - name: Archive and compress licenses
         run: tar -cf - -C output/legal-info licenses | gzip -9 - > licenses-${{ matrix.config }}.tar.gz
       - name: Store sources
-        run: b2 upload-file bootlin-buildroot-st sources-${{ matrix.config }}.tar.gz ${{ github.ref_name }}/sources-${{ matrix.config }}.tar.gz
+        run: b2 file upload bootlin-buildroot-st sources-${{ matrix.config }}.tar.gz ${{ github.ref_name }}/sources-${{ matrix.config }}.tar.gz
       - name: Store licenses
-        run: b2 upload-file bootlin-buildroot-st licenses-${{ matrix.config }}.tar.gz ${{ github.ref_name }}/licenses-${{ matrix.config }}.tar.gz
+        run: b2 file upload bootlin-buildroot-st licenses-${{ matrix.config }}.tar.gz ${{ github.ref_name }}/licenses-${{ matrix.config }}.tar.gz
       - name: Clean legal-info
         run: rm -rf output/legal-info sources-${{ matrix.config }}.tar.gz licenses-${{ matrix.config }}.tar.gz
       - name: Update the README
@@ -56,6 +56,6 @@ jobs:
              sed -ie "s|#BR_REV#|${{ env.repo_version }}|" README
              sed -ie "s|#BR_EXT_REV#|${{ github.ref_name }}|" README
       - name: Store the README
-        run: b2 upload-file bootlin-buildroot-st README ${{ github.ref_name }}/README-${{ matrix.config }}
+        run: b2 file upload bootlin-buildroot-st README ${{ github.ref_name }}/README-${{ matrix.config }}
       - name: Full build cleanup
         run: rm -rf output
