@@ -4,17 +4,17 @@ Applicable platforms: STM32MP157-DK1, STM32MP157-DK2, STM32MP135-DK, STM32MP257F
 
 [STM32 Cube
 Programmer](https://www.st.com/en/development-tools/stm32cubeprog.html)
-is a utility provided by ST that allows to reflash an STM32MP1
+is a utility provided by ST that allows to reflash an STM32MPU
 platform directly from your PC. It is particularly useful if the
-storage used on your STM32MP1 platform is non-removable, such as an
+storage used on your STM32MPU platform is non-removable, such as an
 eMMC or NAND flash. STM32 Cube Programmer uses USB connectivity with
-the STM32MP1 platform to do the reflashing, and it works even if the
-STM32MP1 platform has no software installed.
+the STM32MPU platform to do the reflashing, and it works even if the
+STM32MPU platform has no software installed.
 
 To get started, download STM32 Cube Programmer from the [ST
 website](https://www.st.com/en/development-tools/stm32cubeprog.html). It
 unfortunately requires having an account on *st.com*. We tested with
-version 2.8.0, and the below instructions assume that STM32 Cube
+version 2.17.0, and the below instructions assume that STM32 Cube
 Programmer is installed in the `$HOME/stm32cube` folder.
 
 As the STM32MP157-DK1/DK2 or the STM32MP135F-DK do not provide any

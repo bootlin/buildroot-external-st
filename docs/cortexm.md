@@ -11,10 +11,11 @@ or the CM33 from [STM32CubeMP2](https://github.com/STMicroelectronics/STM32CubeM
 are enabled in the *demo* configuration.
 All examples built are installed in the path `/usr/lib/Cube-M4-examples/`
 or `/usr/lib/Cube-M33-examples/`
+
+## Cortex M4
 We will use the *GPIO_EXTI* application for the example as it is easy to
 test.
 
-## Cortex M4
 ```
 # cd /usr/lib/Cube-M4-examples/GPIO_EXTI/
 # ./fw_cortex_m4.sh start
@@ -44,8 +45,10 @@ ack
 To stop the example running on the M4 processor.
 
 ## Cortex M33
+We will use the *USBPD_DRP_UCSI* application for the example as it is the
+one used in OpenST distribution.
+
 ```
-# /usr/lib/Cube-M33-examples/USBPD_DRP_UCSI/fw_cortex_m33.sh start
 # /usr/lib/Cube-M33-examples/USBPD_DRP_UCSI/fw_cortex_m33.sh start
 fw_cortex_m33.sh: fmw_name=USBPD_DRP_UCSI_CM33_NonSecure_sign.bin
 [   18.436576] remoteproc remoteproc0: powering up m33
@@ -63,6 +66,24 @@ fw_cortex_m33.sh: fmw_name=USBPD_DRP_UCSI_CM33_NonSecure_sign.bin
 This run the *USBPD_DRP_UCSI* example on the Cortex M33 processor which
 emulate a stm32mp25-typec usb role switch to detect if the USB-C CN15 is
 plugged as a device or a host.
+
+```
+# /usr/lib/Cube-M33-examples/USBPD_DRP_UCSI/fw_cortex_m33.sh -t ns_s start
+fw_cortex_m33.sh: fmw_name=USBPD_DRP_UCSI_CM33_NonSecure_tfm_sign.bin
+[   46.067010] remoteproc remoteproc0: powering up m33
+[   46.197826] remoteproc remoteproc0: Booting fw image USBPD_DRP_UCSI_CM33_NonSecure_tfm_sign.bin, size 286164
+[   46.203151] rproc-virtio rproc-virtio.1.auto: assigned reserved memory node vdev0buffer@812fa000
+[   46.211593] virtio_rpmsg_bus virtio0: rpmsg host is online
+[   46.216540] rproc-virtio rproc-virtio.1.auto: registered virtio0 (type 7)
+[   46.223546] remoteproc remoteproc0: remote processor m33 is now up
+[   47.105247] virtio_rpmsg_bus virtio0: creating channel rpmsg-intc addr 0x400
+[   47.115483] virtio_rpmsg_bus virtio0: creating channel rpmsg_i2c addr 0x401
+[   47.117061] rpmsg_i2c virtio0.rpmsg_i2c.-1.1025: new channel: 0x401 -> 0x401!
+
+```
+
+You can also use the above command to run the firmware containing
+TrustedFirmware-M and the *USBPD_DRP_UCSI* example.
 
 ```
 # stm32_usbotg_eth_config.sh start
@@ -94,4 +115,3 @@ Stop usb gadget
 ```
 
 To stop the example running on the M33 processor.
-

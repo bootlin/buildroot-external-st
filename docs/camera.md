@@ -71,3 +71,11 @@ You can list the available formats with the following command:
 ```
 # yavta -l --enum-formats --enum-inputs $camera_dev
 ```
+
+```
+$ mv frame-000000.bin frame-000000.rgb
+$ ffmpeg -s 640x480 -pix_fmt rgb565le -i frame-000000.rgb -f image2 -pix_fmt rgb24 frame0.png
+```
+
+Run these commands on your host computer to convert the rgb frame to a png
+image.
