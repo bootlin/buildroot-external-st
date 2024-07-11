@@ -1,0 +1,26 @@
+From d6c4ab86fcf239b4f6cd74c564c21e5baeee8ed0 Mon Sep 17 00:00:00 2001
+From: Kory Maincent <kory.maincent@bootlin.com>
+Date: Thu, 11 Jul 2024 12:37:13 +0200
+Subject: [PATCH] platform: stm: dts: Fix device node address
+
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+---
+ .../common/devicetree/dts/arm/stm/stm32mp257f-ev1-resmem.dtsi   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/platform/ext/target/stm/common/devicetree/dts/arm/stm/stm32mp257f-ev1-resmem.dtsi b/platform/ext/target/stm/common/devicetree/dts/arm/stm/stm32mp257f-ev1-resmem.dtsi
+index a2dab0726..5c64e5ddf 100644
+--- a/platform/ext/target/stm/common/devicetree/dts/arm/stm/stm32mp257f-ev1-resmem.dtsi
++++ b/platform/ext/target/stm/common/devicetree/dts/arm/stm/stm32mp257f-ev1-resmem.dtsi
+@@ -122,7 +122,7 @@
+ 			#memory-region-cells = <0>;
+ 		};
+ 
+-		bl31_context: bl31-context@81ff0000 {
++		bl31_context: bl31-context@81fc0000 {
+ 			compatible = "reserved-memory";
+ 			reg = <0x0 0x81fc0000 0x0 0x40000>;
+ 			#memory-region-cells = <0>;
+-- 
+2.34.1
+
