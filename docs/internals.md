@@ -231,12 +231,6 @@ for the STM32MP157F Discovery Kit 2. Here as well, all other *demo*
 configurations for the other platforms are very similar.
 
 ```
-BR2_GLOBAL_PATCH_DIR="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/common/patches/ $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/common/patches-demo/"
-```
-
-Add patches-demo folder in addition to global patch directory.
-
-```
 BR2_ROOTFS_DEVICE_CREATION_DYNAMIC_EUDEV=y
 ```
 
@@ -250,15 +244,16 @@ BR2_ROOTFS_POST_IMAGE_SCRIPT="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/c
 BR2_ROOTFS_POST_SCRIPT_ARGS="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/genimage-demo.cfg"
 ```
 
-Add demo post-build and post-image scripts in addition of basique scripts
-alongside with genimage-demo args to tell which partition configuratoin
+Add demo post-build and post-image scripts in addition of basic scripts
+alongside with genimage-demo args to tell which partition configuration
 to use.
 
 ```
 BR2_LINUX_KERNEL_CONFIG_FRAGMENT_FILES="$(LINUX_DIR)/arch/arm/configs/fragment-01-multiv7_cleanup.config $(LINUX_DIR)/arch/arm/configs/fragment-02-multiv7_addons.config $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/common/linux-disable-etnaviv.config $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/common/linux-enable-rauc.config"
 ```
 
-Add linux-enable-rauc.config Linux fragment configuration in addition to global patch directory to enable RAUC requirements.
+Add `linux-enable-rauc.config` Linux fragment configuration to enable
+RAUC requirements.
 
 ```
 BR2_TARGET_GENERIC_ROOT_PASSWD="root"
@@ -290,8 +285,8 @@ BR2_PACKAGE_OPTEE_TEST_CUSTOM_TARBALL=y
 BR2_PACKAGE_OPTEE_TEST_CUSTOM_TARBALL_LOCATION="$(call github,OP-TEE,optee_test)3.19.0.tar.gz"
 ```
 
-These options enable OP-TEE tests and examples using the same version as 
-OP-TEE OS from ST.
+These options enable OP-TEE tests and examples using the same version
+as OP-TEE OS from ST.
 
 ```
 BR2_PACKAGE_ALSA_UTILS=y
@@ -443,6 +438,18 @@ BR2_PACKAGE_M4PROJECTS=y
 This option enables the installation of the Firmware examples for the Cortex
 M4 from [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git).
 
+```
+BR2_PACKAGE_HOST_UBOOT_TOOLS=y
+BR2_PACKAGE_HOST_UBOOT_TOOLS_ENVIMAGE=y
+BR2_PACKAGE_HOST_UBOOT_TOOLS_ENVIMAGE_SOURCE="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/uEnv.txt"
+BR2_PACKAGE_HOST_UBOOT_TOOLS_ENVIMAGE_SIZE="0x2000"
+BR2_PACKAGE_HOST_UBOOT_TOOLS_ENVIMAGE_REDUNDANT=y
+```
+
+These options generate an image of the U-Boot environment, ready to be
+flashed, based on the environment defined as a text file in
+`board/stmicroelectronics/stm32mp1/uEnv.txt`.
+
 ## Organization of the `BR2_EXTERNAL` tree
 
 * `board/`
@@ -466,9 +473,6 @@ M4 from [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git).
       * [`patches`](/board/stmicroelectronics/common/patches), which
         contains one patch for the Linux kernel, fixing a module
         loading issue for the audio codec driver.
-      * [`patches-demo`](/board/stmicroelectronics/common/patches-demo),
-        which contains one patch for the U-boot Bootloader, adding OTA
-        special environment.
       * [`post-build.sh`](/board/stmicroelectronics/common/post-build.sh),
         the script executed by Buildroot at the end of the rootfs generation
         to produce update the `extlinux.conf` with the right devicetree name.
@@ -519,6 +523,9 @@ M4 from [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git).
       * [`post-build-demo.sh`](/board/stmicroelectronics/stm32mp2/post-build-demo.sh),
         the script executed by Buildroot at the end of the rootfs
         generation for the demo configuration.
+      * [`uEnv.txt`](/board/stmicroelectronics/stm32mp1/uEnv.txt), the
+        U-boot environment which contains definitions needed to
+        properly support OTA.
     * `stm32mp2/`
       * [`fip-ddr_usb.bin`](/board/stmicroelectronics/stm32mp2/fip-ddr_usb.bin),
         pre-compiled DDR FIP image built with STM32MP_USB_PROGRAMMER=1
@@ -568,8 +575,9 @@ M4 from [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git).
       * [`uboot-dts/`](/board/stmicroelectronics/stm32mp2/uboot-dts),
         Device Tree files imported from
         [dt-stm32mp repository](https://github.com/STMicroelectronics/dt-stm32mp).
-      * [`uEnv.txt`](/board/stmicroelectronics/stm32mp2/uEnv.txt),
-        the U-boot environment which contains OTA special environment.
+      * [`uEnv.txt`](/board/stmicroelectronics/stm32mp2/uEnv.txt), the
+        U-boot environment which contains definitions needed to
+        properly support OTA.
 * [`package/m4projects`](/package/m4projects), a Buildroot package
   that builds and installs all the Cortex-M4 examples of the
   [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git)
