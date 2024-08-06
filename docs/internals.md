@@ -521,11 +521,13 @@ M4 from [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git).
         generation for the demo configuration.
     * `stm32mp2/`
       * [`fip-ddr_usb.bin`](/board/stmicroelectronics/stm32mp2/fip-ddr_usb.bin),
-        the ddr fip image generated with STM32MP_USB_PROGRAMMER=1 TF-A
-        build option to be able to flash the SD card.
+        pre-compiled DDR FIP image built with STM32MP_USB_PROGRAMMER=1
+        in order to be able to flash the SD card (we unfortunately
+        cannot build a single FIP image that can be used for flashing
+        and on storage, due to memory size limitations)
       * [`fip_usb.bin`](/board/stmicroelectronics/stm32mp2/fip_usb.bin),
-        the fip image generated with STM32MP_USB_PROGRAMMER=1 TF-A build
-        option to be able to flash the SD card.
+        pre-compiled FIP image built with STM32MP_USB_PROGRAMMER=1 in
+        order to be able to flash the SD card
       * [`flash.tsv`](/board/stmicroelectronics/stm32mp2/flash.tsv),
         configuration file for the STM32 Cube Programmer. Only valid
         for SD card flashing.
@@ -540,9 +542,6 @@ M4 from [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git).
       * [`linux-dts/`](/board/stmicroelectronics/stm32mp2/linux-dts),
         Device Tree files imported from
         [dt-stm32mp repository](https://github.com/STMicroelectronics/dt-stm32mp).
-      * [`metadata.bin`](/board/stmicroelectronics/stm32mp2/metadata.bin),
-        the firmware metadata description to be able to launch firmware
-        update. Not supported for now.
       * [`optee-dts/`](/board/stmicroelectronics/stm32mp2/optee-dts),
         Device Tree files imported from
         [dt-stm32mp repository](https://github.com/STMicroelectronics/dt-stm32mp).
@@ -604,7 +603,7 @@ M4 from [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git).
 * `docs`, documentation
 * `Config.in`, top-level Config.in file mandatory in all `BR2_EXTERNAL`
   trees. Indicate the location of the Config.in file from our `m4projects`
-  and `m33projects` package.
+  and `m33projects` packages.
 * `README.md`
 * `external.desc`, mandatory in all `BR2_EXTERNAL` trees, gives a name
   and description for the `BR2_EXTERNAL` tree
@@ -626,40 +625,46 @@ Here are the 11 changes:
 * Update the `gcnano-binaries` package to a newer version and to support
   arm64. This package contains the closed-source OpenGL user-space
   libraries, which need to be in sync with the kernel side.
-  This patch has been sent mainline.
-
-* Bump arm-gnu-toolchain package to 13.2.Rel1 release version.
-  This patch is already merged mainline.
+  This patch has been submitted to upstream Buildroot.
 
 * Add support for host python-intelhex package in preparation of the
-  support for Trusted-Firmware-M. This patch has been sent mainline.
+  support for Trusted-Firmware-M. This patch has been submitted to
+  upstream Buildroot.
 
 * Add support for host python-click package in preparation of the
-  support for Trusted-Firmware-M. This patch has been sent mainline.
+  support for Trusted-Firmware-M. This patch has been submitted to
+  upstream Buildroot.
 
 * Add support for host python-cbor2 package in preparation of the
-  support for Trusted-Firmware-M. This patch has been sent mainline.
+  support for Trusted-Firmware-M. This patch has been submitted to
+  upstream Buildroot.
 
 * Add support for TrustedFirmware-M which is implementing the Secure
   Processing Environment (SPE) for Armv8-M, Armv8.1-M architectures.
-  This patch has been sent mainline.
+  This patch has been submitted to upstream Buildroot.
 
-* Add support for custom tarball source in optee-client to be able to match
-  the OPTEE-OS custom tarball version. This patch has been sent mainline.
+* Add support for custom tarball source in optee-client to be able to
+  match the OPTEE-OS custom tarball version. This patch has been
+  submitted to upstream Buildroot.
 
-* Add support for custom tarball source in optee-test to be able to match
-  the OPTEE-OS custom tarball version. This patch has been sent mainline.
+* Add support for custom tarball source in optee-test to be able to
+  match the OPTEE-OS custom tarball version. This patch has been
+  submitted to upstream Buildroot.
 
 * Add support for custom tarball source in optee-examples to be able to
-  match the OPTEE-OS custom tarball version. This patch has been sent
-  mainline.
+  match the OPTEE-OS custom tarball version. This patch has been
+  submitted to upstream Buildroot.
 
 * Add support to build OP-TEE OS with host-cmake as the new version of
-  OP-TEE OS from ST need cmake to build its scmi firmware. This patch has
-  been sent mainline.
+  OP-TEE OS from ST need cmake to build its scmi firmware. This patch has been
+  submitted to upstream Buildroot.
 
 * Update linux to manage vendor name subfolder directory for
-  BR2_LINUX_KERNEL_CUSTOM_DTS_PATH. It adds support to build devicetree
-  files which are organize under vendor subdirectories like for arm and
-  arm64 architectures, such as arch/<arch>/boot/dts/<vendor>/. This patch
-  has been sent mainline.
+  BR2_LINUX_KERNEL_CUSTOM_DTS_PATH. It adds support to build
+  devicetree files which are organize under vendor subdirectories like
+  for arm and arm64 architectures, such as
+  arch/<arch>/boot/dts/<vendor>/. This patch has been submitted to
+  upstream Buildroot.
+
+* Bump arm-gnu-toolchain package to 13.2.rel1 release version.
+  This patch is already in upstream Buildroot.
