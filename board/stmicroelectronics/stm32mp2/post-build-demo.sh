@@ -22,8 +22,6 @@ create_data_dir()
 	fi
 }
 
-cp $BR2_EXTERNAL_ST_PATH/board/stmicroelectronics/stm32mp2/metadata.bin $BINARIES_DIR/
-
 uboot_dir=$BUILD_DIR/uboot-custom
 ENV_PART_SIZE=0x2000
 
