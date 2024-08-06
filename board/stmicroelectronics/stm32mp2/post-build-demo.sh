@@ -22,10 +22,5 @@ create_data_dir()
 	fi
 }
 
-uboot_dir=$BUILD_DIR/uboot-custom
-ENV_PART_SIZE=0x2000
-
-$uboot_dir/tools/mkenvimage -r -s $ENV_PART_SIZE -o $BINARIES_DIR/uEnv.bin $BR2_EXTERNAL_ST_PATH/board/stmicroelectronics/stm32mp2/uEnv.txt
-
 set_rauc_info $@
 create_data_dir $@
