@@ -92,9 +92,10 @@ panel resolution:
 
 ## STM32MP257-EV1
 
-You can test the HDMI output by displaying `modetest` default picture,
+You can test the LVDS output by displaying `modetest` default picture,
 in the default resolution:
 
 ```
+# echo 1 >  $(realpath /sys/class/backlight/panel-*)/brightness
 # modetest -M stm -s 32:#0
 ```
