@@ -25,7 +25,7 @@ main()
 	local GENIMAGE_CFG=${2}
 	local GENIMAGE_CFG_TMP="$(mktemp --suffix .genimage.cfg)"
 	local GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
-	local SCRIPT_PATH=$(dirname "${GENIMAGE_CFG}")
+	local BOARD_PATH=$(dirname "${GENIMAGE_CFG}")
 
 	sed -e "s/%ATFBIN%/${ATFBIN}/" \
 		${GENIMAGE_CFG} > ${GENIMAGE_CFG_TMP}
@@ -39,13 +39,9 @@ main()
 
         # Copy flash layout and necessary binary files
 	sed -e "s/%ATFBIN%/${ATFBIN}/" \
-		${SCRIPT_PATH}/flash.tsv > ${BINARIES_DIR}/flash.tsv
-	if ls "${SCRIPT_PATH}/*.bin" &> /dev/null; then
-		cp "${SCRIPT_PATH}/*.bin" ${BINARIES_DIR}
-	fi
-	if ls "${SCRIPT_PATH}/*.stm32" &> /dev/null; then
-		cp "${SCRIPT_PATH}/*.stm32" ${BINARIES_DIR}
-	fi
+		${BOARD_PATH}/flash.tsv > ${BINARIES_DIR}/flash.tsv
+
+	ls -1 "${BOARD_PATH}" | grep -E "\.(bin|stm32)$" | xargs -I {} cp "${BOARD_PATH}/{}" ${BINARIES_DIR}
 
 	exit $?
 }
