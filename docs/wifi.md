@@ -22,8 +22,8 @@ client.
 ```
 # ip link set wlan0 up
 # iw dev wlan0 scan
-# wpa_passphrase $SSID $PSK > /etc/wpa_supplicant.conf
-# wpa_supplicant -i wlan0 -c /etc/wpa_supplicant.conf -B
+# wpa_passphrase $SSID $PSK > /data/wpa_supplicant.conf
+# wpa_supplicant -i wlan0 -c /data/wpa_supplicant.conf -B
 # udhcpc -i wlan0 -q
 ```
 
