@@ -28,7 +28,8 @@ galcore               319488  0
 Then you can start the different Qt examples, for example:
 
 ```
-# echo 1 >  $(realpath /sys/class/backlight/panel*)/brightness
+# cd /sys/class/backlight/<your_backlight_device>
+# cat max_brightness > brightness
 # /usr/lib/qt/examples/opengl/hellogl2/hellogl2
 ```
 
@@ -47,6 +48,7 @@ You can start various Qt examples. After enabling the backlight, you
 can start any Qt examples:
 
 ```
-# echo 1 >  /sys/class/backlight/panel-backlight/brightness
+# cd /sys/class/backlight/<your_backlight_device>
+# cat max_brightness > brightness
 # /usr/lib/qt/examples/gui/analogclock/analogclock
 ```
