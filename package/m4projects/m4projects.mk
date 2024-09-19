@@ -69,6 +69,7 @@ define M4PROJECTS_BUILD_CMDS
 endef
 
 define M4PROJECTS_INSTALL_TARGET_CMDS
+	mkdir -p $(TARGET_DIR)/lib/firmware
 	$(foreach project, $(M4PROJECTS_PROJECTS_LIST), \
 		mkdir -p $(TARGET_DIR)/usr/lib/Cube-M4-examples/$(notdir $(project)) ; \
 		$(INSTALL) -D -m 0755 $(@D)/$(project)/out/$(M4PROJECTS_BUILD_CONFIG)/$(notdir $(project)).elf \
