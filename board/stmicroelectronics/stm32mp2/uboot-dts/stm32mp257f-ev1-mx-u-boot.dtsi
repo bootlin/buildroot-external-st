@@ -1,0 +1,47 @@
+// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
+/*
+ * Copyright (C) 2024, STMicroelectronics - All Rights Reserved
+ * Author: STM32CubeMX code generation for STMicroelectronics.
+ */
+
+/* For more information on Device Tree configuration, please refer to
+ * https://wiki.st.com/stm32mpu/wiki/Category:Device_tree_configuration
+ */
+
+#include "stm32mp25-u-boot.dtsi"
+
+/* USER CODE BEGIN includes */
+/* USER CODE END includes */
+
+/ {
+
+	/* USER CODE BEGIN root */
+
+	config{
+		u-boot,mmc-env-partition = "u-boot-env";
+	};
+
+	fwu-mdata{
+		compatible = "u-boot,fwu-mdata-gpt";
+		fwu-mdata-store = <&sdmmc1>;
+	};
+	/* USER CODE END root */
+
+}; /*root*/
+
+/* USER CODE BEGIN addons */
+
+&dwc3{
+	dr_mode = "peripheral";
+	/delete-node/ port;
+};
+
+&i2c_rpmsg{
+	/delete-node/ typec@35;
+};
+
+&usart2{
+	u-boot,dm-pre-reloc;
+};
+/* USER CODE END addons */
+
