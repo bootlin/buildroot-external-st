@@ -13,10 +13,11 @@ The configuration depends on your camera:
 ```
 # media-ctl -d "platform:dcmipp" --set-v4l2 "'imx335 0-001a':0[fmt:SRGGB10_1X10/2592x1940]"
 # media-ctl -d "platform:dcmipp" --set-v4l2 "'stm32_csi2host.48020000.csi2hos':1[fmt:SRGGB10_1X10/2592x1940]"
+# media-ctl -d "platform:dcmipp" --set-v4l2 "'dcmipp_input':2[fmt:SRGGB10_1X10/2592x1940]"
 # media-ctl -d "platform:dcmipp" --set-v4l2 "'dcmipp_main_isp':1[fmt:RGB888_1X24/2592x1940 field:none]"
 # media-ctl -d "platform:dcmipp" --set-v4l2 "'dcmipp_main_postproc':0[compose:(0,0)/640x480]"
 # media-ctl -d "platform:dcmipp" --set-v4l2 "'dcmipp_main_postproc':1[fmt:RGB565_2X8_LE/640x480]"
-# export camera_dev=$(media-ctl -d "platform:dcmipp" -e "dcmipp_dump_capture")
+# export camera_dev=$(media-ctl -d "platform:dcmipp" -e "dcmipp_main_capture")
 ```
 
 ## GC2145 Sensor (MB1897 camera board)
