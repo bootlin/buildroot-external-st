@@ -257,7 +257,6 @@
 			st,io-clk-edge = <1>;
 			st,io-retime = <1>;
 			st,io-delay-path = <0>;
-			st,io-delay = <0x0b0000>;
 		};
 		pins2 {
 			pinmux = <STM32_PINMUX('A', 13, AF10)>, /* ETH1_RGMII_TX_CTL */
@@ -271,7 +270,6 @@
 			st,io-clk-edge = <1>;
 			st,io-retime = <1>;
 			st,io-delay-path = <0>;
-			st,io-delay = <0x0b0000>;
 		};
 		pins3 {
 			pinmux = <STM32_PINMUX('A', 14, AF10)>; /* ETH1_RGMII_RX_CLK */
@@ -290,7 +288,6 @@
 			st,io-clk-edge = <0>;
 			st,io-retime = <0>;
 			st,io-delay-path = <0>;
-			st,io-delay = <0x0b0000>;
 		};
 		pins5 {
 			pinmux = <STM32_PINMUX('H', 9, AF10)>; /* ETH1_RGMII_CLK125 */
@@ -359,7 +356,6 @@
 			st,io-clk-edge = <1>;
 			st,io-retime = <1>;
 			st,io-delay-path = <0>;
-			st,io-delay = <0x0b0000>;
 		};
 		pins2 {
 			pinmux = <STM32_PINMUX('C', 3, AF10)>, /* ETH2_RGMII_RX_CTL */
@@ -372,7 +368,6 @@
 			st,io-clk-edge = <1>;
 			st,io-retime = <1>;
 			st,io-delay-path = <0>;
-			st,io-delay = <0x0b0000>;
 		};
 		pins3 {
 			pinmux = <STM32_PINMUX('F', 6, AF10)>; /* ETH2_RGMII_RX_CLK */
@@ -391,7 +386,6 @@
 			st,io-clk-edge = <0>;
 			st,io-retime = <0>;
 			st,io-delay-path = <0>;
-			st,io-delay = <0x0b0000>;
 		};
 		pins5 {
 			pinmux = <STM32_PINMUX('F', 8, AF10)>; /* ETH2_RGMII_CLK125 */
