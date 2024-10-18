@@ -47,11 +47,20 @@ main()
 			local FIP_FLASH="fip-stm32mp157_usb.bin"
 			local ATF_FLASH="tf-a-stm32mp157_usb.stm32"
 			;;
+		*"stm32mp257"*)
+			local FIP_FLASH="fip-stm32mp257_usb.bin"
+			local FIP_DDR_FLASH="fip-ddr-stm32mp257_usb.bin"
+			local ATF_FLASH="tf-a-stm32mp257_usb.stm32"
+			;;
 	esac
 	sed -e "s/%ATFBIN%/${ATF_FLASH}/" -e "s/%FIPBIN%/${FIP_FLASH}/" \
+		-e "s/%FIPDDRBIN%/${FIP_DDR_FLASH}/" \
 		${BOARD_PATH}/flash.tsv > ${BINARIES_DIR}/flash.tsv
 
-	cp ${BOARD_PATH}/${ATF_FLASH} ${BOARD_PATH}/${FIP_FLASH} ${BINARIES_DIR}
+	cp -f ${BOARD_PATH}/${ATF_FLASH} ${BOARD_PATH}/${FIP_FLASH} ${BINARIES_DIR}
+	if [ -n "${FIP_DDR_FLASH}" ]; then
+		cp -f ${BOARD_PATH}/${FIP_DDR_FLASH} ${BINARIES_DIR}
+	fi
 
 	exit $?
 }
