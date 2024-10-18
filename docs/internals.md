@@ -146,7 +146,7 @@ BR2_TARGET_ARM_TRUSTED_FIRMWARE_FIP=y
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_BL32_OPTEE=y
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_UBOOT_AS_BL33=y
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_UBOOT_BL33_IMAGE="u-boot-nodtb.bin"
-BR2_TARGET_ARM_TRUSTED_FIRMWARE_ADDITIONAL_VARIABLES="STM32MP_SDMMC=1 AARCH32_SP=optee DTB_FILE_NAME=stm32mp157f-dk2.dtb BL33_CFG=$(BINARIES_DIR)/u-boot.dtb STM32MP_USB_PROGRAMMER=1 STM32MP1_OPTEE_IN_SYSRAM=1 OPENSSL_DIR=$(BR2_HOST_DIR)"
+BR2_TARGET_ARM_TRUSTED_FIRMWARE_ADDITIONAL_VARIABLES="STM32MP_SDMMC=1 AARCH32_SP=optee DTB_FILE_NAME=stm32mp157f-dk2.dtb BL33_CFG=$(BINARIES_DIR)/u-boot.dtb STM32MP1_OPTEE_IN_SYSRAM=1 OPENSSL_DIR=$(BR2_HOST_DIR)"
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_IMAGES="*.stm32 fip.bin"
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_NEEDS_DTC=y
 ```
@@ -391,7 +391,7 @@ image for the root filesystem.
 
 ```
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_CUSTOM_DTS_PATH="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/tfa-dts/*"
-BR2_TARGET_ARM_TRUSTED_FIRMWARE_ADDITIONAL_VARIABLES="STM32MP_SDMMC=1 AARCH32_SP=optee DTB_FILE_NAME=stm32mp157f-dk2-mx.dtb BL33_CFG=$(BINARIES_DIR)/u-boot.dtb STM32MP_USB_PROGRAMMER=1 STM32MP1_OPTEE_IN_SYSRAM=1 OPENSSL_DIR=$(BR2_HOST_DIR)"
+BR2_TARGET_ARM_TRUSTED_FIRMWARE_ADDITIONAL_VARIABLES="STM32MP_SDMMC=1 AARCH32_SP=optee DTB_FILE_NAME=stm32mp157f-dk2-mx.dtb BL33_CFG=$(BINARIES_DIR)/u-boot.dtb STM32MP1_OPTEE_IN_SYSRAM=1 OPENSSL_DIR=$(BR2_HOST_DIR)"
 ```
 
 These options customize the build of TF-A to use a Device Tree file
@@ -526,15 +526,65 @@ flashed, based on the environment defined as a text file in
       * [`uEnv.txt`](/board/stmicroelectronics/stm32mp1/uEnv.txt), the
         U-boot environment which contains definitions needed to
         properly support OTA.
+      * [`fip-stm32mp135_usb.bin`](/board/stmicroelectronics/stm32mp2/fip_usb.bin),
+        pre-compiled FIP image built with st_stm32mp135_flash_defconfig in
+        order to be able to flash the SD card.
+        It build TF-A with STM32MP_USB_PROGRAMMER=1 in order to be able to flash
+        the SD card (we unfortunately cannot build a single FIP image that can
+        be used for flashing and on storage, due to memory size limitations)
+      * [`fip-stm32mp157_usb.bin`](/board/stmicroelectronics/stm32mp2/fip_usb.bin),
+        pre-compiled FIP image built with st_stm32mp257_flash_defconfig in
+        order to be able to flash the SD card.
+        It build TF-A with STM32MP_USB_PROGRAMMER=1 option in order to be able
+        to flash the SD card (we unfortunately cannot build a single FIP image
+        that can be used for flashing and on storage, due to memory size
+        limitations)
+      * [`tf-a-stm32mp135_usb.stm32`](/board/stmicroelectronics/stm32mp1/tf-a-stm32mp135_usb.stm32),
+        precompiled TF-A image generated with st_stm32mp257_flash_defconfig
+        in order to be able to flash the SD card.
+        It build TF-A with STM32MP_USB_PROGRAMMER=1 option in order to be able
+        to flash the SD card (we unfortunately cannot build a single FIP image
+        that can be used for flashing and on storage, due to memory size
+        limitations)
+      * [`tf-a-stm32mp157_usb.stm32`](/board/stmicroelectronics/stm32mp1/tf-a-stm32mp157_usb.stm32),
+        precompiled TF-A image generated with
+        [`st_stm32mp157_flash_defconfig`](/configs/st_stm32mp157_flash_defconfig)
+        in order to be able to flash the SD card.
+        It build TF-A with STM32MP_USB_PROGRAMMER=1 option in order to be able
+        to flash the SD card (we unfortunately cannot build a single FIP image
+        that can be used for flashing and on storage, due to memory size
+        limitations)
+      * [`fip-stm32mp135_usb.stm32`](/board/stmicroelectronics/stm32mp1/fip-stm32mp135_usb.stm32),
+        precompiled TF-A image generated with
+        [`st_stm32mp135_flash_defconfig`](/configs/st_stm32mp135_flash_defconfig)
+        in order to be able to flash the SD card.
+        It build TF-A with STM32MP_USB_PROGRAMMER=1 option in order to be able
+        to flash the SD card (we unfortunately cannot build a single FIP image
+        that can be used for flashing and on storage, due to memory size
+        limitations)
+      * [`fip-stm32mp157_usb.stm32`](/board/stmicroelectronics/stm32mp1/fip-stm32mp157_usb.stm32),
+        precompiled TF-A image generated with
+        [`st_stm32mp157_flash_defconfig`](/configs/st_stm32mp157_flash_defconfig)
+        in order to be able to flash the SD card.
+        It build TF-A with STM32MP_USB_PROGRAMMER=1 option in order to be able
+        to flash the SD card (we unfortunately cannot build a single FIP image
+        that can be used for flashing and on storage, due to memory size
+        limitations)
     * `stm32mp2/`
       * [`fip-ddr_usb.bin`](/board/stmicroelectronics/stm32mp2/fip-ddr_usb.bin),
-        pre-compiled DDR FIP image built with STM32MP_USB_PROGRAMMER=1
-        in order to be able to flash the SD card (we unfortunately
-        cannot build a single FIP image that can be used for flashing
-        and on storage, due to memory size limitations)
+        pre-compiled DDR FIP image built with
+        [`st_stm32mp135_flash_defconfig`](/configs/st_stm32mp135_flash_defconfig).
+        It build TF-A with STM32MP_USB_PROGRAMMER=1 option in order to be able
+        to flash the SD card (we unfortunately cannot build a single FIP image
+        that can be used for flashing and on storage, due to memory size
+        limitations)
       * [`fip_usb.bin`](/board/stmicroelectronics/stm32mp2/fip_usb.bin),
-        pre-compiled FIP image built with STM32MP_USB_PROGRAMMER=1 in
+        pre-compiled FIP image built with st_stm32mp257_flash_defconfig in
         order to be able to flash the SD card
+        It build TF-A with STM32MP_USB_PROGRAMMER=1 option in order to be able
+        to flash the SD card (we unfortunately cannot build a single FIP image
+        that can be used for flashing and on storage, due to memory size
+        limitations)
       * [`flash.tsv`](/board/stmicroelectronics/stm32mp2/flash.tsv),
         configuration file for the STM32 Cube Programmer. Only valid
         for SD card flashing.
@@ -570,8 +620,8 @@ flashed, based on the environment defined as a text file in
         Tree files produced by STM32 Cube MX for TF-A. Only used by
         the demo configurations.
       * [`tf-a-stm32mp257f-ev1_usb.stm32`](/board/stmicroelectronics/stm32mp2/tf-a-stm32mp257f-ev1_usb.stm32),
-        the ddr fip image generated with STM32MP_USB_PROGRAMMER=1 TF-A
-        build option to be able to flash the SD card.
+        precompiled TF-A image generated with st_stm32mp257_flash_defconfig
+        in order to be able to flash the SD card.
       * [`uboot-dts/`](/board/stmicroelectronics/stm32mp2/uboot-dts),
         Device Tree files imported from
         [dt-stm32mp repository](https://github.com/STMicroelectronics/dt-stm32mp).
