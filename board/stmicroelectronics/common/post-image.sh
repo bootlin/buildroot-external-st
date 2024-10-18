@@ -38,10 +38,20 @@ main()
 	${HOST_DIR}/bin/bmaptool create -o ${BINARIES_DIR}/sdcard.img.bmap ${BINARIES_DIR}/sdcard.img
 
         # Copy flash layout and necessary binary files
-	sed -e "s/%ATFBIN%/${ATFBIN}/" \
+	case "${ATFBIN}" in
+		*"stm32mp135"*)
+			local FIP_FLASH="fip-stm32mp135_usb.bin"
+			local ATF_FLASH="tf-a-stm32mp135_usb.stm32"
+			;;
+		*"stm32mp157"*)
+			local FIP_FLASH="fip-stm32mp157_usb.bin"
+			local ATF_FLASH="tf-a-stm32mp157_usb.stm32"
+			;;
+	esac
+	sed -e "s/%ATFBIN%/${ATF_FLASH}/" -e "s/%FIPBIN%/${FIP_FLASH}/" \
 		${BOARD_PATH}/flash.tsv > ${BINARIES_DIR}/flash.tsv
 
-	ls -1 "${BOARD_PATH}" | grep -E "\.(bin|stm32)$" | xargs -I {} cp "${BOARD_PATH}/{}" ${BINARIES_DIR}
+	cp ${BOARD_PATH}/${ATF_FLASH} ${BOARD_PATH}/${FIP_FLASH} ${BINARIES_DIR}
 
 	exit $?
 }
