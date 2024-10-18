@@ -36,7 +36,7 @@ papdendidx=58
 il0macaddr=00:90:4c:c5:12:38
 wl0id=0x431b
 # muxenab defined to enable OOB IRQ. Level sensitive interrupt via WL_HOST_WAKE line. 
-muxenab=0x10
+# muxenab=0x10
 #BT COEX deferral limit setting
 #btc_params 8 45000
 #btc_params 10 20000

@@ -597,11 +597,9 @@ flashed, based on the environment defined as a text file in
         the final `sdcard.img` SD card image. It describes the
         partition layout of the SD card. Only used by demo configurations.
       * [`linux-dts/`](/board/stmicroelectronics/stm32mp2/linux-dts),
-        Device Tree files imported from
-        [dt-stm32mp repository](https://github.com/STMicroelectronics/dt-stm32mp).
+        Device Tree files imported from STM32CubeMX.
       * [`optee-dts/`](/board/stmicroelectronics/stm32mp2/optee-dts),
-        Device Tree files imported from
-        [dt-stm32mp repository](https://github.com/STMicroelectronics/dt-stm32mp).
+        Device Tree files imported from STM32CubeMX.
       * [`overlay/`](/board/stmicroelectronics/stm32mp2/overlay/),
         the boot filesytem overlay for the basic configurations. It
         contributes `/boot/extlinux.conf` to the root filesystem to select
@@ -615,16 +613,14 @@ flashed, based on the environment defined as a text file in
         the script executed by Buildroot at the end of the rootfs
         generation for the demo configuration.
       * [`tfa-dts/`](/board/stmicroelectronics/stm32mp2/tfa-dts), Device
-        Device Tree files imported from
-        [dt-stm32mp repository](https://github.com/STMicroelectronics/dt-stm32mp).
+        Device Tree files imported from STM32CubeMX.
         Tree files produced by STM32 Cube MX for TF-A. Only used by
         the demo configurations.
       * [`tf-a-stm32mp257f-ev1_usb.stm32`](/board/stmicroelectronics/stm32mp2/tf-a-stm32mp257f-ev1_usb.stm32),
         precompiled TF-A image generated with st_stm32mp257_flash_defconfig
         in order to be able to flash the SD card.
       * [`uboot-dts/`](/board/stmicroelectronics/stm32mp2/uboot-dts),
-        Device Tree files imported from
-        [dt-stm32mp repository](https://github.com/STMicroelectronics/dt-stm32mp).
+        Device Tree files imported from STM32CubeMX.
       * [`uEnv.txt`](/board/stmicroelectronics/stm32mp2/uEnv.txt), the
         U-boot environment which contains definitions needed to
         properly support OTA.
