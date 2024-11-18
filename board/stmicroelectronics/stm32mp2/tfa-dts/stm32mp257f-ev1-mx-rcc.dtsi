@@ -39,10 +39,7 @@
 	/* USER CODE END clk_hse */
 };
 
-&rcc{
-
-	clocks = <&clk_hse>, <&clk_hsi>, <&clk_msi>, <&clk_lse>, <&clk_lsi>;
-	clock-names = "clk-hse", "clk-hsi", "clk-msi", "clk-lse", "clk-lsi";
+&rcc {
 
 	st,flexgen = <
 

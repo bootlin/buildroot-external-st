@@ -39,10 +39,7 @@
 	/* USER CODE END clk_hse */
 };
 
-&rcc{
-
-	clocks = <&clk_hse>, <&clk_hsi>, <&clk_msi>, <&clk_lse>, <&clk_lsi>;
-	clock-names = "clk-hse", "clk-hsi", "clk-msi", "clk-lse", "clk-lsi";
+&rcc {
 
 	st,flexgen = <
 
@@ -53,7 +50,6 @@
 		FLEXGEN_CFG(4, XBAR_SRC_PLL4, 0, 3)
 		FLEXGEN_CFG(5, XBAR_SRC_PLL4, 0, 2)
 		FLEXGEN_CFG(6, XBAR_SRC_PLL4, 0, 1)
-		FLEXGEN_CFG(7, XBAR_SRC_PLL4, 0, 11)
 		FLEXGEN_CFG(8, XBAR_SRC_HSI_KER, 0, 0)
 		FLEXGEN_CFG(9, XBAR_SRC_HSI_KER, 0, 0)
 		FLEXGEN_CFG(12, XBAR_SRC_PLL4, 0, 11)
@@ -68,6 +64,7 @@
 		FLEXGEN_CFG(33, XBAR_SRC_PLL4, 0, 23)
 		FLEXGEN_CFG(34, XBAR_SRC_PLL4, 0, 59)
 		FLEXGEN_CFG(35, XBAR_SRC_HSI_KER, 0, 3)
+		FLEXGEN_CFG(40, XBAR_SRC_LSE, 0, 0)
 		FLEXGEN_CFG(43, XBAR_SRC_PLL4, 0, 23)
 		FLEXGEN_CFG(44, XBAR_SRC_PLL4, 0, 5)
 		FLEXGEN_CFG(45, XBAR_SRC_PLL4, 0, 2)
@@ -192,14 +189,6 @@
 	};
 
 	/* USER CODE BEGIN rcc */
-	pll7: st,pll-7 {
-		st,pll = <&pll7_cfg_835_51172Mhz>;
 
-		pll7_cfg_835_51172Mhz: pll7-cfg-835-51172Mhz {
-			cfg = <167 4 1 2>;
-			src = <MUX_CFG(MUX_MUXSEL3, MUXSEL_HSE)>;
-			frac = < 0x1A3337 >;
-		};
-	};
 	/* USER CODE END rcc */
 };
