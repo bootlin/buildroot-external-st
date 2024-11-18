@@ -8,9 +8,6 @@
  * https://wiki.st.com/stm32mpu/wiki/Category:Device_tree_configuration
  */
 
-/* !!! log : Internal error - unknown 'U-BOOT' dtsi  !!! */
-/*#include "???.dtsi"*/
-
 /* USER CODE BEGIN includes */
 #include "stm32mp13-u-boot.dtsi"
 /* USER CODE END includes */
@@ -45,8 +42,7 @@
 		};
 
 		led-blue{
-			label = "heartbeat";
-			gpios = <&gpioa 14 GPIO_ACTIVE_LOW>;
+			/delete-property/ default-state;
 		};
 	};
 	/* USER CODE END root */
@@ -55,17 +51,25 @@
 
 /* USER CODE BEGIN addons */
 
-&uart4{
-	u-boot,dm-pre-reloc;
+&sdmmc2 {
+	status = "disabled";
+};
+
+&uart4 {
+	bootph-all;
+};
+
+&usbotg_hs {
+	u-boot,force-b-session-valid;
 };
 
 &uart4_pins_mx {
-	u-boot,dm-pre-reloc;
+	bootph-all;
 	pins1 {
-		u-boot,dm-pre-reloc;
+		bootph-all;
 	};
 	pins2 {
-		u-boot,dm-pre-reloc;
+		bootph-all;
 	};
 };
 /* USER CODE END addons */

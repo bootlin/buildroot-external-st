@@ -23,7 +23,7 @@
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP135F-DK STM32CubeMX board - openstlinux-6.1-yocto-mickledore-mpu-v24.06.26";
+	model = "STMicroelectronics STM32MP135F-DK STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v24.11.06";
 	compatible = "st,stm32mp135f-dk-mx", "st,stm32mp135f-dk", "st,stm32mp135";
 
 	memory@c0000000 {
@@ -139,7 +139,7 @@
 	/* USER CODE END pinctrl */
 };
 
-&bsec{
+&bsec {
 	status = "okay";
 
 	/* USER CODE BEGIN bsec */
@@ -151,14 +151,14 @@
 	/* USER CODE END bsec */
 };
 
-&hash{
+&hash {
 	status = "okay";
 
 	/* USER CODE BEGIN hash */
 	/* USER CODE END hash */
 };
 
-&i2c4{
+&i2c4 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c4_pins_mx>;
 	status = "okay";
@@ -264,7 +264,7 @@
 	/* USER CODE END i2c4 */
 };
 
-&iwdg1{
+&iwdg1 {
 	status = "okay";
 
 	/* USER CODE BEGIN iwdg1 */
@@ -272,14 +272,14 @@
 	/* USER CODE END iwdg1 */
 };
 
-&pka{
+&pka {
 	status = "okay";
 
 	/* USER CODE BEGIN pka */
 	/* USER CODE END pka */
 };
 
-&pwr_regulators{
+&pwr_regulators {
 	status = "okay";
 
 	/* USER CODE BEGIN pwr_regulators */
@@ -288,7 +288,7 @@
 	/* USER CODE END pwr_regulators */
 };
 
-&rcc{
+&rcc {
 	status = "okay";
 
 	/* USER CODE BEGIN rcc */
@@ -405,21 +405,21 @@
 	};
 };
 
-&rng{
+&rng {
 	status = "okay";
 
 	/* USER CODE BEGIN rng */
 	/* USER CODE END rng */
 };
 
-&saes{
+&saes {
 	status = "okay";
 
 	/* USER CODE BEGIN saes */
 	/* USER CODE END saes */
 };
 
-&sdmmc1{
+&sdmmc1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&sdmmc1_pins_mx>;
 	status = "okay";
@@ -432,7 +432,7 @@
 	/* USER CODE END sdmmc1 */
 };
 
-&uart4{
+&uart4 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart4_pins_mx>;
 	status = "okay";
@@ -443,8 +443,13 @@
 
 /* USER CODE BEGIN addons */
 
-&cpu0{
+&cpu0 {
 	cpu-supply = <&vddcpu>;
+};
+
+&ddr {
+	vdd-supply = <&vdd_ddr>;
+	vref-supply = <&vref_ddr>;
 };
 /* USER CODE END addons */
 

@@ -8,9 +8,6 @@
  * https://wiki.st.com/stm32mpu/wiki/Category:Device_tree_configuration
  */
 
-/* !!! log : Internal error - unknown 'U-BOOT' dtsi  !!! */
-/*#include "???.dtsi"*/
-
 /* USER CODE BEGIN includes */
 #include "stm32mp15-scmi-u-boot.dtsi"
 /* USER CODE END includes */
@@ -46,23 +43,23 @@
 
 /* USER CODE BEGIN addons */
 
-&uart4{
-	u-boot,dm-pre-reloc;
+&uart4 {
+	bootph-all;
 };
 
-&usbotg_hs{
+&usbotg_hs {
 	u-boot,force-b-session-valid;
 };
 
 &uart4_pins_mx {
-	u-boot,dm-pre-reloc;
+	bootph-all;
 	pins1 {	/* UART4_RX */
-		u-boot,dm-pre-reloc;
+		bootph-all;
 		/* pull-up on rx to avoid floating level */
 		bias-pull-up;
 	};
 	pins2 {
-		u-boot,dm-pre-reloc;
+		bootph-all;
 	};
 };
 /* USER CODE END addons */

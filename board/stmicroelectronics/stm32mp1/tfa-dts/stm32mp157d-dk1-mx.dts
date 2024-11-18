@@ -20,11 +20,10 @@
 #include "stm32mp15-ddr.dtsi"
 
 /* USER CODE BEGIN includes */
-#include "stm32mp15-pinctrl.dtsi"
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP157D-DK1 STM32CubeMX board - openstlinux-6.1-yocto-mickledore-mpu-v24.06.26";
+	model = "STMicroelectronics STM32MP157D-DK1 STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v24.11.06";
 	compatible = "st,stm32mp157d-dk1-mx", "st,stm32mp157d-dk1", "st,stm32mp157";
 
 	memory@c0000000 {
@@ -37,18 +36,18 @@
 
 	/* USER CODE BEGIN root */
 
+	aliases{
+		serial0 = &uart4;
+		serial1 = &usart3;
+		serial2 = &uart7;
+	};
+
 	vin:vin{
 		compatible = "regulator-fixed";
 		regulator-name = "vin";
 		regulator-min-microvolt = <5000000>;
 		regulator-max-microvolt = <5000000>;
 		regulator-always-on;
-	};
-
-	aliases{
-		serial0 = &uart4;
-		serial1 = &usart3;
-		serial2 = &uart7;
 	};
 
 	chosen{
@@ -136,14 +135,14 @@
 	/* USER CODE END pinctrl_z */
 };
 
-&hash1{
+&hash1 {
 	status = "okay";
 
 	/* USER CODE BEGIN hash1 */
 	/* USER CODE END hash1 */
 };
 
-&i2c4{
+&i2c4 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c4_pins_z_mx>;
 	status = "okay";
@@ -278,7 +277,7 @@
 	/* USER CODE END i2c4 */
 };
 
-&iwdg1{
+&iwdg1 {
 	status = "okay";
 
 	/* USER CODE BEGIN iwdg1 */
@@ -286,7 +285,7 @@
 	/* USER CODE END iwdg1 */
 };
 
-&rcc{
+&rcc {
 	status = "okay";
 
 	/* USER CODE BEGIN rcc */
@@ -297,6 +296,7 @@
 		CLK_CKPER_HSE
 		CLK_SDMMC12_PLL4P
 		CLK_STGEN_HSE
+		CLK_USBPHY_HSE
 		CLK_I2C46_HSI
 		CLK_USBO_USBPHY
 		CLK_UART24_HSI
@@ -380,7 +380,7 @@
 
 };
 
-&sdmmc1{
+&sdmmc1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&sdmmc1_pins_mx>;
 	status = "okay";
@@ -393,7 +393,7 @@
 	/* USER CODE END sdmmc1 */
 };
 
-&uart4{
+&uart4 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart4_pins_mx>;
 	status = "okay";
@@ -402,7 +402,7 @@
 	/* USER CODE END uart4 */
 };
 
-&usbotg_hs{
+&usbotg_hs {
 	status = "okay";
 
 	/* USER CODE BEGIN usbotg_hs */
@@ -412,14 +412,14 @@
 	/* USER CODE END usbotg_hs */
 };
 
-&usbphyc{
+&usbphyc {
 	status = "okay";
 
 	/* USER CODE BEGIN usbphyc */
 	/* USER CODE END usbphyc */
 };
 
-&usbphyc_port0{
+&usbphyc_port0 {
 	status = "okay";
 
 	/* USER CODE BEGIN usbphyc_port0 */
@@ -427,7 +427,7 @@
 	/* USER CODE END usbphyc_port0 */
 };
 
-&usbphyc_port1{
+&usbphyc_port1 {
 	status = "okay";
 
 	/* USER CODE BEGIN usbphyc_port1 */
@@ -437,7 +437,7 @@
 
 /* USER CODE BEGIN addons */
 
-&bsec{
+&bsec {
 
 	board_id:board_id@ec{
 		reg = <0xec 0x4>;
@@ -445,24 +445,30 @@
 	};
 };
 
-&cpu0{
+&cpu0 {
 	cpu-supply = <&vddcore>;
 };
 
-&cpu1{
+&cpu1 {
 	cpu-supply = <&vddcore>;
 };
 
-&pwr_regulators{
+&ddr {
+	vdd-supply = <&vdd_ddr>;
+	vtt-supply = <&vtt_ddr>;
+	vref-supply = <&vref_ddr>;
+};
+
+&pwr_regulators {
 	vdd-supply = <&vdd>;
 	vdd_3v3_usbfs-supply = <&vdd_usb>;
 };
 
-&rng1{
+&rng1 {
 	status = "okay";
 };
 
-&rtc{
+&rtc {
 	status = "okay";
 };
 /* USER CODE END addons */

@@ -12,15 +12,15 @@
 
 #include <dt-bindings/pinctrl/stm32-pinfunc.h>
 #include <dt-bindings/clock/stm32mp13-clksrc.h>
-
 #include <dt-bindings/soc/stm32mp13-etzpc.h>
 #include "stm32mp135.dtsi"
 #include "stm32mp13xf.dtsi"
 
 /* USER CODE BEGIN includes */
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/gpio/stm32mp_gpio.h>
 #include <dt-bindings/mfd/st,stpmic1.h>
 #include <dt-bindings/power/stm32mp1-power.h>
-#include <dt-bindings/random/stm32mp-rng.h>
 #include <dt-bindings/regulator/st,stm32mp13-regulator.h>
 #include <dt-bindings/soc/stm32mp-provisioning.h>
 #include <dt-bindings/soc/stm32mp-tzc400-macro.h>
@@ -30,7 +30,7 @@
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP135F-DK STM32CubeMX board - openstlinux-6.1-yocto-mickledore-mpu-v24.06.26";
+	model = "STMicroelectronics STM32MP135F-DK STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v24.11.06";
 	compatible = "st,stm32mp135f-dk-mx", "st,stm32mp135f-dk", "st,stm32mp135";
 
 	memory@c0000000 {
@@ -83,6 +83,14 @@
 		};
 	};
 
+	typec_wakeup:typec_wakeup{
+		compatible = "st,stm32mp1-pwr-irq-user";
+		wakeup-parent = <&pwr_irq>;
+		st,wakeup-pin-number = <5>;
+		st,notif-it-id = <1>;
+		status = "okay";
+	};
+
 	vin:vin{
 		compatible = "regulator-fixed";
 		regulator-name = "vin";
@@ -97,14 +105,6 @@
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
 		regulator-always-on;
-	};
-
-	typec_wakeup:typec_wakeup{
-		compatible = "st,stm32mp1-pwr-irq-user";
-		wakeup-parent = <&pwr_irq>;
-		st,wakeup-pin-number = <5>;
-		st,notif-it-id = <1>;
-		status = "okay";
 	};
 	/* USER CODE END root */
 
@@ -184,13 +184,7 @@
 	};
 
 	rcc_pins_mx: rcc_mx-0 {
-		pins1 {
-			pinmux = <STM32_PINMUX('C', 14, ANALOG)>, /* RCC_OSC32_IN */
-					 <STM32_PINMUX('C', 15, ANALOG)>, /* RCC_OSC32_OUT */
-					 <STM32_PINMUX('H', 0, ANALOG)>, /* RCC_OSC_IN */
-					 <STM32_PINMUX('H', 1, ANALOG)>; /* RCC_OSC_OUT */
-		};
-		pins2 {
+		pins {
 			pinmux = <STM32_PINMUX('D', 7, AF0)>; /* RCC_MCO_1 */
 			bias-disable;
 			drive-push-pull;
@@ -226,30 +220,10 @@
 		};
 	};
 	
-	wakeup_pins: wakeup_pins {
-		wakeup_pin_1: pins1 {
-			pinmux = <STM32_PINMUX('F', 8, GPIO)>;
-		};
-		wakeup_pin_2: pins2 {
-			pinmux = <STM32_PINMUX('I', 3, GPIO)>;
-		};
-		wakeup_pin_3: pins3 {
-			pinmux = <STM32_PINMUX('C', 13, GPIO)>;
-		};
-		wakeup_pin_4: pins4 {
-			pinmux = <STM32_PINMUX('I', 1, GPIO)>;
-		};
-		wakeup_pin_5: pins5 {
-			pinmux = <STM32_PINMUX('I', 2, GPIO)>;
-		};
-		wakeup_pin_6: pins6 {
-			pinmux = <STM32_PINMUX('A', 3, GPIO)>;
-		};
-	};
 	/* USER CODE END pinctrl */
 };
 
-&adc_2{
+&adc_2 {
 	status = "okay";
 
 	/* USER CODE BEGIN adc_2 */
@@ -267,7 +241,7 @@
 	/* USER CODE END adc_2 */
 };
 
-&bsec{
+&bsec {
 	status = "okay";
 
 	/* USER CODE BEGIN bsec */
@@ -279,7 +253,7 @@
 	/* USER CODE END bsec */
 };
 
-&etzpc{
+&etzpc {
 	status = "okay";
 	st,decprot = <
 	/*"Non Secured" peripherals*/
@@ -289,7 +263,6 @@
 	DECPROT(STM32MP1_ETZPC_ETH1_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_ETH2_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_I2C5_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
-	DECPROT(STM32MP1_ETZPC_LTDC_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_SDMMC1_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_SDMMC2_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_USART2_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
@@ -298,6 +271,7 @@
 	/*"NS_R S_W" peripherals*/
 	DECPROT(STM32MP1_ETZPC_DDRCTRLPHY_ID, DECPROT_NS_R_S_W, DECPROT_LOCK)
 	/*"Secured" peripherals*/
+	DECPROT(STM32MP1_ETZPC_LTDC_ID, DECPROT_S_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_ADC2_ID, DECPROT_S_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_HASH_ID, DECPROT_S_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_I2C4_ID, DECPROT_S_RW, DECPROT_UNLOCK)
@@ -323,14 +297,14 @@
 	/* USER CODE END etzpc */
 };
 
-&hash{
+&hash {
 	status = "okay";
 
 	/* USER CODE BEGIN hash */
 	/* USER CODE END hash */
 };
 
-&i2c4{
+&i2c4 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c4_pins_mx>;
 	status = "okay";
@@ -476,7 +450,7 @@
 				regulator-name = "vdd_sd";
 				regulator-min-microvolt = <3300000>;
 				regulator-max-microvolt = <3300000>;
-				regulator-boot-on;
+				st,regulator-warm-boot-on;
 
 				standby-ddr-sr{
 					regulator-off-in-suspend;
@@ -529,7 +503,7 @@
 	/* USER CODE END i2c4 */
 };
 
-&iwdg1{
+&iwdg1 {
 	status = "okay";
 
 	/* USER CODE BEGIN iwdg1 */
@@ -537,7 +511,7 @@
 	/* USER CODE END iwdg1 */
 };
 
-&lptimer3{
+&lptimer3 {
 	status = "okay";
 
 	/* USER CODE BEGIN lptimer3 */
@@ -548,23 +522,41 @@
 	/* USER CODE END lptimer3 */
 };
 
-&ltdc{
+&ltdc {
 	pinctrl-names = "default";
 	pinctrl-0 = <&ltdc_pins_mx>;
 	status = "okay";
 
 	/* USER CODE BEGIN ltdc */
+	access-controllers-conf-nsec = <&etzpc DECPROT(STM32MP1_ETZPC_LTDC_ID, DECPROT_NS_RW, DECPROT_UNLOCK)>,
+			<&gpioa (GPIO_STM32_NSEC | TZPROT(15))>,
+			<&gpiob (GPIO_STM32_NSEC | TZPROT(6) | TZPROT(12))>,
+			<&gpioc (GPIO_STM32_NSEC | TZPROT(6) | TZPROT(7))>,
+			<&gpiod (GPIO_STM32_NSEC | TZPROT(5) | TZPROT(9) | TZPROT(10) | TZPROT(14))>,
+			<&gpioe (GPIO_STM32_NSEC | TZPROT(0) | TZPROT(7) | TZPROT(9) | TZPROT(13))>,
+			<&gpiof (GPIO_STM32_NSEC | TZPROT(1) | TZPROT(2) | TZPROT(3))>,
+			<&gpiog (GPIO_STM32_NSEC | TZPROT(0) | TZPROT(4) | TZPROT(7))>,
+			<&gpioh (GPIO_STM32_NSEC | TZPROT(9) | TZPROT(13) | TZPROT(14))>;
+	access-controllers-conf-sec = <&etzpc DECPROT(STM32MP1_ETZPC_LTDC_ID, DECPROT_NS_R_S_W, DECPROT_UNLOCK)>,
+			<&gpioa (TZPROT(15))>,
+			<&gpiob (TZPROT(6) | TZPROT(12))>,
+			<&gpioc (TZPROT(6) | TZPROT(7))>,
+			<&gpiod (TZPROT(5) | TZPROT(9) | TZPROT(10) | TZPROT(14))>,
+			<&gpioe (TZPROT(0) | TZPROT(7) | TZPROT(9) | TZPROT(13))>,
+			<&gpiof (TZPROT(1) | TZPROT(2) | TZPROT(3))>,
+			<&gpiog (TZPROT(0) | TZPROT(4) | TZPROT(7))>,
+			<&gpioh (TZPROT(9) | TZPROT(13) | TZPROT(14))>;
 	/* USER CODE END ltdc */
 };
 
-&pka{
+&pka {
 	status = "okay";
 
 	/* USER CODE BEGIN pka */
 	/* USER CODE END pka */
 };
 
-&pwr_regulators{
+&pwr_regulators {
 	status = "okay";
 
 	/* USER CODE BEGIN pwr_regulators */
@@ -581,7 +573,7 @@
 	/* USER CODE END pwr_regulators */
 };
 
-&rcc{
+&rcc {
 	status = "okay";
 	clocks = <&clk_hse>, <&clk_hsi>, <&clk_lse>, <&clk_lsi>, <&clk_csi>;
 	clock-names = "clk-hse", "clk-hsi", "clk-lse", "clk-lsi", "clk-csi";
@@ -657,6 +649,12 @@
 			divmn = <1 82>;
 			frac = <0xAAA>;
 		};
+
+		pll1_vco_1800Mhz:pll1-vco-1800Mhz{
+			src = <CLK_PLL12_HSE>;
+			divmn = <1 74>;
+			frac = <0>;
+		};
 		/* USER CODE END rcc_st-pll_vco */
 	};
 
@@ -674,6 +672,11 @@
 
 		pll1_cfg2:pll1_cfg2{
 			st,pll_vco = <&pll1_vco_2000Mhz>;
+			st,pll_div_pqr = <0 1 1>;
+		};
+
+		pll1_cfg3:pll1_cfg3{
+			st,pll_vco = <&pll1_vco_1800Mhz>;
 			st,pll_div_pqr = <0 1 1>;
 		};
 		/* USER CODE END pll1 */
@@ -731,11 +734,18 @@
 				st,pll = < &pll1_cfg1 >;
 			};
 			/* USER CODE BEGIN rcc_st-ck_mpu */
-			cfg_2 {
-				hz = < 1000000000 >;
-				st,clksrc = < CLK_MPU_PLL1P >;
-				st,pll = < &pll1_cfg2 >;
-			};
+
+				cfg_2 {
+					hz = < 1000000000 >;
+					st,clksrc = < CLK_MPU_PLL1P >;
+					st,pll = < &pll1_cfg2 >;
+				};
+						
+				cfg_3{
+					hz = <900000000>;
+					st,clksrc = <CLK_MPU_PLL1P>;
+					st,pll = <&pll1_cfg3>;
+				};
 			/* USER CODE END rcc_st-ck_mpu */
 		};
 
@@ -781,7 +791,7 @@
 	};
 };
 
-&rng{
+&rng {
 	status = "okay";
 
 	/* USER CODE BEGIN rng */
@@ -789,7 +799,7 @@
 	/* USER CODE END rng */
 };
 
-&rtc{
+&rtc {
 	pinctrl-names = "default";
 	pinctrl-0 = <&rtc_pins_mx>;
 	status = "okay";
@@ -798,14 +808,14 @@
 	/* USER CODE END rtc */
 };
 
-&saes{
+&saes {
 	status = "okay";
 
 	/* USER CODE BEGIN saes */
 	/* USER CODE END saes */
 };
 
-&tamp{
+&tamp {
 	status = "okay";
 
 	/* USER CODE BEGIN tamp */
@@ -814,23 +824,23 @@
 	wakeup-source;
 	wakeup-parent = <&exti>;
 
-	tamp_button:tamp-passive@2{
-		status = "okay";
-		reg = <EXT_TAMPER_2 0>;
-		pinctrl-0 = <&tamp0_in2_pin_a>;
+	tamp-button{
+		tamper-gpios = <&gpioa 6 0>;
 		st,tamp-mode = <TAMPER_CONFIRMED_MODE>;
+		st,tamp-id = <2>;
+		status = "okay";
 	};
 
-	tamp-active@3{
-		pinctrl-0 = <&tamp0_in3_pin_a &tamp0_out1_pin_a>;
-		reg = <EXT_TAMPER_3 0>;
-		st,tamp-mode = <TAMPER_POTENTIAL_MODE>;
+	tamp-active{
+		tamper-gpios = <&gpioc 0 0>, <&gpioi 0 0>;
+		st,tamp-mode = <TAMPER_CONFIRMED_MODE>;
+		st,tamp-id = <3>, <1>;
 		status = "disabled";
 	};
 	/* USER CODE END tamp */
 };
 
-&timers12{
+&timers12 {
 	status = "okay";
 
 	/* USER CODE BEGIN timers12 */
@@ -843,35 +853,43 @@
 
 /* USER CODE BEGIN addons */
 
-&cpu0{
+&cpu0 {
 	cpu-supply = <&vddcpu>;
 };
 
-&gpiob{
+&gpioa {
+	st,protreg = < (TZPROT(6)) >;
+};
+
+&gpiob {
 	st,protreg = < (TZPROT(9)) >;
 };
 
-&gpiod{
+&gpiod {
 	st,protreg = < (TZPROT(7)) >;
 };
 
-&gpioe{
+&gpioe {
 	st,protreg = < (TZPROT(15)) >;
 };
 
-&gpioi{
-	st,protreg = < (TZPROT(2)|TZPROT(3)) >;
+&gpiof {
+	st,protreg = < (TZPROT(8)) >;
 };
 
-&hse_monitor{
+&gpioi {
+	st,protreg = < (TZPROT(2) | TZPROT(3)) >;
+};
+
+&hse_monitor {
 	status = "okay";
 };
 
-&oem_enc_key{
+&oem_enc_key {
 	st,non-secure-otp-provisioning;
 };
 
-&osc_calibration{
+&osc_calibration {
 
 	csi-calibration{
 		status = "okay";
@@ -882,75 +900,70 @@
 	};
 };
 
-&pwr_irq{
-	pinctrl-names = "default";
-	pinctrl-0 = <&wakeup_pins>;
+&pwr_irq {
 	status = "okay";
+	wakeup-gpios = <&gpiof 8 GPIO_ACTIVE_HIGH>, <&gpioi 3 GPIO_ACTIVE_HIGH>, <0>, <0>, <&gpioi 2 GPIO_PULL_UP>, <0>;
 };
 
-&scmi_regu{
+&scmi_regu {
 
-	scmi_vddcpu:voltd-vddcpu{
+	voltd-vddcpu{
 		reg = <VOLTD_SCMI_STPMIC1_BUCK1>;
 		voltd-supply = <&vddcpu>;
 	};
 
-	scmi_vdd:voltd-vdd{
+	voltd-vdd{
 		reg = <VOLTD_SCMI_STPMIC1_BUCK3>;
 		voltd-supply = <&vdd>;
 	};
 
-	scmi_vddcore:voltd-vddcore{
+	voltd-vddcore{
 		reg = <VOLTD_SCMI_STPMIC1_BUCK4>;
 		voltd-supply = <&vddcore>;
 	};
 
-	scmi_vdd_adc:voltd-vdd_adc{
+	voltd-vdd-adc{
 		reg = <VOLTD_SCMI_STPMIC1_LDO1>;
 		voltd-supply = <&vdd_adc>;
 	};
 
-	scmi_vdd_usb:voltd-vdd_usb{
+	voltd-vdd-usb{
 		reg = <VOLTD_SCMI_STPMIC1_LDO4>;
 		voltd-supply = <&vdd_usb>;
 	};
 
-	scmi_vdd_sd:voltd-vdd_sd{
+	voltd-vdd-sd{
 		reg = <VOLTD_SCMI_STPMIC1_LDO5>;
 		voltd-supply = <&vdd_sd>;
 	};
 
-	scmi_v1v8_periph:voltd-v1v8_periph{
+	voltd-v1v8-periph{
 		reg = <VOLTD_SCMI_STPMIC1_LDO6>;
 		voltd-supply = <&v1v8_periph>;
 	};
 
-	scmi_v3v3_sw:voltd-v3v3_sw{
+	voltd-v3v3-sw{
 		reg = <VOLTD_SCMI_STPMIC1_PWR_SW2>;
 		voltd-supply = <&v3v3_sw>;
 	};
 };
 
-&sdmmc1_io{
+&sdmmc1_io {
 	vddsd1-supply = <&vdd>;
 };
 
-&sdmmc2_io{
+&sdmmc2_io {
 	vddsd2-supply = <&vdd>;
 };
 
-&tzc400{
+&tzc400 {
 	memory-region = <&optee_framebuffer>;
 };
 
-&uart4{
+&uart4 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart4_pins_a>;
 	status = "okay";
-};
-
-&wakeup_pin_5{
-	bias-pull-up;
 };
 /* USER CODE END addons */
 

@@ -18,8 +18,7 @@
 #include "stm32mp15xxac-pinctrl.dtsi"
 
 /* USER CODE BEGIN includes */
-#include "stm32mp15-pinctrl.dtsi"
-#include <dt-bindings/gpio/stm32mp_gpio.h>
+#include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/power/stm32mp1-power.h>
 #include <dt-bindings/mfd/st,stpmic1.h>
 #include <dt-bindings/soc/stm32mp-provisioning.h>
@@ -27,7 +26,7 @@
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP157D-DK1 STM32CubeMX board - openstlinux-6.1-yocto-mickledore-mpu-v24.06.26";
+	model = "STMicroelectronics STM32MP157D-DK1 STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v24.11.06";
 	compatible = "st,stm32mp157d-dk1-mx", "st,stm32mp157d-dk1", "st,stm32mp157";
 
 	memory@c0000000 {
@@ -45,28 +44,36 @@
 
 		/* USER CODE BEGIN reserved-memory */
 
-		mcusram1:mcuram@10000000{
+		mcusram1:mcuram1@10000000{
 			compatible = "shared-dma-pool";
 			reg = <0x10000000 0x20000>;
 			no-map;
+			access-controllers-conf-default = <&etzpc DECPROT(STM32MP1_ETZPC_SRAM1_ID, DECPROT_MCU_ISOLATION, DECPROT_UNLOCK)>;
+			access-controllers-conf-load = <&etzpc DECPROT(STM32MP1_ETZPC_SRAM1_ID, DECPROT_S_RW, DECPROT_UNLOCK)>;
 		};
 
-		mcusram2:mcuram@10020000{
+		mcusram2:mcuram2@10020000{
 			compatible = "shared-dma-pool";
 			reg = <0x10020000 0x20000>;
 			no-map;
+			access-controllers-conf-default = <&etzpc DECPROT(STM32MP1_ETZPC_SRAM2_ID, DECPROT_MCU_ISOLATION, DECPROT_UNLOCK)>;
+			access-controllers-conf-load = <&etzpc DECPROT(STM32MP1_ETZPC_SRAM2_ID, DECPROT_S_RW, DECPROT_UNLOCK)>;
 		};
 
-		mcusram3:mcuram@10040000{
+		mcusram3:mcuram3@10040000{
 			compatible = "shared-dma-pool";
 			reg = <0x10040000 0x10000>;
 			no-map;
+			access-controllers-conf-default = <&etzpc DECPROT(STM32MP1_ETZPC_SRAM3_ID, DECPROT_NS_RW, DECPROT_UNLOCK)>;
+			access-controllers-conf-load = <&etzpc DECPROT(STM32MP1_ETZPC_SRAM3_ID, DECPROT_S_RW, DECPROT_UNLOCK)>;
 		};
 
 		retram:retram@38000000{
 			compatible = "shared-dma-pool";
 			reg = <0x38000000 0x10000>;
 			no-map;
+			access-controllers-conf-default = <&etzpc DECPROT(STM32MP1_ETZPC_RETRAM_ID, DECPROT_MCU_ISOLATION, DECPROT_UNLOCK)>;
+			access-controllers-conf-load = <&etzpc DECPROT(STM32MP1_ETZPC_RETRAM_ID, DECPROT_S_RW, DECPROT_UNLOCK)>;
 		};
 
 		gpu_reserved:gpu@d4000000{
@@ -148,29 +155,7 @@
 
 /*Warning: the configuration of the secured GPIOs should be added in (addons) User Section*/
 &pinctrl {
-	rcc_pins_mx: rcc_mx-0 {
-		pins {
-			pinmux = <STM32_PINMUX('C', 14, ANALOG)>, /* RCC_OSC32_IN */
-					 <STM32_PINMUX('C', 15, ANALOG)>, /* RCC_OSC32_OUT */
-					 <STM32_PINMUX('H', 0, ANALOG)>, /* RCC_OSC_IN */
-					 <STM32_PINMUX('H', 1, ANALOG)>; /* RCC_OSC_OUT */
-		};
-	};
-
 	/* USER CODE BEGIN pinctrl */
-
-	uart4_pins_mx: uart4_mx-0 {
-		pins1 {
-			pinmux = <STM32_PINMUX('B', 2, AF8)>; /* UART4_RX */
-			bias-disable;
-		};
-		pins2 {
-			pinmux = <STM32_PINMUX('G', 11, AF6)>; /* UART4_TX */
-			bias-disable;
-			drive-push-pull;
-			slew-rate = <0>;
-		};
-	};
 	/* USER CODE END pinctrl */
 };
 
@@ -189,7 +174,7 @@
 	/* USER CODE END pinctrl_z */
 };
 
-&bsec{
+&bsec {
 	status = "okay";
 
 	/* USER CODE BEGIN bsec */
@@ -205,7 +190,7 @@
 	/* USER CODE END bsec */
 };
 
-&etzpc{
+&etzpc {
 	status = "okay";
 	st,decprot = <
 	/*"Non Secured" peripherals*/
@@ -245,7 +230,7 @@
 	/* USER CODE END etzpc */
 };
 
-&i2c4{
+&i2c4 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&i2c4_pins_z_mx>;
 	status = "okay";
@@ -444,7 +429,7 @@
 				regulator-min-microvolt = <2900000>;
 				regulator-max-microvolt = <2900000>;
 				interrupts = <IT_CURLIM_LDO5 0>;
-				regulator-boot-on;
+				st,regulator-warm-boot-on;
 
 				standby-ddr-sr{
 					regulator-off-in-suspend;
@@ -508,7 +493,7 @@
 	/* USER CODE END i2c4 */
 };
 
-&iwdg1{
+&iwdg1 {
 	status = "okay";
 
 	/* USER CODE BEGIN iwdg1 */
@@ -516,7 +501,7 @@
 	/* USER CODE END iwdg1 */
 };
 
-&pwr_regulators{
+&pwr_regulators {
 	status = "okay";
 
 	/* USER CODE BEGIN pwr_regulators */
@@ -531,12 +516,11 @@
 	/* USER CODE END pwr_regulators */
 };
 
-&rcc{
-	pinctrl-names = "default";
-	pinctrl-0 = <&rcc_pins_mx>;
+&rcc {
 	status = "okay";
 
 	/* USER CODE BEGIN rcc */
+	compatible = "st,stm32mp1-rcc-secure";
 	/* USER CODE END rcc */
 
 	st,clksrc = <
@@ -544,6 +528,7 @@
 		CLK_ETH_PLL4P
 		CLK_SDMMC12_PLL4P
 		CLK_STGEN_HSE
+		CLK_USBPHY_HSE
 		CLK_SPI2S23_PLL3Q
 		CLK_I2C46_HSI
 		CLK_USBO_USBPHY
@@ -634,25 +619,23 @@
 		/* USER CODE END pll4 */
 	};
 
-	/* USER CODE BEGIN rcc */
-	/* USER CODE END rcc */
 };
 
-&rng1{
+&rng1 {
 	status = "okay";
 
 	/* USER CODE BEGIN rng1 */
 	/* USER CODE END rng1 */
 };
 
-&rtc{
+&rtc {
 	status = "okay";
 
 	/* USER CODE BEGIN rtc */
 	/* USER CODE END rtc */
 };
 
-&tamp{
+&tamp {
 	status = "okay";
 
 	/* USER CODE BEGIN tamp */
@@ -661,7 +644,7 @@
 	/* USER CODE END tamp */
 };
 
-&timers15{
+&timers15 {
 	status = "okay";
 
 	/* USER CODE BEGIN timers15 */
@@ -674,19 +657,19 @@
 
 /* USER CODE BEGIN addons */
 
-&gpu{
+&gpu {
 	contiguous-area = <&gpu_reserved>;
 };
 
-&cpu0{
+&cpu0 {
 	cpu-supply = <&vddcore>;
 };
 
-&cpu1{
+&cpu1 {
 	cpu-supply = <&vddcore>;
 };
 
-&osc_calibration{
+&osc_calibration {
 
 	csi-calibration{
 		status = "okay";
@@ -697,7 +680,7 @@
 	};
 };
 
-&usbphyc_port0{
+&usbphyc_port0 {
 	phy-supply = <&vdd_usb>;
 	st,tune-hs-dc-level = <2>;
 	st,enable-fs-rftime-tuning;
@@ -709,7 +692,7 @@
 	st,no-lsfs-sc;
 };
 
-&usbphyc_port1{
+&usbphyc_port1 {
 	phy-supply = <&vdd_usb>;
 	st,tune-hs-dc-level = <2>;
 	st,enable-fs-rftime-tuning;
@@ -719,13 +702,6 @@
 	st,tune-squelch-level = <3>;
 	st,tune-hs-rx-offset = <2>;
 	st,no-lsfs-sc;
-};
-
-
-&uart4{
-	pinctrl-names = "default";
-	pinctrl-0 = <&uart4_pins_mx>;
-	status = "okay";
 };
 /* USER CODE END addons */
 
