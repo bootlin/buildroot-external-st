@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-M33PROJECTS_VERSION = bf7714ca90c9c4be615ffbe7aeeca556af4bb06e
+M33PROJECTS_VERSION = 720f5e7cf36f4b6e2046339a84bbed001bd80b06
 M33PROJECTS_SITE = $(call github,STMicroelectronics,STM32CubeMP2,$(M33PROJECTS_VERSION))
 M33PROJECTS_LICENSE = Apache-2.0, MIT, BSD-3-Clause
 M33PROJECTS_LICENSE_FILES = License.md
@@ -16,7 +16,8 @@ M33PROJECTS_DEPENDENCIES += \
 	host-python-pycryptodomex
 
 M33PROJECTS_PROJECTS_LIST = \
-	STM32MP257F-EV1/Demonstrations/USBPD_DRP_UCSI
+	STM32MP257F-EV1/Demonstrations/USBPD_DRP_UCSI \
+	STM32MP257F-EV1/Demonstrations/LowPower_SRAM_Demo
 
 define M33PROJECTS_CONFIGURE_CMDS
 	$(foreach project, $(M33PROJECTS_PROJECTS_LIST), \
