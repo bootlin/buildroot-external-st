@@ -170,11 +170,11 @@
 
 	uart4_pins_mx: uart4_mx-0 {
 		pins1 {
-			pinmux = <STM32_PINMUX('B', 2, AF8)>; /* UART4_RX */
+			pinmux = <STM32_PINMUX_NSEC('B', 2, AF8)>; /* UART4_RX */
 			bias-disable;
 		};
 		pins2 {
-			pinmux = <STM32_PINMUX('G', 11, AF6)>; /* UART4_TX */
+			pinmux = <STM32_PINMUX_NSEC('G', 11, AF6)>; /* UART4_TX */
 			bias-disable;
 			drive-push-pull;
 			slew-rate = <0>;
@@ -186,8 +186,8 @@
 &pinctrl_z {
 	i2c4_pins_z_mx: i2c4_mx-0 {
 		pins {
-			pinmux = <STM32_PINMUX('Z', 4, AF6)>, /* I2C4_SCL */
-					 <STM32_PINMUX('Z', 5, AF6)>; /* I2C4_SDA */
+			pinmux = <STM32_PINMUX_NSEC('Z', 4, AF6)>, /* I2C4_SCL */
+					 <STM32_PINMUX_NSEC('Z', 5, AF6)>; /* I2C4_SDA */
 			bias-disable;
 			drive-open-drain;
 			slew-rate = <0>;

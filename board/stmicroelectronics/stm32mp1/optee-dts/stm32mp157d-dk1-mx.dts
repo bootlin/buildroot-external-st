@@ -162,8 +162,8 @@
 &pinctrl_z {
 	i2c4_pins_z_mx: i2c4_mx-0 {
 		pins {
-			pinmux = <STM32_PINMUX('Z', 4, AF6)>, /* I2C4_SCL */
-					 <STM32_PINMUX('Z', 5, AF6)>; /* I2C4_SDA */
+			pinmux = <STM32_PINMUX_NSEC('Z', 4, AF6)>, /* I2C4_SCL */
+					 <STM32_PINMUX_NSEC('Z', 5, AF6)>; /* I2C4_SDA */
 			bias-disable;
 			drive-open-drain;
 			slew-rate = <0>;

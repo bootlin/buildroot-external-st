@@ -209,13 +209,13 @@
 	
 	uart4_pins_a: uart4-0 {
 		pins1 {
-			pinmux = <STM32_PINMUX('D', 6, AF8)>; /* UART4_TX */
+			pinmux = <STM32_PINMUX_NSEC('D', 6, AF8)>; /* UART4_TX */
 			bias-disable;
 			drive-push-pull;
 			slew-rate = <0>;
 		};
 		pins2 {
-			pinmux = <STM32_PINMUX('D', 8, AF8)>; /* UART4_RX */
+			pinmux = <STM32_PINMUX_NSEC('D', 8, AF8)>; /* UART4_RX */
 			bias-disable;
 		};
 	};
@@ -271,7 +271,7 @@
 	/*"NS_R S_W" peripherals*/
 	DECPROT(STM32MP1_ETZPC_DDRCTRLPHY_ID, DECPROT_NS_R_S_W, DECPROT_LOCK)
 	/*"Secured" peripherals*/
-	DECPROT(STM32MP1_ETZPC_LTDC_ID, DECPROT_S_RW, DECPROT_UNLOCK)
+	DECPROT(STM32MP1_ETZPC_LTDC_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_ADC2_ID, DECPROT_S_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_HASH_ID, DECPROT_S_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_I2C4_ID, DECPROT_S_RW, DECPROT_UNLOCK)
@@ -525,7 +525,7 @@
 &ltdc {
 	pinctrl-names = "default";
 	pinctrl-0 = <&ltdc_pins_mx>;
-	status = "okay";
+	status = "disabled";
 
 	/* USER CODE BEGIN ltdc */
 	access-controllers-conf-nsec = <&etzpc DECPROT(STM32MP1_ETZPC_LTDC_ID, DECPROT_NS_RW, DECPROT_UNLOCK)>,

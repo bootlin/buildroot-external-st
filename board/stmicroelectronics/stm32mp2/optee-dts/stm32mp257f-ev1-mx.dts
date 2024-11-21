@@ -481,7 +481,7 @@
 };
 
 &ltdc {
-	status = "okay";
+	status = "disabled";
 
 	/* USER CODE BEGIN ltdc */
 	/* USER CODE END ltdc */
