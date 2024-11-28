@@ -1,10 +1,10 @@
 # Use the Firmware examples for the Cortex M4 or Cortex M33
 
-Applicable platforms: STM32MP157-DK1, STM32MP157-DK2, STM32MP257-EV1
+Applicable platforms: STM32MP157D-DK1, STM32MP157F-DK2, STM32MP257F-EV1, STM32MP257F-DK
 
 The different platforms have different Cortex M family coprocessor:
-* STM32MP157-DK1 and STM32MP157-DK2: Cortex M4
-* STM32MP257-EV1: Cortex M33
+* STM32MP157D-DK1 and STM32MP157F-DK2: Cortex M4
+* STM32MP257F-EV1 and STM32MP257F-DK: Cortex M33
 
 The Firmware examples for the CM4 from [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git)
 or the CM33 from [STM32CubeMP2](https://github.com/STMicroelectronics/STM32CubeMP2.git)

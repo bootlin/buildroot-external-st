@@ -1,6 +1,6 @@
 # Using Qt5 examples
 
-Applicable platforms: STM32MP257F-EV1, STM32MP157-DK1, STM32MP157-DK2, STM32MP135-DK.
+Applicable platforms: STM32MP257F-EV1, STM32MP257F-DK, STM32MP157-DK1, STM32MP157-DK2, STM32MP135-DK.
 
 The Qt5 graphical toolkit is enabled in the *demo* configurations,
 together with a number of example applications. Note that only the

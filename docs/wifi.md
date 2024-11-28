@@ -1,6 +1,6 @@
 # Using WiFi
 
-Applicable platforms: STM32MP157-DK2, STM32MP135-DK.
+Applicable platforms: STM32MP157F-DK2, STM32MP135F-DK, STM32MP257F-DK.
 
 WiFi support is only enabled in the *demo* configurations.
 

@@ -1,12 +1,13 @@
 # Testing display support
 
-Applicable platforms: STM32MP257F-EV1, STM32MP157-DK1, STM32MP157-DK2, STM32MP135-DK
+Applicable platforms: STM32MP257F-EV1, STM32MP257F-DK, STM32MP157D-DK1, STM32MP157F-DK2, STM32MP135F-DK.
 
 The different platforms have the following capabilities:
-* STM32MP157-DK1: HDMI output
-* STM32MP157-DK2: DSI display panel and HDMI output
-* STM32MP135-DK: DSI display panel
-* STM32MP257-EV1: LVDS display panel
+* STM32MP157D-DK1: HDMI output
+* STM32MP157F-DK2: DSI display panel and HDMI output
+* STM32MP135F-DK: DSI display panel
+* STM32MP257F-EV1: LVDS display panel
+* STM32MP257F-DK: LVDS display panel and HDMI output
 
 The *demo* configurations for all platforms include the `modetest`
 utility, which allows low-level testing of display devices, directly

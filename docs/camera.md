@@ -1,6 +1,6 @@
 # Using camera
 
-Applicable platforms: STM32MP257F-EV1, STM32MP135-DK.
+Applicable platforms: STM32MP257F-EV1, STM32MP135F-DK, STM32MP257F-DK.
 
 Video from the camera can be tested in the *demo* configuration, with
 the *yavta* tool.

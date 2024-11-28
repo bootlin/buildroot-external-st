@@ -1,6 +1,6 @@
 # Using STM32 Cube Programmer
 
-Applicable platforms: STM32MP157-DK1, STM32MP157-DK2, STM32MP135-DK, STM32MP257F-EV1.
+Applicable platforms: STM32MP157D-DK1, STM32MP157F-DK2, STM32MP135F-DK, STM32MP257F-EV1, STM32MP257F-DK.
 
 [STM32 Cube
 Programmer](https://www.st.com/en/development-tools/stm32cubeprog.html)

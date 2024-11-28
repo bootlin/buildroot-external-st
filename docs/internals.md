@@ -647,6 +647,10 @@ flashed, based on the environment defined as a text file in
     minimal configurations for the STM32MP2 EV1
   * [`st_stm32mp257f_ev1_demo_defconfig`](/configs/st_stm32mp257f_ev1_demo_defconfig),
     demo configurations for the STM32MP2 EV1
+  * [`st_stm32mp257f_dk_defconfig`](/configs/st_stm32mp257f_dk_defconfig),
+    minimal configurations for the STM32MP2 DK
+  * [`st_stm32mp257f_dk_demo_defconfig`](/configs/st_stm32mp257f_dk_demo_defconfig),
+    demo configurations for the STM32MP2 DK
 * `docs`, documentation
 * `Config.in`, top-level Config.in file mandatory in all `BR2_EXTERNAL`
   trees. Indicate the location of the Config.in file from our `m4projects`
@@ -659,11 +663,11 @@ flashed, based on the environment defined as a text file in
 
 ## Changes compared to upstream Buildroot
 
-The `st/2024.02.3` branch of this `BR2_EXTERNAL` is designed to work
-with Buildroot 2024.02.3. However, we needed a few changes compared to
-upstream Buildroot 2024.02.10, which can be seen at
-[https://github.com/bootlin/buildroot/commits/st/2024.02.3](https://github.com/bootlin/buildroot/commits/st/2024.02.3). We
-have just 11 changes on top of Buildroot 2024.02.3, and they can easily
+The `st/2024.02.8` branch of this `BR2_EXTERNAL` is designed to work
+with Buildroot 2024.02.8. However, we needed a few changes compared to
+upstream Buildroot 2024.02.8, which can be seen at
+[https://github.com/bootlin/buildroot/commits/st/2024.02.8](https://github.com/bootlin/buildroot/commits/st/2024.02.8). We
+have just 11 changes on top of Buildroot 2024.02.8, and they can easily
 be rebased on top of the latest Buildroot 2024.02.x to continue to
 benefit from the security fixes provided by the Buildroot community.
 
