@@ -46,7 +46,7 @@ You can test the HDMI output by displaying `modetest` default picture,
 for example in a 720p resolution:
 
 ```
-# modetest -M stm -s 32:1280x720
+# modetest -M stm -s 32:#0
 ```
 
 ## STM32MP157-DK2
@@ -55,14 +55,14 @@ You can test the HDMI output by displaying `modetest` default picture,
 for example in a 720p resolution:
 
 ```
-# modetest -M stm -s 32:1280x720
+# modetest -M stm -s 32:#0
 ```
 
 You can test the DSI display panel by displaying the `modetest`
 default picture, in the native DSI panel resolution:
 
 ```
-# modetest -M stm -s 34:480x800
+# modetest -M stm -s 34:#0
 ```
 
 You can change the DSI display panel backlight value from 0 to
