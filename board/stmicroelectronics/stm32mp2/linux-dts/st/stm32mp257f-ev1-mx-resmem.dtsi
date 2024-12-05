@@ -81,7 +81,7 @@
 			no-map;
 		};
 
-		mm_ospi2:mm-ospi@60000000{
+		mm_ospi1:mm-ospi@60000000{
 			reg = <0x0 0x60000000 0x0 0x10000000>;
 			no-map;
 		};
