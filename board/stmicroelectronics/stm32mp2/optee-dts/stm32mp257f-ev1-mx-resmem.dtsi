@@ -88,12 +88,12 @@
 			/* USER CODE END tfm_its */
 		};
 
-		mm_ospi2: mm-ospi2@60000000 {
+		mm_ospi1: mm-ospi1@60000000 {
 			reg = <0x0 0x60000000 0x0 0x10000000>;
 			no-map;
 
-			/* USER CODE BEGIN mm_ospi2 */
-			/* USER CODE END mm_ospi2 */
+			/* USER CODE BEGIN mm_ospi1 */
+			/* USER CODE END mm_ospi1 */
 		};
 
 		tfm_code: tfm-code@80000000 {
