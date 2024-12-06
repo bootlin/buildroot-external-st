@@ -535,6 +535,9 @@ flashed, based on the environment defined as a text file in
       * [`flash.tsv`](/board/stmicroelectronics/stm32mp2/flash.tsv),
         configuration file for the STM32 Cube Programmer. Only valid
         for SD card flashing.
+      * [`flash_nor_emmc.tsv`](/board/stmicroelectronics/stm32mp2/flash_nor_emmc.tsv),
+        configuration file for the STM32 Cube Programmer. Only valid
+        for EMMC and NOR memory flashing on the MP257F-EV1 board.
       * [`genimage.cfg`](/board/stmicroelectronics/stm32mp2/genimage.cfg),
         configuration file for the `genimage` utility, which produces
         the final `sdcard.img` SD card image. It describes the

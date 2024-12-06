@@ -1,0 +1,6 @@
+#opt	Id	Name		Type		Device	Offset		Binary
+-	0x01	fsbl_boot	Binary		none	0x0		%ATFBIN%
+-	0x02	fip_ddr		Binary		none	0x0		%FIPDDRBIN%
+-	0x03	fip_boot	Binary		none	0x0		%FIPBIN%
+P	0x04	nor		RawImage	nor1	0x0		nor.img
+P	0x10	rootfs		RawImage	mmc1	0x0		emmc.img

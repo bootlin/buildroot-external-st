@@ -63,8 +63,15 @@ main()
 		-e "s/%FIPDDRBIN%/${FIP_DDR_FLASH}/" \
 		${BOARD_PATH}/flash.tsv > ${BINARIES_DIR}/flash.tsv
 
+	if [[ "${ATFBIN}" == *"ev1"* ]]; then
+		sed -e "s/%ATFBIN%/${ATF_FLASH}/" -e "s/%FIPBIN%/${FIP_FLASH}/" \
+			-e "s/%FIPDDRBIN%/${FIP_DDR_FLASH}/" \
+			${BOARD_PATH}/flash_nor_emmc.tsv > ${BINARIES_DIR}/flash_nor_emmc.tsv
+	fi
+
 	cp -f ${USB_FLASH_BINARIES_PATH}${ATF_FLASH} ${USB_FLASH_BINARIES_PATH}${FIP_FLASH} ${BINARIES_DIR}
 	if [ -n "${FIP_DDR_FLASH}" ]; then
+		#MP257
 		cp -f ${USB_FLASH_BINARIES_PATH}${FIP_DDR_FLASH} ${BINARIES_DIR}
 	fi
 
