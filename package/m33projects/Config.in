@@ -1,6 +1,6 @@
 config BR2_PACKAGE_M33PROJECTS
 	bool "STM32MP2 Firmware examples for M33"
-	depends on BR2_TARGET_TRUSTED_FIRMWARE_M && BR2_TARGET_OPTEE_OS
+	depends on BR2_TARGET_OPTEE_OS
 	help
 	  Support for the M33 coprocessor Firmware examples for
 	  STM32MP257F platforms. Examples are installed to the
