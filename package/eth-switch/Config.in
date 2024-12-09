@@ -1,0 +1,16 @@
+comment "eth-switch needs a aarch64 Linux kernel to be built"
+	depends on !BR2_aarch64
+	depends on !BR2_LINUX_KERNEL
+
+comment "eth-switch needs a glibc toolchain"
+	depends on BR2_arm || BR2_aarch64
+	depends on !BR2_TOOLCHAIN_USES_GLIBC
+
+config BR2_PACKAGE_ETH_SWITCH
+	bool "eth-switch"
+	depends on BR2_aarch64
+	depends on BR2_LINUX_KERNEL
+	help
+	  Add support to STM32MP2 BSP support for Ethernet switch IP.
+
+	  https://github.com/STMicroelectronics/tttech-tsn-swch-content
