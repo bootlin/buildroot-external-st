@@ -44,7 +44,7 @@ on other platforms will be different.
 ## STM32MP157-DK1
 
 You can test the HDMI output by displaying `modetest` default picture,
-for example in a 720p resolution:
+in the default resolution:
 
 ```
 # modetest -M stm -s 32:#0
@@ -53,7 +53,7 @@ for example in a 720p resolution:
 ## STM32MP157-DK2
 
 You can test the HDMI output by displaying `modetest` default picture,
-for example in a 720p resolution:
+in the default resolution:
 
 ```
 # modetest -M stm -s 32:#0
@@ -100,3 +100,21 @@ in the default resolution:
 # echo 1 >  $(realpath /sys/class/backlight/panel-*)/brightness
 # modetest -M stm -s 32:#0
 ```
+
+## STM32MP257-DK
+
+You can test the LVDS output by displaying `modetest` default picture,
+in the default resolution:
+
+```
+# echo 1 >  $(realpath /sys/class/backlight/panel-*)/brightness
+# modetest -M stm -s 34:#0
+```
+
+You can test the HDMI output by displaying `modetest` default picture,
+in the default resolution:
+
+```
+# modetest -M stm -s 32:#0
+```
+
