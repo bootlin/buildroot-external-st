@@ -91,6 +91,7 @@ configurations:
 | Bluetooth | N/A | No | N/A | Yes | No | Yes | N/A | N/A | N/A | Yes |
 | Audio    | No | No | Yes | Yes | N/A | N/A | N/A | N/A | N/A | N/A |
 | Video    | N/A | N/A | N/A | N/A | No | Yes | No | Yes | No | Yes |
+| Switch   | N/A | N/A | N/A | N/A | N/A | N/A | No | Yes | N/A | N/A |
 | CubeMX v6.12.0 Device Tree | No | No | Yes | Yes | No | Yes | No | Yes | No | Yes |
 | Cortex M Firmware examples | No | No | Yes Cortex M4 | Yes Cortex M4 | N/A | N/A | No | Yes Cortex M33 | No | Yes Cortex M33 |
 | RAUC OTA | No | No | Yes | Yes | No | Yes | No | Yes | No | Yes |
@@ -303,6 +304,7 @@ details.
 * [Using Qt5 demos](docs/qt5.md)
 * [Using OP-TEE](docs/optee.md)
 * [Using OTA with RAUC](docs/ota.md)
+* [Using the switch](docs/switch.md)
 * [Internal details](docs/internals.md) on this `BR2_EXTERNAL` tree
 * [Release notes](docs/release-notes.md)
 
