@@ -629,6 +629,58 @@
 	};
 
 	/* USER CODE BEGIN pinctrl */
+        eth3_rgmii_pins_a: eth3-rgmii-0 {
+                pins1 {
+                        pinmux = <STM32_PINMUX('A', 6, AF14)>, /* ETH_RGMII_TXD0 */
+                                 <STM32_PINMUX('A', 7, AF14)>, /* ETH_RGMII_TXD1 */
+                                 <STM32_PINMUX('H', 6, AF14)>, /* ETH_RGMII_TXD2 */
+                                 <STM32_PINMUX('H', 3, AF14)>, /* ETH_RGMII_TXD3 */
+                                 <STM32_PINMUX('A', 3, AF14)>; /* ETH_RGMII_TX_CTL */
+                        bias-disable;
+                        drive-push-pull;
+                        slew-rate = <3>;
+                        st,io-retime = <1>;
+                        st,io-clk-edge = <1>;
+                };
+                pins2 {
+                        pinmux = <STM32_PINMUX('H', 2, AF14)>; /* ETH_RGMII_GTX_CLK */
+                        bias-disable;
+                        drive-push-pull;
+                        slew-rate = <3>;
+                        st,io-delay = <2>;
+                };
+                pins3 {
+                        pinmux = <STM32_PINMUX('A', 9, AF14)>, /* ETH_RGMII_RXD0 */
+                                 <STM32_PINMUX('A', 10, AF14)>, /* ETH_RGMII_RXD1 */
+                                 <STM32_PINMUX('H', 7, AF14)>, /* ETH_RGMII_RXD2 */
+                                 <STM32_PINMUX('H', 8, AF14)>, /* ETH_RGMII_RXD3 */
+                                 <STM32_PINMUX('A', 2, AF14)>; /* ETH_RGMII_RX_CTL */
+                        bias-disable;
+                        st,io-retime = <1>;
+                        st,io-clk-edge = <1>;
+                };
+                pins4 {
+                        pinmux = <STM32_PINMUX('A', 5, AF14)>; /* ETH_RGMII_RX_CLK */
+                        bias-disable;
+                };
+        };
+
+        eth3_rgmii_sleep_pins_a: eth3-rgmii-sleep-0 {
+                pins1 {
+                        pinmux = <STM32_PINMUX('A', 6, ANALOG)>, /* ETH_RGMII_TXD0 */
+                                 <STM32_PINMUX('A', 7, ANALOG)>, /* ETH_RGMII_TXD1 */
+                                 <STM32_PINMUX('H', 6, ANALOG)>, /* ETH_RGMII_TXD2 */
+                                 <STM32_PINMUX('H', 3, ANALOG)>, /* ETH_RGMII_TXD3 */
+                                 <STM32_PINMUX('A', 3, ANALOG)>, /* ETH_RGMII_TX_CTL */
+                                 <STM32_PINMUX('H', 2, ANALOG)>, /* ETH_RGMII_GTX_CLK */
+                                 <STM32_PINMUX('A', 9, ANALOG)>, /* ETH_RGMII_RXD0 */
+                                 <STM32_PINMUX('A', 10, ANALOG)>, /* ETH_RGMII_RXD1 */
+                                 <STM32_PINMUX('H', 7, ANALOG)>, /* ETH_RGMII_RXD2 */
+                                 <STM32_PINMUX('H', 8, ANALOG)>, /* ETH_RGMII_RXD3 */
+                                 <STM32_PINMUX('A', 2, ANALOG)>, /* ETH_RGMII_RX_CTL */
+                                 <STM32_PINMUX('A', 5, ANALOG)>; /* ETH_RGMII_RX_CLK */
+                };
+        };
 	/* USER CODE END pinctrl */
 };
 
@@ -716,27 +768,47 @@
 	status = "okay";
 
 	/* USER CODE BEGIN eth1 */
-	phy-mode = "rgmii-id";
+	phy-mode = "rgmii";
 	max-speed = <1000>;
-	phy-handle = <&phy1_eth1>;
 	st,eth-clk-sel;
-	snps,ext-systime;
 
-	mdio1{
+	fixed_link: fixed-link {
+		speed = <1000>;
+		full-duplex;
+	};
+
+	mdio1 {
 		#address-cells = <1>;
 		#size-cells = <0>;
 		compatible = "snps,dwmac-mdio";
 
-		phy1_eth1:ethernet-phy@4{
-			compatible = "ethernet-phy-id001c.c916";
-			reset-gpios = <&gpioj 9 GPIO_ACTIVE_LOW>;
-			reset-assert-us = <10000>;
-			reset-deassert-us = <80000>;
+		phy1_eth1: ethernet-phy@4 {
+			compatible = "ethernet-phy-id001c.c916",
+				     "ethernet-phy-ieee802.3-c22";
+			/* reset gpios is managed by default dual ethenet
+			 * configuration
+			 */
 			realtek,eee-disable;
 			reg = <4>;
 		};
+
+		phy2_eth1: ethernet-phy@5 {
+			compatible = "ethernet-phy-id001c.c916",
+				     "ethernet-phy-ieee802.3-c22";
+			realtek,eee-disable;
+			reg = <5>;
+		};
 	};
 	/* USER CODE END eth1 */
+};
+
+&switch0 {
+	status = "okay";
+	pinctrl-0 = <&eth3_rgmii_pins_a>;
+	pinctrl-1 = <&eth3_rgmii_sleep_pins_a>;
+	pinctrl-names = "default", "sleep";
+	phy-mode = "rgmii";
+	st,ethsw-internal-125;
 };
 
 &eth2 {
