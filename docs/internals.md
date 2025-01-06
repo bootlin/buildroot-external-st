@@ -663,11 +663,11 @@ flashed, based on the environment defined as a text file in
 
 ## Changes compared to upstream Buildroot
 
-The `st/2024.02.8` branch of this `BR2_EXTERNAL` is designed to work
-with Buildroot 2024.02.8. However, we needed a few changes compared to
-upstream Buildroot 2024.02.8, which can be seen at
-[https://github.com/bootlin/buildroot/commits/st/2024.02.8](https://github.com/bootlin/buildroot/commits/st/2024.02.8). We
-have just 11 changes on top of Buildroot 2024.02.8, and they can easily
+The `st/2024.02.9` branch of this `BR2_EXTERNAL` is designed to work
+with Buildroot 2024.02.9. However, we needed a few changes compared to
+upstream Buildroot 2024.02.9, which can be seen at
+[https://github.com/bootlin/buildroot/commits/st/2024.02.9](https://github.com/bootlin/buildroot/commits/st/2024.02.9). We
+have just 11 changes on top of Buildroot 2024.02.9, and they can easily
 be rebased on top of the latest Buildroot 2024.02.x to continue to
 benefit from the security fixes provided by the Buildroot community.
 
