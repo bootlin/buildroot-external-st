@@ -475,6 +475,17 @@ flashed, based on the environment defined as a text file in
       * [`uboot-enable-squashfs.config`](/board/stmicroelectronics/common/uboot-enable-squashfs.config),
         a U-boot configuration file fragment that enables the SquashFS
         support.
+      * [`usb_flash_binaries/`](/board/stmicroelectronics/common/usb_flash_binaries),
+        precompiled TF-A and FIP image generated with
+        [`st_stm32mp135_flash_defconfig`](/configs/st_stm32mp135_flash_defconfig),
+        [`st_stm32mp157_flash_defconfig`](/configs/st_stm32mp157_flash_defconfig),
+        [`st_stm32mp257_dk_flash_defconfig`](/configs/st_stm32mp257_dk_flash_defconfig) and
+        [`st_stm32mp257_ev1_flash_defconfig`](/configs/st_stm32mp257_ev1_flash_defconfig)
+        in order to be able to flash the board.
+        It build TF-A with STM32MP_USB_PROGRAMMER=1 option in order to be able
+        to flash the SD card (we unfortunately cannot build a single FIP image
+        that can be used for flashing and on storage, due to memory size
+        limitations)
     * `stm32mp1/`
       * [`tfa-dts/`](/board/stmicroelectronics/stm32mp1/tfa-dts), Device
         Tree files produced by STM32 Cube MX for TF-A. Only used by
@@ -519,65 +530,7 @@ flashed, based on the environment defined as a text file in
       * [`uEnv.txt`](/board/stmicroelectronics/stm32mp1/uEnv.txt), the
         U-boot environment which contains definitions needed to
         properly support OTA.
-      * [`fip-stm32mp135_usb.bin`](/board/stmicroelectronics/stm32mp2/fip_usb.bin),
-        pre-compiled FIP image built with st_stm32mp135_flash_defconfig in
-        order to be able to flash the SD card.
-        It build TF-A with STM32MP_USB_PROGRAMMER=1 in order to be able to flash
-        the SD card (we unfortunately cannot build a single FIP image that can
-        be used for flashing and on storage, due to memory size limitations)
-      * [`fip-stm32mp157_usb.bin`](/board/stmicroelectronics/stm32mp2/fip_usb.bin),
-        pre-compiled FIP image built with st_stm32mp257_flash_defconfig in
-        order to be able to flash the SD card.
-        It build TF-A with STM32MP_USB_PROGRAMMER=1 option in order to be able
-        to flash the SD card (we unfortunately cannot build a single FIP image
-        that can be used for flashing and on storage, due to memory size
-        limitations)
-      * [`tf-a-stm32mp135_usb.stm32`](/board/stmicroelectronics/stm32mp1/tf-a-stm32mp135_usb.stm32),
-        precompiled TF-A image generated with st_stm32mp257_flash_defconfig
-        in order to be able to flash the SD card.
-        It build TF-A with STM32MP_USB_PROGRAMMER=1 option in order to be able
-        to flash the SD card (we unfortunately cannot build a single FIP image
-        that can be used for flashing and on storage, due to memory size
-        limitations)
-      * [`tf-a-stm32mp157_usb.stm32`](/board/stmicroelectronics/stm32mp1/tf-a-stm32mp157_usb.stm32),
-        precompiled TF-A image generated with
-        [`st_stm32mp157_flash_defconfig`](/configs/st_stm32mp157_flash_defconfig)
-        in order to be able to flash the SD card.
-        It build TF-A with STM32MP_USB_PROGRAMMER=1 option in order to be able
-        to flash the SD card (we unfortunately cannot build a single FIP image
-        that can be used for flashing and on storage, due to memory size
-        limitations)
-      * [`fip-stm32mp135_usb.stm32`](/board/stmicroelectronics/stm32mp1/fip-stm32mp135_usb.stm32),
-        precompiled TF-A image generated with
-        [`st_stm32mp135_flash_defconfig`](/configs/st_stm32mp135_flash_defconfig)
-        in order to be able to flash the SD card.
-        It build TF-A with STM32MP_USB_PROGRAMMER=1 option in order to be able
-        to flash the SD card (we unfortunately cannot build a single FIP image
-        that can be used for flashing and on storage, due to memory size
-        limitations)
-      * [`fip-stm32mp157_usb.stm32`](/board/stmicroelectronics/stm32mp1/fip-stm32mp157_usb.stm32),
-        precompiled TF-A image generated with
-        [`st_stm32mp157_flash_defconfig`](/configs/st_stm32mp157_flash_defconfig)
-        in order to be able to flash the SD card.
-        It build TF-A with STM32MP_USB_PROGRAMMER=1 option in order to be able
-        to flash the SD card (we unfortunately cannot build a single FIP image
-        that can be used for flashing and on storage, due to memory size
-        limitations)
     * `stm32mp2/`
-      * [`fip-ddr_usb.bin`](/board/stmicroelectronics/stm32mp2/fip-ddr_usb.bin),
-        pre-compiled DDR FIP image built with
-        [`st_stm32mp135_flash_defconfig`](/configs/st_stm32mp135_flash_defconfig).
-        It build TF-A with STM32MP_USB_PROGRAMMER=1 option in order to be able
-        to flash the SD card (we unfortunately cannot build a single FIP image
-        that can be used for flashing and on storage, due to memory size
-        limitations)
-      * [`fip_usb.bin`](/board/stmicroelectronics/stm32mp2/fip_usb.bin),
-        pre-compiled FIP image built with st_stm32mp257_flash_defconfig in
-        order to be able to flash the SD card
-        It build TF-A with STM32MP_USB_PROGRAMMER=1 option in order to be able
-        to flash the SD card (we unfortunately cannot build a single FIP image
-        that can be used for flashing and on storage, due to memory size
-        limitations)
       * [`flash.tsv`](/board/stmicroelectronics/stm32mp2/flash.tsv),
         configuration file for the STM32 Cube Programmer. Only valid
         for SD card flashing.
@@ -609,9 +562,6 @@ flashed, based on the environment defined as a text file in
         Device Tree files imported from STM32CubeMX.
         Tree files produced by STM32 Cube MX for TF-A. Only used by
         the demo configurations.
-      * [`tf-a-stm32mp257f-ev1_usb.stm32`](/board/stmicroelectronics/stm32mp2/tf-a-stm32mp257f-ev1_usb.stm32),
-        precompiled TF-A image generated with st_stm32mp257_flash_defconfig
-        in order to be able to flash the SD card.
       * [`uboot-dts/`](/board/stmicroelectronics/stm32mp2/uboot-dts),
         Device Tree files imported from STM32CubeMX.
       * [`uEnv.txt`](/board/stmicroelectronics/stm32mp2/uEnv.txt), the
@@ -630,6 +580,11 @@ flashed, based on the environment defined as a text file in
   sources. It uses a [shell
   script](/package/m33projects/st_copro_firmware_signature.sh) to sign the
   firmware before installing it.
+* [`package/eth-switch`](/package/eth-switch), a Buildroot package
+  that builds and installs the [Ethernet switch Linux
+  modules](https://github.com/STMicroelectronics/tttech-tsn-swch-content).
+  These module are mandatory to have the switch of the MP257F-DK board
+  functioning.
 * `configs/`
   * [`st_stm32mp157d_dk1_defconfig`](/configs/st_stm32mp157d_dk1_defconfig),
     minimal configurations for the STM32MP1 DK1
