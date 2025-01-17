@@ -118,3 +118,8 @@ in the default resolution:
 # modetest -M stm -s 32:#0
 ```
 
+---
+Notes:
+
+On the STM32MP257-DK, HDMI does not function if the LVDS is connected.
+This is a known issue acknowledged by ST.

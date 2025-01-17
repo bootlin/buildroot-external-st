@@ -94,7 +94,7 @@ BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,STMicroelectronics,linux
 BR2_LINUX_KERNEL_DEFCONFIG="multi_v7"
 BR2_LINUX_KERNEL_CONFIG_FRAGMENT_FILES="$(LINUX_DIR)/arch/arm/configs/fragment-01-multiv7_cleanup.config $(LINUX_DIR)/arch/arm/configs/fragment-02-multiv7_addons.config $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/common/linux-disable-etnaviv.config"
 BR2_LINUX_KERNEL_DTS_SUPPORT=y
-BR2_LINUX_KERNEL_INTREE_DTS_NAME="stm32mp157f-dk2"
+BR2_LINUX_KERNEL_INTREE_DTS_NAME="st/stm32mp157f-dk2"
 BR2_LINUX_KERNEL_INSTALL_TARGET=y
 BR2_LINUX_KERNEL_NEEDS_HOST_OPENSSL=y
 ```
@@ -187,6 +187,7 @@ BR2_TARGET_UBOOT_CUSTOM_TARBALL=y
 BR2_TARGET_UBOOT_CUSTOM_TARBALL_LOCATION="$(call github,STMicroelectronics,u-boot)v2023.10-stm32mp-r1.tar.gz"
 BR2_TARGET_UBOOT_BOARD_DEFCONFIG="stm32mp15"
 BR2_TARGET_UBOOT_NEEDS_PYLIBFDT=y
+BR2_TARGET_UBOOT_NEEDS_OPENSSL=y
 # BR2_TARGET_UBOOT_FORMAT_BIN is not set
 BR2_TARGET_UBOOT_FORMAT_CUSTOM=y
 BR2_TARGET_UBOOT_FORMAT_CUSTOM_NAME="u-boot-nodtb.bin u-boot.dtb"
@@ -626,7 +627,7 @@ have just 11 changes on top of Buildroot 2024.02.9, and they can easily
 be rebased on top of the latest Buildroot 2024.02.x to continue to
 benefit from the security fixes provided by the Buildroot community.
 
-Here are the 11 changes:
+Here are the 13 changes:
 
 * Update the `gcnano-binaries` package to a newer version and to support
   arm64. This package contains the closed-source OpenGL user-space
@@ -651,19 +652,19 @@ Here are the 11 changes:
 
 * Add support for custom tarball source in optee-client to be able to
   match the OPTEE-OS custom tarball version. This patch has been
-  submitted to upstream Buildroot.
+  merged in Buildroot upstream.
 
 * Add support for custom tarball source in optee-test to be able to
   match the OPTEE-OS custom tarball version. This patch has been
-  submitted to upstream Buildroot.
+  merged in Buildroot upstream.
 
 * Add support for custom tarball source in optee-examples to be able to
   match the OPTEE-OS custom tarball version. This patch has been
-  submitted to upstream Buildroot.
+  merged in Buildroot upstream.
 
 * Add support to build OP-TEE OS with host-cmake as the new version of
   OP-TEE OS from ST need cmake to build its scmi firmware. This patch has been
-  submitted to upstream Buildroot.
+  merged in Buildroot upstream.
 
 * Update linux to manage vendor name subfolder directory for
   BR2_LINUX_KERNEL_CUSTOM_DTS_PATH. It adds support to build
@@ -672,5 +673,11 @@ Here are the 11 changes:
   arch/<arch>/boot/dts/<vendor>/. This patch has been submitted to
   upstream Buildroot.
 
-* Bump arm-gnu-toolchain package to 13.2.rel1 release version.
-  This patch is already in upstream Buildroot.
+* Update the `gcnano-binaries` package to a newer version. This package
+  contains the closed-source OpenGL user-space libraries, which need to
+  be in sync with the kernel side. This patch has been submitted to
+  upstream Buildroot.
+
+* Update `murata-cyw-fw` package to a new version and the newly added
+  CYW43439 firmare. This packages contains the Bluetooth firmwares.
+  This patch has been submitted to upstream Buildroot.

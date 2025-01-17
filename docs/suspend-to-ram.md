@@ -42,19 +42,19 @@ Here is the wake up logs.
 ---
 Notes:
 
-Bluetooth driver does not support suspend to RAM. You have to reload the hci_uart
-module if you want to use bluetooth after a suspend-to-RAM with the following
-commands:
+The Bluetooth driver does not support suspend-to-RAM. To use Bluetooth
+after a suspend-to-RAM operation, you must reload the `hci_uart` module
+using the following commands:
 
 ```
 # modprobe -r hci_uart
 # modprobe hci_uart
 ```
 
-On the STM32MP135F-DK the suspend-to-RAM is not working correctly.
-You have to disable the console suspend and turn the ethernet interface
-up. It keeps few clock active allowing OPTEE-OS to resume correctly from
-suspend.
+On the STM32MP135F-DK, suspend-to-RAM does not work correctly.
+To address this, you must disable console suspend and activate the
+Ethernet interface. This keeps a few clocks active, enabling OP-TEE OS
+to resume correctly from suspend.
 
 ```
 # echo N > /sys/module/printk/parameters/console_suspend
