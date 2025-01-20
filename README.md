@@ -62,7 +62,7 @@ configurations:
    and a minimal user-space composed of just BusyBox.
 
 8. `st_stm32mp257f_ev1_demo_defconfig`, which is a more feature-ful
-   configuration to support the [STM32MP135F Evaluation board](https://www.st.com/en/evaluation-tools/stm32mp257f-ev1.html)
+   configuration to support the [STM32MP257F Evaluation board](https://www.st.com/en/evaluation-tools/stm32mp257f-ev1.html)
    board. It includes support for OpenGL and Qt5 for graphics, for OP-TEE
    as a Trusted Execution Environment, for RAUC for Over-The-Air (OTA)
    updates, for camera, for TrustedFirmware-M, for Ethernet Switch.
@@ -75,7 +75,7 @@ configurations:
    and a minimal user-space composed of just BusyBox.
 
 10. `st_stm32mp257f_dk_demo_defconfig`, which is a more feature-ful
-   configuration to support the [STM32MP135F Discovery Kit](https://www.st.com/en/evaluation-tools/stm32mp257f-dk.html)
+   configuration to support the [STM32MP257F Discovery Kit](https://www.st.com/en/evaluation-tools/stm32mp257f-dk.html)
    board. It includes support for OpenGL and Qt5 for graphics, for OP-TEE
    as a Trusted Execution Environment, for WIFI, for Bluetooth, for RAUC
    for Over-The-Air (OTA) updates, for camera. Additionally, it
