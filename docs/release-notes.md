@@ -6,7 +6,7 @@ Changes in this release:
 
 - Based on Buildroot 2024.02.9
 
-- Based on the BSP components of ST's 5.1 BSP: Linux 6.6, U-Boot
+- Based on the BSP components of ST's 6.0 BSP: Linux 6.6, U-Boot
   2023.10, TF-A 2.10, OP-TEE 4.0, gcnano-binaries 6.4.19
 
 - Add support for STM32MP257F-DK board.
