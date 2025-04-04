@@ -1159,6 +1159,10 @@
 			vdd-supply = <&scmi_v3v3>;
 		};
 	};
+
+	usbh_ohci:usb@482e0000{
+		status = "disabled";
+	};
 	/* USER CODE END usbh */
 };
 
