@@ -11,6 +11,8 @@ Changes in this release:
 
 - Add support for STM32MP257F-DK board.
 
+- Add switch support for the STM32MP257F-EV1 board.
+
 ## openstlinux-6.1-buildroot-2024.02.3-mpu-v24.06.26
 
 Changes in this release:
