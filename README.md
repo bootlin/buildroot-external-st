@@ -84,11 +84,11 @@ configurations:
 
 | Feature | st_stm32mp157d_dk1 | st_stm32mp157f_dk2 | st_stm32mp157d_dk1_demo | st_stm32mp157f_dk2_demo | st_stm32mp135f_dk | st_stm32mp135f_dk_demo | st_stm32mp257f_ev1 | st_stm32mp257f_ev1_demo | st_stm32mp257f_dk | st_stm32mp257f_dk_demo |
 | ------- | ------------------ | ------------------ | ----------------------- | ----------------------- | ----------------- | ---------------------- | ------------------ | ----------------------- | ----------------------- | ----------------------- |
-| TF-A    | v2.10-stm32mp-r1 | v2.10-stm32mp-r1 | v2.10-stm32mp-r1 | v2.10-stm32mp-r1 | v2.10-stm32mp-r1 | v2.10-stm32mp-r1 | v2.10-stm32mp-r1 | v2.10-stm32mp-r1 | v2.10-stm32mp-r1 | v2.10-stm32mp-r1 |
-| U-Boot  | v2023.10-stm32mp-r1 | v2023.10-stm32mp-r1 | v2023.10-stm32mp-r1 | v2023.10-stm32mp-r1 | v2023.10-stm32mp-r1 | v2023.10-stm32mp-r1 | v2023.10-stm32mp-r1 | v2023.10-stm32mp-r1 | v2023.10-stm32mp-r1 | v2023.10-stm32mp-r1 |
-| Linux   | v6.6-stm32mp-r1 | v6.6-stm32mp-r1 | v6.6-stm32mp-r1 | v6.6-stm32mp-r1 | v6.6-stm32mp-r1 | v6.6-stm32mp-r1 | v6.6-stm32mp-r1 | v6.6-stm32mp-r1 | v6.6-stm32mp-r1 | v6.6-stm32mp-r1 |
-| OP-TEE  | 4.0.0-stm32mp-r1 | 4.0.0-stm32mp-r1 | 4.0.0-stm32mp-r1 | 4.0.0-stm32mp-r1 | 4.0.0-stm32mp-r1 | 4.0.0-stm32mp-r1 | 4.0.0-stm32mp-r1 | 4.0.0-stm32mp-r1 | 4.0.0-stm32mp-r1 | 4.0.0-stm32mp-r1 |
-| TF-M  | N/A | N/A | N/A | N/A | N/A | N/A | No | v1.7.0-stm32mp25-w2441 | No | No |
+| TF-A    | v2.10-stm32mp-r2 | v2.10-stm32mp-r2 | v2.10-stm32mp-r2 | v2.10-stm32mp-r2 | v2.10-stm32mp-r2 | v2.10-stm32mp-r2 | v2.10-stm32mp-r2 | v2.10-stm32mp-r2 | v2.10-stm32mp-r2 | v2.10-stm32mp-r2 |
+| U-Boot  | v2023.10-stm32mp-r2 | v2023.10-stm32mp-r2 | v2023.10-stm32mp-r2 | v2023.10-stm32mp-r2 | v2023.10-stm32mp-r2 | v2023.10-stm32mp-r2 | v2023.10-stm32mp-r2 | v2023.10-stm32mp-r2 | v2023.10-stm32mp-r2 | v2023.10-stm32mp-r2 |
+| Linux   | v6.6-stm32mp-r2 | v6.6-stm32mp-r2 | v6.6-stm32mp-r2 | v6.6-stm32mp-r2 | v6.6-stm32mp-r2 | v6.6-stm32mp-r2 | v6.6-stm32mp-r2 | v6.6-stm32mp-r2 | v6.6-stm32mp-r2 | v6.6-stm32mp-r2 |
+| OP-TEE  | 4.0.0-stm32mp-r2 | 4.0.0-stm32mp-r2 | 4.0.0-stm32mp-r2 | 4.0.0-stm32mp-r2 | 4.0.0-stm32mp-r2 | 4.0.0-stm32mp-r2 | 4.0.0-stm32mp-r2 | 4.0.0-stm32mp-r2 | 4.0.0-stm32mp-r2 | 4.0.0-stm32mp-r2 |
+| TF-M  | N/A | N/A | N/A | N/A | N/A | N/A | No | v2.1.0-stm32mp-r1 | No | No |
 | NOR + eMMC boot | N/A | N/A | N/A | N/A | N/A | N/A | No | Yes | N/A | N/A |
 | Qt5     | No | No | Yes | Yes | No | Yes | No | Yes | No | Yes |
 | OpenGL  | No | No | Yes | Yes | N/A | N/A | No | Yes | No | Yes |
