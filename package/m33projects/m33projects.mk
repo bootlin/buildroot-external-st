@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-M33PROJECTS_VERSION = 720f5e7cf36f4b6e2046339a84bbed001bd80b06
+M33PROJECTS_VERSION = v1.2.0
 M33PROJECTS_SITE = $(call github,STMicroelectronics,STM32CubeMP2,$(M33PROJECTS_VERSION))
 M33PROJECTS_LICENSE = Apache-2.0, MIT, BSD-3-Clause
 M33PROJECTS_LICENSE_FILES = License.md
