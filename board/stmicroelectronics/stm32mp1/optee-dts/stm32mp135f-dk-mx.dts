@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
 /*
- * Copyright (C) 2024, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -30,7 +30,7 @@
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP135F-DK STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v24.11.06";
+	model = "STMicroelectronics STM32MP135F-DK STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v25.06.11";
 	compatible = "st,stm32mp135f-dk-mx", "st,stm32mp135f-dk", "st,stm32mp135";
 
 	memory@c0000000 {
@@ -67,9 +67,9 @@
 	};
 
 	magic_wol:magic_wol{
-		compatible = "st,stm32mp1-pwr-irq-user";
-		wakeup-parent = <&pwr_irq>;
-		st,wakeup-pin-number = <2>;
+		compatible = "st,stm32-irq-notifier";
+		interrupts-extended = <&exti 56 IRQ_TYPE_EDGE_FALLING>;
+		wakeup-source;
 		status = "okay";
 	};
 
@@ -84,9 +84,9 @@
 	};
 
 	typec_wakeup:typec_wakeup{
-		compatible = "st,stm32mp1-pwr-irq-user";
-		wakeup-parent = <&pwr_irq>;
-		st,wakeup-pin-number = <5>;
+		compatible = "st,stm32-irq-notifier";
+		interrupts-extended = <&exti 59 IRQ_TYPE_EDGE_FALLING>;
+		wakeup-source;
 		st,notif-it-id = <1>;
 		status = "okay";
 	};
@@ -200,27 +200,36 @@
 
 	/* USER CODE BEGIN pinctrl */
 
-	tamp0_in2_pin_a: tamp0_in2_pin_0 {
-		pins {
-			pinmux = <STM32_PINMUX('A', 6, RSVD)>;
-			st,tamp_id = <2>;
-		};
+uart4_pins_a: uart4-0 {
+	pins1 {
+		pinmux = <STM32_PINMUX_NSEC('D', 6, AF8)>; /* UART4_TX */
+		bias-disable;
+		drive-push-pull;
+		slew-rate = <0>;
 	};
-	
-	uart4_pins_a: uart4-0 {
-		pins1 {
-			pinmux = <STM32_PINMUX_NSEC('D', 6, AF8)>; /* UART4_TX */
-			bias-disable;
-			drive-push-pull;
-			slew-rate = <0>;
-		};
-		pins2 {
-			pinmux = <STM32_PINMUX_NSEC('D', 8, AF8)>; /* UART4_RX */
-			bias-disable;
-		};
+	pins2 {
+		pinmux = <STM32_PINMUX_NSEC('D', 8, AF8)>; /* UART4_RX */
+		bias-disable;
 	};
-	
+};
+
 	/* USER CODE END pinctrl */
+};
+
+&gpiob {
+	st,protreg = < (TZPROT(9)) >;
+};
+
+&gpiod {
+	st,protreg = < (TZPROT(7)) >;
+};
+
+&gpioe {
+	st,protreg = < (TZPROT(15)) >;
+};
+
+&gpiof {
+	st,protreg = < (TZPROT(8)) >;
 };
 
 &adc_2 {
@@ -271,7 +280,7 @@
 	/*"NS_R S_W" peripherals*/
 	DECPROT(STM32MP1_ETZPC_DDRCTRLPHY_ID, DECPROT_NS_R_S_W, DECPROT_LOCK)
 	/*"Secured" peripherals*/
-	DECPROT(STM32MP1_ETZPC_LTDC_ID, DECPROT_NS_RW, DECPROT_UNLOCK)
+	DECPROT(STM32MP1_ETZPC_LTDC_ID, DECPROT_S_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_ADC2_ID, DECPROT_S_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_HASH_ID, DECPROT_S_RW, DECPROT_UNLOCK)
 	DECPROT(STM32MP1_ETZPC_I2C4_ID, DECPROT_S_RW, DECPROT_UNLOCK)
@@ -318,8 +327,8 @@
 		compatible = "st,stpmic1";
 		reg = <0x33>;
 		status = "okay";
-		wakeup-parent = <&pwr_irq>;
-		st,wakeup-pin-number = <1>;
+		interrupts-extended = <&exti 55 IRQ_TYPE_EDGE_FALLING>;
+		wakeup-source;
 		st,pmic-it-id = <IT_PONKEY_F IT_PONKEY_R>;
 		st,notif-it-id = <0 2>;
 
@@ -525,7 +534,7 @@
 &ltdc {
 	pinctrl-names = "default";
 	pinctrl-0 = <&ltdc_pins_mx>;
-	status = "disabled";
+	status = "okay";
 
 	/* USER CODE BEGIN ltdc */
 	access-controllers-conf-nsec = <&etzpc DECPROT(STM32MP1_ETZPC_LTDC_ID, DECPROT_NS_RW, DECPROT_UNLOCK)>,
@@ -577,10 +586,6 @@
 	status = "okay";
 	clocks = <&clk_hse>, <&clk_hsi>, <&clk_lse>, <&clk_lsi>, <&clk_csi>;
 	clock-names = "clk-hse", "clk-hsi", "clk-lse", "clk-lsi", "clk-csi";
-
-	/* USER CODE BEGIN rcc */
-	/* USER CODE END rcc */
-
 	st,clksrc = <
 		CLK_MPU_PLL1P
 		CLK_AXI_PLL2P
@@ -623,11 +628,6 @@
 		DIV(DIV_MCO2, 0)
 	>;
 	st,pll_vco {
-		pll1_vco_1300Mhz: pll1-vco-1300Mhz {
-			src = < CLK_PLL12_HSE >;
-			divmn = < 2 80 >;
-			frac = < 0x800 >;
-		};
 		pll2_vco_1066Mhz: pll2-vco-1066Mhz {
 			src = < CLK_PLL12_HSE >;
 			divmn = < 2 65 >;
@@ -655,31 +655,13 @@
 			divmn = <1 74>;
 			frac = <0>;
 		};
+
+		pll1_vco_1300Mhz:pll1-vco-1300Mhz{
+			src = <CLK_PLL12_HSE>;
+			divmn = <2 80>;
+			frac = <0x800>;
+		};
 		/* USER CODE END rcc_st-pll_vco */
-	};
-
-	pll1:st,pll@0 {
-		compatible = "st,stm32mp1-pll";
-		reg = <0>;
-
-		st,pll = < &pll1_cfg1 >;
-
-		pll1_cfg1: pll1_cfg1 {
-			st,pll_vco = < &pll1_vco_1300Mhz >;
-			st,pll_div_pqr = < 0 1 1 >;
-		};
-		/* USER CODE BEGIN pll1 */
-
-		pll1_cfg2:pll1_cfg2{
-			st,pll_vco = <&pll1_vco_2000Mhz>;
-			st,pll_div_pqr = <0 1 1>;
-		};
-
-		pll1_cfg3:pll1_cfg3{
-			st,pll_vco = <&pll1_vco_1800Mhz>;
-			st,pll_div_pqr = <0 1 1>;
-		};
-		/* USER CODE END pll1 */
 	};
 
 	pll2:st,pll@1 {
@@ -778,6 +760,27 @@
 	};
 
 	/* USER CODE BEGIN rcc */
+
+	pll1:st,pll@0{
+		compatible = "st,stm32mp1-pll";
+		reg = <0>;
+		st,pll = <&pll1_cfg1>;
+
+		pll1_cfg1:pll1_cfg1{
+			st,pll_vco = <&pll1_vco_1300Mhz>;
+			st,pll_div_pqr = <0 1 1>;
+		};
+
+		pll1_cfg2:pll1_cfg2{
+			st,pll_vco = <&pll1_vco_2000Mhz>;
+			st,pll_div_pqr = <0 1 1>;
+		};
+
+		pll1_cfg3:pll1_cfg3{
+			st,pll_vco = <&pll1_vco_1800Mhz>;
+			st,pll_div_pqr = <0 1 1>;
+		};
+	};
 	/* USER CODE END rcc */
 
 	st,rcc{
@@ -822,7 +825,6 @@
 	st,tamp-passive-nb-sample = <4>;
 	st,tamp-passive-sample-clk-div = <16384>;
 	wakeup-source;
-	wakeup-parent = <&exti>;
 
 	tamp-button{
 		tamper-gpios = <&gpioa 6 0>;
@@ -859,22 +861,6 @@
 
 &gpioa {
 	st,protreg = < (TZPROT(6)) >;
-};
-
-&gpiob {
-	st,protreg = < (TZPROT(9)) >;
-};
-
-&gpiod {
-	st,protreg = < (TZPROT(7)) >;
-};
-
-&gpioe {
-	st,protreg = < (TZPROT(15)) >;
-};
-
-&gpiof {
-	st,protreg = < (TZPROT(8)) >;
 };
 
 &gpioi {

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
 /*
- * Copyright (C) 2024, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -28,7 +28,7 @@
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP157F-DK2 STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v24.11.06";
+	model = "STMicroelectronics STM32MP157F-DK2 STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v25.06.11";
 	compatible = "st,stm32mp157f-dk2-mx", "st,stm32mp157f-dk2", "st,stm32mp157";
 
 	memory@c0000000 {
@@ -179,6 +179,22 @@
 			drive-push-pull;
 			slew-rate = <0>;
 		};
+	uart4_idle_pins_mx: uart4-idle-0 {
+			pins1 {
+				pinmux = <STM32_PINMUX_NSEC('G', 11, ANALOG)>; /* UART4_TX */
+			};
+			pins2 {
+				pinmux = <STM32_PINMUX_NSEC('B', 2, AF8)>; /* UART4_RX */
+				bias-disable;
+			};
+		};
+	
+	uart4_sleep_pins_mx: uart4-sleep-0 {
+			pins {
+				pinmux = <STM32_PINMUX_NSEC('G', 11, ANALOG)>, /* UART4_TX */
+					 <STM32_PINMUX_NSEC('B', 2, ANALOG)>; /* UART4_RX */
+			};
+		};
 	};
 	/* USER CODE END pinctrl */
 };
@@ -186,8 +202,8 @@
 &pinctrl_z {
 	i2c4_pins_z_mx: i2c4_mx-0 {
 		pins {
-			pinmux = <STM32_PINMUX_NSEC('Z', 4, AF6)>, /* I2C4_SCL */
-					 <STM32_PINMUX_NSEC('Z', 5, AF6)>; /* I2C4_SDA */
+			pinmux = <STM32_PINMUX('Z', 4, AF6)>, /* I2C4_SCL */
+					 <STM32_PINMUX('Z', 5, AF6)>; /* I2C4_SDA */
 			bias-disable;
 			drive-open-drain;
 			slew-rate = <0>;
@@ -549,16 +565,15 @@
 
 &rcc {
 	status = "okay";
-
 	/* USER CODE BEGIN rcc */
 	compatible = "st,stm32mp1-rcc-secure";
 
 	/* USER CODE END rcc */
-
 	st,clksrc = <
 		CLK_CKPER_HSE
 		CLK_ETH_PLL4P
 		CLK_SDMMC12_PLL4P
+		CLK_DSI_DSIPLL
 		CLK_STGEN_HSE
 		CLK_USBPHY_HSE
 		CLK_SPI2S23_PLL3Q
@@ -742,9 +757,13 @@
 
 
 
-&uart4{
-	pinctrl-names = "default";
+&uart4 {
+	pinctrl-names = "default", "sleep", "idle";
 	pinctrl-0 = <&uart4_pins_mx>;
+	pinctrl-1 = <&uart4_sleep_pins_mx>;
+	pinctrl-2 = <&uart4_idle_pins_mx>;
+	/delete-property/dmas;
+	/delete-property/dma-names;
 	status = "okay";
 };
 /* USER CODE END addons */

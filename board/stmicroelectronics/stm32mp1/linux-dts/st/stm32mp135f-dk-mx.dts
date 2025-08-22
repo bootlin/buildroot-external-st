@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
 /*
- * Copyright (C) 2024, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -18,12 +18,12 @@
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/input/input.h>
 #include <dt-bindings/leds/common.h>
-#include <dt-bindings/regulator/st,stm32mp13-regulator.h>
+#include <dt-bindings/pwm/pwm.h>
 #include <dt-bindings/rtc/rtc-stm32.h>
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP135F-DK STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v24.11.06";
+	model = "STMicroelectronics STM32MP135F-DK STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v25.06.11";
 	compatible = "st,stm32mp135f-dk-mx", "st,stm32mp135f-dk", "st,stm32mp135";
 
 	memory@c0000000 {
@@ -68,6 +68,7 @@
 		framebuffer{
 			compatible = "simple-framebuffer";
 			clocks = <&rcc LTDC_PX>;
+			lcd-supply = <&scmi_v3v3_sw>;
 			status = "disabled";
 		};
 	};
@@ -101,10 +102,11 @@
 	};
 
 	panel_backlight:panel-backlight{
-		compatible = "gpio-backlight";
-		gpios = <&gpioe 12 GPIO_ACTIVE_HIGH>;
-		default-on;
-		default-brightness-level = <1>;
+		compatible = "pwm-backlight";
+		pwms = <&pwm1 2 1000000 PWM_POLARITY_INVERTED>;
+		brightness-levels = <0 16 22 30 40 55 75 102 138 188 255>;
+		default-brightness-level = <10>;
+		power-supply = <&scmi_v3v3_sw>;
 		status = "okay";
 	};
 
@@ -114,6 +116,7 @@
 		backlight = <&panel_backlight>;
 		power-supply = <&scmi_v3v3_sw>;
 		data-mapping = "bgr666";
+		default-on;
 		status = "okay";
 		width-mm = <105>;
 		height-mm = <67>;
@@ -484,6 +487,21 @@
 		};
 	};
 
+	tim1_pwm_pins_mx: tim1_pwm_mx-0 {
+		pins {
+			pinmux = <STM32_PINMUX('E', 12, AF1)>; /* TIM1_CH3N */
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <0>;
+		};
+	};
+
+	tim1_pwm_sleep_pins_mx: tim1_pwm_sleep_mx-0 {
+		pins {
+			pinmux = <STM32_PINMUX('E', 12, ANALOG)>; /* TIM1_CH3N */
+		};
+	};
+
 	uart4_pins_mx: uart4_mx-0 {
 		pins1 {
 			pinmux = <STM32_PINMUX('D', 6, AF8)>; /* UART4_TX */
@@ -584,13 +602,6 @@
 		};
 	};
 	/* USER CODE END adc_1 */
-};
-
-&bsec {
-	status = "okay";
-
-	/* USER CODE BEGIN bsec */
-	/* USER CODE END bsec */
 };
 
 &crc1 {
@@ -961,6 +972,25 @@
 	/* USER CODE END sdmmc2 */
 };
 
+&timers1 {
+	status = "okay";
+
+	/* USER CODE BEGIN timers1 */
+	/delete-property/ dmas;
+	/delete-property/ dma-names;
+	/* USER CODE END timers1 */
+
+	pwm1:pwm{
+		pinctrl-names = "default", "sleep";
+		pinctrl-0 = <&tim1_pwm_pins_mx>;
+		pinctrl-1 = <&tim1_pwm_sleep_pins_mx>;
+		status = "okay";
+
+		/* USER CODE BEGIN pwm1 */
+		/* USER CODE END pwm1 */
+	};
+};
+
 &uart4 {
 	pinctrl-names = "default", "idle", "sleep";
 	pinctrl-0 = <&uart4_pins_mx>;
@@ -987,7 +1017,7 @@
 	bluetooth{
 		shutdown-gpios = <&mcp23017 13 GPIO_ACTIVE_HIGH>;
 		compatible = "brcm,bcm43438-bt";
-		max-speed = <3000000>;
+		max-speed = <2000000>;
 		vbat-supply = <&v3v3_ao>;
 		vddio-supply = <&v3v3_ao>;
 	};
@@ -1101,29 +1131,37 @@
 		regulator-name = "vddcore";
 	};
 
-	scmi_vdd_adc:regulator@10{
+	scmi_vdd_adc:regulator@a{
 		reg = <VOLTD_SCMI_STPMIC1_LDO1>;
 		regulator-name = "vdd_adc";
 	};
 
-	scmi_vdd_usb:regulator@13{
+	scmi_vdd_usb:regulator@d{
 		reg = <VOLTD_SCMI_STPMIC1_LDO4>;
 		regulator-name = "vdd_usb";
 	};
 
-	scmi_vdd_sd:regulator@14{
+	scmi_vdd_sd:regulator@e{
 		reg = <VOLTD_SCMI_STPMIC1_LDO5>;
 		regulator-name = "vdd_sd";
 	};
 
-	scmi_v1v8_periph:regulator@15{
+	scmi_v1v8_periph:regulator@f{
 		reg = <VOLTD_SCMI_STPMIC1_LDO6>;
 		regulator-name = "v1v8_periph";
 	};
 
-	scmi_v3v3_sw:regulator@19{
+	scmi_v3v3_sw:regulator@13{
 		reg = <VOLTD_SCMI_STPMIC1_PWR_SW2>;
 		regulator-name = "v3v3_sw";
+	};
+};
+
+&sram2 {
+
+	spi5_dma_pool:dma-sram@1000{
+		reg = <0x1000 0x1000>;
+		pool;
 	};
 };
 

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
 /*
- * Copyright (C) 2024, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -15,15 +15,15 @@
 #include "stm32mp15xd.dtsi"
 #include "stm32mp15xxac-pinctrl.dtsi"
 #include "stm32mp15-m4-srm.dtsi"
+#include "stm32mp15-scmi.dtsi"
 
 /* USER CODE BEGIN includes */
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/mfd/st,stpmic1.h>
-#include "stm32mp157a-dk1-scmi.dtsi"
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP157D-DK1 STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v24.11.06";
+	model = "STMicroelectronics STM32MP157D-DK1 STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v25.06.11";
 	compatible = "st,stm32mp157d-dk1-mx", "st,stm32mp157d-dk1", "st,stm32mp157";
 
 	memory@c0000000 {
@@ -94,6 +94,11 @@
 			size = <0x8000000>;
 			alignment = <0x2000>;
 			linux,cma-default;
+		};
+
+		optee@de000000{
+			reg = <0xde000000 0x2000000>;
+			no-map;
 		};
 		/* USER CODE END reserved-memory */
 	};
@@ -508,6 +513,10 @@
 	interrupt-parent = <&exti>;
 	interrupts = <68 1>;
 	wakeup-source;
+	resets = <&scmi_reset RST_SCMI_MCU>,
+			<&scmi_reset RST_SCMI_MCU_HOLD_BOOT>;
+	reset-names = "mcu_rst", "hold_boot";
+	/delete-property/ st,syscfg-holdboot;
 	/* USER CODE END m4_rproc */
 };
 
@@ -644,6 +653,8 @@
 	status = "okay";
 
 	/* USER CODE BEGIN hash1 */
+	clocks = <&scmi_clk CK_SCMI_HASH1>;
+	resets = <&scmi_reset RST_SCMI_HASH1>;
 	/* USER CODE END hash1 */
 };
 
@@ -754,6 +765,8 @@
 	clock-frequency = <400000>;
 	/delete-property/ dmas;
 	/delete-property/ dma-names;
+	clocks = <&scmi_clk CK_SCMI_I2C4>;
+	resets = <&scmi_reset RST_SCMI_I2C4>;
 
 	stusb1600@28{
 		compatible = "st,stusb1600";
@@ -969,6 +982,7 @@
 	status = "okay";
 
 	/* USER CODE BEGIN mdma1 */
+	resets = <&scmi_reset RST_SCMI_MDMA>;
 	/* USER CODE END mdma1 */
 };
 
@@ -985,6 +999,13 @@
 	status = "okay";
 
 	/* USER CODE BEGIN rcc */
+	compatible = "st,stm32mp1-rcc-secure", "syscon";
+	clock-names = "hse", "hsi", "csi", "lse", "lsi";
+	clocks = <&scmi_clk CK_SCMI_HSE>,
+			<&scmi_clk CK_SCMI_HSI>,
+			<&scmi_clk CK_SCMI_CSI>,
+			<&scmi_clk CK_SCMI_LSE>,
+			<&scmi_clk CK_SCMI_LSI>;
 	/* USER CODE END rcc */
 };
 
@@ -992,6 +1013,7 @@
 	status = "okay";
 
 	/* USER CODE BEGIN rtc */
+	clocks = <&scmi_clk CK_SCMI_RTCAPB>, <&scmi_clk CK_SCMI_RTC>;
 	/* USER CODE END rtc */
 };
 
@@ -1183,10 +1205,38 @@
 
 &cpu0 {
 	cpu-supply = <&vddcore>;
+	clocks = <&scmi_clk CK_SCMI_MPU>;
 };
 
 &cpu1 {
 	cpu-supply = <&vddcore>;
+	clocks = <&scmi_clk CK_SCMI_MPU>;
+};
+
+&dsi {
+	clocks = <&rcc DSI>, <&scmi_clk CK_SCMI_HSE>, <&rcc DSI_PX>;
+};
+
+&gpioz {
+	clocks = <&scmi_clk CK_SCMI_GPIOZ>;
+};
+
+&i2c6 {
+	clocks = <&scmi_clk CK_SCMI_I2C6>;
+	resets = <&scmi_reset RST_SCMI_I2C6>;
+};
+
+&iwdg2 {
+	clocks = <&rcc IWDG2>, <&scmi_clk CK_SCMI_LSI>;
+};
+
+&mlahb {
+	resets = <&scmi_reset RST_SCMI_MCU>;
+};
+
+&rng1 {
+	clocks = <&scmi_clk CK_SCMI_RNG1>;
+	resets = <&scmi_reset RST_SCMI_RNG1>;
 };
 
 &pinctrl{

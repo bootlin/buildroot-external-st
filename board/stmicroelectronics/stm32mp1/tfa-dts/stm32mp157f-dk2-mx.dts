@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
 /*
- * Copyright (C) 2024, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -24,7 +24,7 @@
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP157F-DK2 STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v24.11.06";
+	model = "STMicroelectronics STM32MP157F-DK2 STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v25.06.11";
 	compatible = "st,stm32mp157f-dk2-mx", "st,stm32mp157f-dk2", "st,stm32mp157";
 
 	memory@c0000000 {
@@ -299,12 +299,10 @@
 
 &rcc {
 	status = "okay";
-
 	/* USER CODE BEGIN rcc */
 	compatible = "st,stm32mp1-rcc-secure", "st,stm32mp1-rcc", "syscon";
 
 	/* USER CODE END rcc */
-
 	st,clksrc = <
 		CLK_CKPER_HSE
 		CLK_SDMMC12_PLL4P
