@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
 /*
- * Copyright (C) 2024, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -52,12 +52,11 @@
 		FLEXGEN_CFG(6, XBAR_SRC_PLL4, 0, 1)
 		FLEXGEN_CFG(8, XBAR_SRC_HSI_KER, 0, 0)
 		FLEXGEN_CFG(15, XBAR_SRC_PLL4, 0, 11)
-		FLEXGEN_CFG(33, XBAR_SRC_PLL4, 0, 23)
+		FLEXGEN_CFG(33, XBAR_SRC_HSE_KER, 0, 0)
 		FLEXGEN_CFG(43, XBAR_SRC_PLL4, 0, 23)
 		FLEXGEN_CFG(44, XBAR_SRC_PLL4, 0, 5)
 		FLEXGEN_CFG(45, XBAR_SRC_PLL4, 0, 2)
 		FLEXGEN_CFG(51, XBAR_SRC_PLL4, 0, 5)
-		FLEXGEN_CFG(59, XBAR_SRC_PLL4, 0, 1)
 		FLEXGEN_CFG(63, XBAR_SRC_PLL4, 0, 2)
 	>;
 
@@ -78,9 +77,9 @@
 	>;
 
 	pll1:st,pll-1 {
-		st,pll = < &pll1_cfg_1200Mhz >;
+		st,pll = <&pll1_cfg_1200MHz>;
 
-		pll1_cfg_1200Mhz: pll1-cfg-1200Mhz{
+		pll1_cfg_1200MHz: pll1-cfg-1200MHz{
 			cfg = <30 1 1 1>;
 			src = <MUX_CFG(MUX_MUXSEL5, MUXSEL_HSE)>;
 		};
@@ -89,9 +88,9 @@
 	};
 
 	pll2:st,pll-2 {
-		st,pll = < &pll2_cfg_600Mhz >;
+		st,pll = <&pll2_cfg_600MHz>;
 
-		pll2_cfg_600Mhz: pll2-cfg-600Mhz{
+		pll2_cfg_600MHz: pll2-cfg-600MHz{
 			cfg = <30 1 1 2>;
 			src = <MUX_CFG(MUX_MUXSEL6, MUXSEL_HSE)>;
 		};
@@ -100,9 +99,9 @@
 	};
 
 	pll4:st,pll-4 {
-		st,pll = < &pll4_cfg_1200Mhz >;
+		st,pll = <&pll4_cfg_1200MHz>;
 
-		pll4_cfg_1200Mhz: pll4-cfg-1200Mhz{
+		pll4_cfg_1200MHz: pll4-cfg-1200MHz{
 			cfg = <30 1 1 1>;
 			src = <MUX_CFG(MUX_MUXSEL0, MUXSEL_HSE)>;
 		};

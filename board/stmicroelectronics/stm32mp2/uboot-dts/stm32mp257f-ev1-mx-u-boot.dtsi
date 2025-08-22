@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
 /*
- * Copyright (C) 2024, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -24,7 +24,6 @@
 	config{
 		u-boot,boot-led = "led-blue";
 		u-boot,mmc-env-partition = "u-boot-env";
-		st,stm32prog-gpios = <&gpioc 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 	};
 
 	fwu-mdata{
@@ -33,55 +32,27 @@
 	};
 	/* USER CODE END root */
 
+	clocks{
+
+		/* USER CODE BEGIN clocks */
+		/* USER CODE END clocks */
+	};
+
 }; /*root*/
 
 /* USER CODE BEGIN addons */
 
-&dwc3{
+&dwc3 {
 	dr_mode = "peripheral";
 	/delete-node/ port;
 };
 
-&i2c_rpmsg{
+&i2c_rpmsg {
 	/delete-node/ typec@35;
 };
 
-&usart2{
+&usart2 {
 	bootph-all;
-};
-
-&flash0 {
-	/* Add default partitionning from ST */
-        partitions {
-                compatible = "fixed-partitions";
-                #address-cells = <1>;
-                #size-cells = <1>;
-
-                partition@0 {
-                        label = "fsbla1";
-                        reg = <0x00000000 0x00040000>;
-                };
-                partition@40000 {
-                        label = "fsbla2";
-                        reg = <0x00040000 0x00040000>;
-                };
-                partition@80000 {
-                        label = "fip";
-                        reg = <0x00080000 0x00880000>;
-                };
-                partition@900000 {
-                        label = "u-boot-env";
-                        reg = <0x00900000 0x00040000>;
-                };
-                partition@940000 {
-                        label = "u-boot-env-red";
-                        reg = <0x00940000 0x00040000>;
-                };
-                partition@a00000 {
-                        label = "nor-user";
-                        reg = <0x00980000 0x03680000>;
-                };
-        };
 };
 /* USER CODE END addons */
 

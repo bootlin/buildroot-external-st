@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
 /*
- * Copyright (C) 2024, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -25,7 +25,7 @@
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP257F-EV1 STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v24.11.06";
+	model = "STMicroelectronics STM32MP257F-EV1 STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v25.06.11";
 	compatible = "st,stm32mp257f-ev1-mx", "st,stm32mp257f-ev1", "st,stm32mp257";
 
 	memory@80000000 {
@@ -70,21 +70,16 @@
 	};
 
 	sdmmc1_pins_mx: sdmmc1_mx-0 {
-		pins1 {
+		pins {
 			pinmux = <STM32_PINMUX('E', 0, AF10)>, /* SDMMC1_D2 */
 					 <STM32_PINMUX('E', 1, AF10)>, /* SDMMC1_D3 */
 					 <STM32_PINMUX('E', 2, AF10)>, /* SDMMC1_CMD */
+					 <STM32_PINMUX('E', 3, AF10)>, /* SDMMC1_CK */
 					 <STM32_PINMUX('E', 4, AF10)>, /* SDMMC1_D0 */
 					 <STM32_PINMUX('E', 5, AF10)>; /* SDMMC1_D1 */
 			bias-disable;
 			drive-push-pull;
-			slew-rate = <2>;
-		};
-		pins2 {
-			pinmux = <STM32_PINMUX('E', 3, AF10)>; /* SDMMC1_CK */
-			bias-disable;
-			drive-push-pull;
-			slew-rate = <3>;
+			slew-rate = <1>;
 		};
 	};
 
@@ -238,7 +233,6 @@
 				regulator-name = "vpp_ddr";
 				regulator-min-microvolt = <2500000>;
 				regulator-max-microvolt = <2500000>;
-				regulator-enable-ramp-delay = <1000>;
 			};
 
 			vdd_sdcard:ldo7{
@@ -350,25 +344,6 @@
 };
 
 /* USER CODE BEGIN addons */
-&ommanager {
-        pinctrl-names = "default";
-        pinctrl-0 = <&ospi_port1_clk_pins_a
-                     &ospi_port1_io03_pins_a
-                     &ospi_port1_cs0_pins_a>;
-        status = "okay";
 
-        spi@40430000 {
-                #address-cells = <1>;
-                #size-cells = <0>;
-                status = "okay";
-
-                flash0: flash@0 {
-                        compatible = "jedec,spi-nor";
-                        reg = <0>;
-                        spi-rx-bus-width = <4>;
-                        spi-max-frequency = <133000000>;
-                };
-        };
-};
 /* USER CODE END addons */
 

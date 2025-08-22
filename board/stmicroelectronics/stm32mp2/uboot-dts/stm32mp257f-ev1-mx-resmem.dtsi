@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
 /*
- * Copyright (C) 2024, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -41,8 +41,18 @@
 			no-map;
 		};
 
-		cm33_sram1:cm33-sram1@a041000{
-			reg = <0x0 0xa041000 0x0 0x1f000>;
+		scmi_cid2_s: scmi-cid2-s@a041000 {
+			reg = <0x0 0xa041000 0x0 0x1000>;
+			no-map;
+		};
+
+		scmi_cid2_ns: scmi-cid2-ns@a042000 {
+			reg = <0x0 0xa042000 0x0 0x1000>;
+			no-map;
+		};
+
+		cm33_sram1: cm33-sram1@a043000 {
+			reg = <0x0 0xa043000 0x0 0x1d000>;
 			no-map;
 		};
 
@@ -71,7 +81,7 @@
 			no-map;
 		};
 
-		mm_ospi1:mm-ospi@60000000{
+		mm_ospi2:mm-ospi@60000000{
 			reg = <0x0 0x60000000 0x0 0x10000000>;
 			no-map;
 		};

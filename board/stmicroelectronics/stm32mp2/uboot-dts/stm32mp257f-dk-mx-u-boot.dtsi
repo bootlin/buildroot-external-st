@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
 /*
- * Copyright (C) 2024, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -20,7 +20,6 @@
 	config{
 		u-boot,boot-led = "led-blue";
 		u-boot,mmc-env-partition = "u-boot-env";
-		st,stm32prog-gpios = <&gpioc 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
 	};
 
 	fwu-mdata{
@@ -28,6 +27,12 @@
 		fwu-mdata-store = <&sdmmc1>;
 	};
 	/* USER CODE END root */
+
+	clocks{
+
+		/* USER CODE BEGIN clocks */
+		/* USER CODE END clocks */
+	};
 
 }; /*root*/
 

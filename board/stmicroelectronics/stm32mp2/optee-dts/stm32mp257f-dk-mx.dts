@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
 /*
- * Copyright (C) 2024, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -12,10 +12,6 @@
 
 #include <dt-bindings/pinctrl/stm32-pinfunc.h>
 #include <dt-bindings/clock/stm32mp25-clksrc.h>
-#include <dt-bindings/soc/stm32mp25-rif.h>
-#include <dt-bindings/soc/stm32mp25-risab.h>
-#include <dt-bindings/soc/stm32mp25-risaf.h>
-#include <dt-bindings/soc/stm32mp25-rifsc.h>
 #include "stm32mp257.dtsi"
 #include "stm32mp25xf.dtsi"
 #include "stm32mp257f-dk-mx-rcc.dtsi"
@@ -29,11 +25,12 @@
 #include <dt-bindings/soc/stm32mp-provisioning.h>
 #include <dt-bindings/tamper/st,stm32mp25-tamp.h>
 #include "stm32mp25-pinctrl.dtsi"
+#include "stm32mp25-st-scmi-cfg.dtsi"
 #include "stm32mp25xxal-pinctrl.dtsi"
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP257F-DK STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v24.11.06";
+	model = "STMicroelectronics STM32MP257F-DK STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v25.06.11";
 	compatible = "st,stm32mp257f-dk-mx", "st,stm32mp257f-dk", "st,stm32mp257";
 
 	memory@80000000 {
@@ -92,11 +89,25 @@
 	/* USER CODE END pinctrl_z */
 };
 
+&bsec {
+	status = "okay";
+
+	/* USER CODE BEGIN bsec */
+	/* USER CODE END bsec */
+};
+
 &hash {
 	status = "okay";
 
 	/* USER CODE BEGIN hash */
 	/* USER CODE END hash */
+};
+
+&hpdma1 {
+	status = "okay";
+
+	/* USER CODE BEGIN hpdma1 */
+	/* USER CODE END hpdma1 */
 };
 
 &hpdma2 {
@@ -129,10 +140,10 @@
 	pmic2:stpmic2@33{
 		compatible = "st,stpmic2";
 		reg = <0x33>;
-		st,wakeup-pin-number = <1>;
+		interrupts-extended = <&exti1 52 IRQ_TYPE_EDGE_FALLING>;
+		wakeup-source;
 		st,pmic-it-id = <IT_PKEY_FA IT_PKEY_RI>;
 		st,notif-it-id = <0 1>;
-		wakeup-parent = <&pwr>;
 		status = "okay";
 
 		regulators{
@@ -361,7 +372,6 @@
 				regulator-name = "vdd3v3_usb";
 				regulator-min-microvolt = <3300000>;
 				regulator-max-microvolt = <3300000>;
-				regulator-always-on;
 				regulator-over-current-protection;
 			};
 
@@ -424,7 +434,7 @@
 };
 
 &ltdc {
-	status = "disabled";
+	status = "okay";
 
 	/* USER CODE BEGIN ltdc */
 	/* USER CODE END ltdc */
@@ -432,6 +442,10 @@
 
 &m33_rproc {
 	status = "okay";
+
+	/*Restriction: "memory-region" property is not managed - please to use User-Section if needed*/
+	mboxes = <&ipcc1 0x100>, <&ipcc1 0x101>, <&ipcc1 2>;
+	mbox-names = "vq0", "vq1", "shutdown";
 
 	/* USER CODE BEGIN m33_rproc */
 	compatible = "st,stm32mp2-m33-tee";
@@ -461,7 +475,6 @@
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
 		vdd33ucpd-supply = <&vdd3v3_usb>;
-		regulator-always-on;
 	};
 
 	vdda18adc:vdda18adc{
@@ -521,12 +534,25 @@
 
 			cfg_1{
 				hz = <1500000000>;
-				st,pll = <&pll1_cfg_1500Mhz>;
+				st,pll = <&pll1_cfg_1500MHz>;
 			};
 
 			cfg_2{
 				hz = <1200000000>;
-				st,pll = <&pll1_cfg_1200Mhz>;
+				st,pll = <&pll1_cfg_1200MHz>;
+			};
+		};
+
+		st,ck_gpu{
+
+			cfg_1{
+				hz = <800000000>;
+				st,pll = <&pll3_cfg_800MHz>;
+			};
+
+			cfg_2{
+				hz = <900000000>;
+				st,pll = <&pll3_cfg_900MHz>;
 			};
 		};
 	};
@@ -540,12 +566,18 @@
 	/* USER CODE END saes */
 };
 
+&serc {
+	status = "okay";
+
+	/* USER CODE BEGIN serc */
+	/* USER CODE END serc */
+};
+
 &tamp {
 	status = "okay";
 
 	/* USER CODE BEGIN tamp */
 	wakeup-source;
-	wakeup-parent = <&exti2>;
 	st,tamp-passive-precharge = <2>;
 	st,tamp-passive-nb-sample = <4>;
 	st,tamp-passive-sample-clk-div = <16384>;
@@ -577,46 +609,49 @@
 	status = "okay";
 };
 
-&scmi_regu {
+&scmi_regulator {
 
-	voltd-vddcore{
-		reg = <VOLTD_SCMI_STPMIC2_BUCK2>;
-		voltd-supply = <&vddcore>;
-	};
+	regulators{
 
-	voltd-v1v8{
-		reg = <VOLTD_SCMI_STPMIC2_BUCK5>;
-		voltd-supply = <&v1v8>;
-	};
+		regulator@b{
+			reg = <VOLTD_SCMI_STPMIC2_BUCK2>;
+			voltd-supply = <&vddcore>;
+		};
 
-	voltd-v3v3{
-		reg = <VOLTD_SCMI_STPMIC2_BUCK7>;
-		voltd-supply = <&v3v3>;
-	};
+		regulator@e{
+			reg = <VOLTD_SCMI_STPMIC2_BUCK5>;
+			voltd-supply = <&v1v8>;
+		};
 
-	voltd-v5v-hdmi{
-		reg = <VOLTD_SCMI_STPMIC2_LDO5>;
-		voltd-supply = <&v5v_hdmi>;
-	};
+		regulator@10{
+			reg = <VOLTD_SCMI_STPMIC2_BUCK7>;
+			voltd-supply = <&v3v3>;
+		};
 
-	voltd-v5v-vconn{
-		reg = <VOLTD_SCMI_STPMIC2_LDO6>;
-		voltd-supply = <&v5v_vconn>;
-	};
+		regulator@15{
+			reg = <VOLTD_SCMI_STPMIC2_LDO5>;
+			voltd-supply = <&v5v_hdmi>;
+		};
 
-	voltd-vdd-emmc{
-		reg = <VOLTD_SCMI_STPMIC2_LDO2>;
-		voltd-supply = <&vdd_emmc>;
-	};
+		regulator@16{
+			reg = <VOLTD_SCMI_STPMIC2_LDO6>;
+			voltd-supply = <&v5v_vconn>;
+		};
 
-	voltd-vdd3v3-usb{
-		reg = <VOLTD_SCMI_STPMIC2_LDO4>;
-		voltd-supply = <&vdd3v3_usb>;
-	};
+		regulator@12{
+			reg = <VOLTD_SCMI_STPMIC2_LDO2>;
+			voltd-supply = <&vdd_emmc>;
+		};
 
-	voltd-vdd-sdcard{
-		reg = <VOLTD_SCMI_STPMIC2_LDO7>;
-		voltd-supply = <&vdd_sdcard>;
+		regulator@14{
+			reg = <VOLTD_SCMI_STPMIC2_LDO4>;
+			voltd-supply = <&vdd3v3_usb>;
+		};
+
+		regulator@17{
+			reg = <VOLTD_SCMI_STPMIC2_LDO7>;
+			voltd-supply = <&vdd_sdcard>;
+		};
 	};
 };
 
