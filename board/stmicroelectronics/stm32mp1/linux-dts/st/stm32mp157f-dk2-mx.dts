@@ -21,6 +21,7 @@
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/mfd/st,stpmic1.h>
 #include <dt-bindings/rtc/rtc-stm32.h>
+#include "stm32mp15-pinctrl.dtsi"
 /* USER CODE END includes */
 
 / {
@@ -687,6 +688,7 @@
 		reg = <0>;
 		reset-gpios = <&gpioe 4 GPIO_ACTIVE_LOW>;
 		power-supply = <&v3v3>;
+		default-on;
 		status = "okay";
 
 		port{
@@ -1069,6 +1071,10 @@
 	status = "okay";
 
 	/* USER CODE BEGIN ltdc */
+	pinctrl-names = "default", "sleep";
+	pinctrl-0 = <&ltdc_pins_a>;
+	pinctrl-1 = <&ltdc_sleep_pins_a>;
+	default-on;
 
 	port{
 		#address-cells = <1>;
