@@ -1,0 +1,44 @@
+From b9fad16877d3458aea5d6ecfd78775b52755f21d Mon Sep 17 00:00:00 2001
+From: Kory Maincent <kory.maincent@bootlin.com>
+Date: Tue, 2 Sep 2025 15:50:24 +0200
+Subject: [PATCH] net: stmmac: dwmac-stm32: Fix clock refcount warning
+
+The clk_ptp_ref clock being prepared in the open callback, calling
+suspend operations with the interface down raise clock ref warning.
+WARNING: CPU: 0 PID: 233 at drivers/clk/clk.c:1181 clk_core_disable+0xe4/0x1f4
+ethptp_k already disabled
+
+Fix it by unpreparing the clock only if the net dev is running.
+
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+---
+ drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c
+index bdb6b77b3805b..e31ad60db99f6 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-stm32.c
+@@ -611,7 +611,8 @@ static int stm32mp1_suspend(struct stm32_dwmac *dwmac)
+ 	clk_disable_unprepare(dwmac->syscfg_clk);
+ 	if (dwmac->enable_eth_ck)
+ 		clk_disable_unprepare(dwmac->clk_eth_ck);
+-	clk_disable_unprepare(priv->plat->clk_ptp_ref);
++	if (netif_running(ndev))
++		clk_disable_unprepare(priv->plat->clk_ptp_ref);
+ 
+ 	/* Keep the PHY up if we use Wake-on-Lan. */
+ 	if (!device_may_wakeup(dwmac->dev))
+@@ -626,7 +627,8 @@ static void stm32mp1_resume(struct stm32_dwmac *dwmac)
+ 	struct stmmac_priv *priv = netdev_priv(ndev);
+ 
+ 	clk_disable_unprepare(dwmac->clk_ethstp);
+-	clk_prepare_enable(priv->plat->clk_ptp_ref);
++	if (netif_running(ndev))
++		clk_prepare_enable(priv->plat->clk_ptp_ref);
+ 
+ 	/* The PHY was up for Wake-on-Lan. */
+ 	if (!device_may_wakeup(dwmac->dev))
+-- 
+2.43.0
+
