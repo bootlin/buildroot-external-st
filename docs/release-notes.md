@@ -13,6 +13,8 @@ Changes in this release:
 
 - Add switch support for the STM32MP257F-EV1 board.
 
+- Add support for NOR memory boot on the STM32MP257 boards.
+
 ## openstlinux-6.1-buildroot-2024.02.3-mpu-v24.06.26
 
 Changes in this release:

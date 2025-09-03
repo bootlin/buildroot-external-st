@@ -465,8 +465,7 @@ flashed, based on the environment defined as a text file in
         RAUC manifest to describe the bundle content and the purpose of
         each included image.
       * [`patches`](/board/stmicroelectronics/common/patches), which
-        contains one patch for the Linux kernel, fixing a module
-        loading issue for the audio codec driver.
+        contains patches for the Linux kernel and for TF-M.
       * [`post-build.sh`](/board/stmicroelectronics/common/post-build.sh),
         the script executed by Buildroot at the end of the rootfs generation
         to produce update the `extlinux.conf` with the right devicetree name.
@@ -622,12 +621,12 @@ flashed, based on the environment defined as a text file in
 
 ## Changes compared to upstream Buildroot
 
-The `st/2024.02.9` branch of this `BR2_EXTERNAL` is designed to work
-with Buildroot 2024.02.9. However, we needed a few changes compared to
-upstream Buildroot 2024.02.9, which can be seen at
-[https://github.com/bootlin/buildroot/commits/st/2024.02.9](https://github.com/bootlin/buildroot/commits/st/2024.02.9). We
-have just 11 changes on top of Buildroot 2024.02.9, and they can easily
-be rebased on top of the latest Buildroot 2024.02.x to continue to
+The `st/2025.02.5` branch of this `BR2_EXTERNAL` is designed to work
+with Buildroot 2025.02.5. However, we needed a few changes compared to
+upstream Buildroot 2025.02.5, which can be seen at
+[https://github.com/bootlin/buildroot/commits/st/2025.02.5](https://github.com/bootlin/buildroot/commits/st/2025.02.5). We
+have just 11 changes on top of Buildroot 2025.02.5, and they can easily
+be rebased on top of the latest Buildroot 2025.02.x to continue to
 benefit from the security fixes provided by the Buildroot community.
 
 Here are the 13 changes:
