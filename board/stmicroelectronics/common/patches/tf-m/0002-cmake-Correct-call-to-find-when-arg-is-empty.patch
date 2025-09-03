@@ -1,5 +1,15 @@
+From 577a5ce67bee0d73e73844f893f2e16cfe6111c9 Mon Sep 17 00:00:00 2001
+From: Kory Maincent <kory.maincent@bootlin.com>
+Date: Wed, 3 Sep 2025 18:10:26 +0200
+Subject: [PATCH 2/3] cmake: Correct call to find when arg is empty
+
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+---
+ cmake/version.cmake | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 diff --git a/cmake/version.cmake b/cmake/version.cmake
-index 64a42b8..6482596 100644
+index a5f5d236c..e76e64e96 100644
 --- a/cmake/version.cmake
 +++ b/cmake/version.cmake
 @@ -16,7 +16,7 @@ execute_process(COMMAND git describe --tags --always
@@ -11,3 +21,6 @@ index 64a42b8..6482596 100644
  if(TFM_TAG EQUAL -1)
      set(TFM_VERSION_FULL v${TFM_VERSION_MANUAL})
      message(WARNING "Actual TF-M version is not available from Git repository. Settled to " ${TFM_VERSION_FULL})
+-- 
+2.43.0
+
