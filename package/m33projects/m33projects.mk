@@ -14,11 +14,6 @@ M33PROJECTS_DEPENDENCIES += \
 	optee-os \
 	host-python-pycryptodomex
 
-ifeq ($(BR2_TARGET_TRUSTED_FIRMWARE_M),y)
-	M33PROJECTS_DEPENDENCIES += trusted-firmware-m
-	M33PROJECTS_INPUT_SECURE_CONF = "--input-secure $(BINARIES_DIR)/tfm_s.elf"
-endif
-
 ifeq ($(BR2_PACKAGE_M33PROJECTS_MP257F_EV1),y)
 	M33PROJECTS_PROJECTS_LIST = \
 		STM32MP257F-EV1/Demonstrations/USBPD_DRP_UCSI \
@@ -55,7 +50,6 @@ define M33PROJECTS_INSTALL_TARGET_CMDS
 		OBJCOPY=$(HOST_DIR)/bin/arm-none-eabi-objcopy \
 			$(M33PROJECTS_PKGDIR)st_copro_firmware_signature.sh \
 			--input-nsecure $(@D)/Projects/$(project)/build/$(notdir $(project))_CM33_NonSecure.elf \
-			$(M33PROJECTS_INPUT_SECURE_CONF) \
 			--signature-key $(STAGING_DIR)/lib/optee/export-ta_arm64/keys/default.pem \
 			--output $(TARGET_DIR)/lib/firmware/$(notdir $(project))_CM33_NonSecure ; \
 		$(INSTALL) -m 0755 $(M33PROJECTS_PKGDIR)fw_cortex_m33.sh \

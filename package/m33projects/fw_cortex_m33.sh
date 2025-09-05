@@ -8,10 +8,9 @@ usage()
    # Display Help
    echo "start stop the remote processor firmware."
    echo
-   echo "Syntax: ${0} [-t <ns|s|ns_s>] <start|stop>"
+   echo "Syntax: ${0} [-t <ns|s>] <start|stop>"
    echo "   ns   Load a non secure firmware (Default)."
    echo "   s    Load a non secure firmware."
-   echo "   ns_s Load a TF-M + non secure firmwares."
    echo
    echo " start: Start the firmware."
    echo " stop:  Stop the firmware."
@@ -42,10 +41,6 @@ else
 
         s)
             fw_type="CM33_Secure"
-            ;;
-
-        ns_s)
-            fw_type="CM33_NonSecure_*"
             ;;
 
         *)

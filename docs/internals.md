@@ -465,7 +465,7 @@ flashed, based on the environment defined as a text file in
         RAUC manifest to describe the bundle content and the purpose of
         each included image.
       * [`patches`](/board/stmicroelectronics/common/patches), which
-        contains patches for the Linux kernel and for TF-M.
+        contains patches for the Linux kernel.
       * [`post-build.sh`](/board/stmicroelectronics/common/post-build.sh),
         the script executed by Buildroot at the end of the rootfs generation
         to produce update the `extlinux.conf` with the right devicetree name.
