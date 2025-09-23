@@ -1,0 +1,175 @@
+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
+/*
+ * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
+ * Author: STM32CubeMX code generation for STMicroelectronics.
+ */
+
+/* For more information on Device Tree configuration, please refer to
+ * https://wiki.st.com/stm32mpu/wiki/Category:Device_tree_configuration
+ */
+
+&clk_lsi {
+	clock-frequency = <32000>;
+
+	/* USER CODE BEGIN clk_lsi */
+	/* USER CODE END clk_lsi */
+};
+&clk_hsi {
+	clock-frequency = <64000000>;
+
+	/* USER CODE BEGIN clk_hsi */
+	/* USER CODE END clk_hsi */
+};
+&clk_msi {
+	clock-frequency = <16000000>;
+
+	/* USER CODE BEGIN clk_msi */
+	/* USER CODE END clk_msi */
+};
+&clk_lse {
+	clock-frequency = <32768>;
+
+	/* USER CODE BEGIN clk_lse */
+	/* USER CODE END clk_lse */
+};
+&clk_hse {
+	clock-frequency = <40000000>;
+
+	/* USER CODE BEGIN clk_hse */
+	/* USER CODE END clk_hse */
+};
+
+&rcc {
+
+	st,flexgen = <
+
+		FLEXGEN_CFG(0, XBAR_SRC_PLL4, 0, 3)
+		FLEXGEN_CFG(1, XBAR_SRC_PLL4, 0, 5)
+		FLEXGEN_CFG(2, XBAR_SRC_PLL4, 0, 1)
+		FLEXGEN_CFG(3, XBAR_SRC_PLL4, 0, 2)
+		FLEXGEN_CFG(4, XBAR_SRC_PLL4, 0, 3)
+		FLEXGEN_CFG(5, XBAR_SRC_PLL4, 0, 2)
+		FLEXGEN_CFG(7, XBAR_SRC_LSI, 0, 0)
+		FLEXGEN_CFG(8, XBAR_SRC_HSI_KER, 0, 0)
+		FLEXGEN_CFG(13, XBAR_SRC_PLL4, 0, 11)
+		FLEXGEN_CFG(21, XBAR_SRC_PLL7, 0, 16)
+		FLEXGEN_CFG(27, XBAR_SRC_PLL8, 0, 3)
+		FLEXGEN_CFG(29, XBAR_SRC_PLL5, 0, 1)
+		FLEXGEN_CFG(30, XBAR_SRC_HSE_KER, 0, 1)
+		FLEXGEN_CFG(31, XBAR_SRC_PLL5, 0, 19)
+		FLEXGEN_CFG(33, XBAR_SRC_HSE_KER, 0, 0)
+		FLEXGEN_CFG(38, XBAR_SRC_PLL4, 0, 11)
+		FLEXGEN_CFG(40, XBAR_SRC_LSE, 0, 0)
+		FLEXGEN_CFG(43, XBAR_SRC_PLL4, 0, 23)
+		FLEXGEN_CFG(44, XBAR_SRC_PLL4, 0, 5)
+		FLEXGEN_CFG(45, XBAR_SRC_PLL4, 0, 2)
+		FLEXGEN_CFG(46, XBAR_SRC_PLL8, 0, 4)
+		FLEXGEN_CFG(51, XBAR_SRC_PLL4, 0, 5)
+		FLEXGEN_CFG(54, XBAR_SRC_PLL6, 0, 9)
+		FLEXGEN_CFG(56, XBAR_SRC_PLL4, 0, 5)
+		FLEXGEN_CFG(58, XBAR_SRC_HSE_KER, 0, 1)
+		FLEXGEN_CFG(63, XBAR_SRC_PLL4, 0, 2)
+	>;
+
+	st,busclk = <
+		DIV_CFG(DIV_LSMCU, 1)
+		DIV_CFG(DIV_APB1, 0)
+		DIV_CFG(DIV_APB2, 0)
+		DIV_CFG(DIV_APB3, 0)
+		DIV_CFG(DIV_APB4, 0)
+		DIV_CFG(DIV_APB5, 0)
+		DIV_CFG(DIV_APBDBG, 0)
+	>;
+
+	st,kerclk = <
+		MUX_CFG(MUX_ADC1, MUX_ADC1_FLEX46)
+
+		MUX_CFG(MUX_RTC, MUX_RTC_LSE)
+
+	>;
+
+	pll1:st,pll-1 {
+		st,pll = <&pll1_cfg_1200MHz>;
+
+		pll1_cfg_1200MHz: pll1-cfg-1200MHz{
+			cfg = <30 1 1 1>;
+			src = <MUX_CFG(MUX_MUXSEL5, MUXSEL_HSE)>;
+		};
+		/* USER CODE BEGIN pll1 */
+		pll1_cfg_1500MHz: pll1-cfg-1500MHz {
+			cfg = <75 2 1 1>;
+			src = <MUX_CFG(MUX_MUXSEL5, MUXSEL_HSE)>;
+		};
+		/* USER CODE END pll1 */
+	};
+
+	pll2:st,pll-2 {
+		st,pll = <&pll2_cfg_400MHz>;
+
+		pll2_cfg_400MHz: pll2-cfg-400MHz{
+			cfg = <20 1 1 2>;
+			src = <MUX_CFG(MUX_MUXSEL6, MUXSEL_HSE)>;
+		};
+		/* USER CODE BEGIN pll2 */
+		/* USER CODE END pll2 */
+	};
+
+	pll4:st,pll-4 {
+		st,pll = <&pll4_cfg_1200MHz>;
+
+		pll4_cfg_1200MHz: pll4-cfg-1200MHz{
+			cfg = <30 1 1 1>;
+			src = <MUX_CFG(MUX_MUXSEL0, MUXSEL_HSE)>;
+		};
+		/* USER CODE BEGIN pll4 */
+		/* USER CODE END pll4 */
+	};
+
+	pll5:st,pll-5 {
+		st,pll = <&pll5_cfg_534MHz>;
+
+		pll5_cfg_534MHz: pll5-cfg-534MHz{
+			cfg = <133 5 1 2>;
+			src = <MUX_CFG(MUX_MUXSEL1, MUXSEL_HSE)>;
+			frac = < 0x800000 >;
+		};
+		/* USER CODE BEGIN pll5 */
+		/* USER CODE END pll5 */
+	};
+
+	pll6:st,pll-6 {
+		st,pll = <&pll6_cfg_500MHz>;
+
+		pll6_cfg_500MHz: pll6-cfg-500MHz{
+			cfg = <25 1 1 2>;
+			src = <MUX_CFG(MUX_MUXSEL2, MUXSEL_HSE)>;
+		};
+		/* USER CODE BEGIN pll6 */
+		/* USER CODE END pll6 */
+	};
+
+	pll7:st,pll-7 {
+		st,pll = <&pll7_cfg_835MHz>;
+
+		pll7_cfg_835MHz: pll7-cfg-835MHz{
+			cfg = <167 4 1 2>;
+			src = <MUX_CFG(MUX_MUXSEL3, MUXSEL_HSE)>;
+		};
+		/* USER CODE BEGIN pll7 */
+		/* USER CODE END pll7 */
+	};
+
+	pll8:st,pll-8 {
+		st,pll = <&pll8_cfg_594MHz>;
+
+		pll8_cfg_594MHz: pll8-cfg-594MHz{
+			cfg = <297 5 1 4>;
+			src = <MUX_CFG(MUX_MUXSEL4, MUXSEL_HSE)>;
+		};
+		/* USER CODE BEGIN pll8 */
+		/* USER CODE END pll8 */
+	};
+
+	/* USER CODE BEGIN rcc */
+	/* USER CODE END rcc */
+};

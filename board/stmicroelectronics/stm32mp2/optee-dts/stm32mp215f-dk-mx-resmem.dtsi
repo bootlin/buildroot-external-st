@@ -1,0 +1,182 @@
+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
+/*
+ * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
+ * Author: STM32CubeMX code generation for STMicroelectronics.
+ */
+
+/* For more information on Device Tree configuration, please refer to
+ * https://wiki.st.com/stm32mpu/wiki/Category:Device_tree_configuration
+ */
+
+ / {
+
+	reserved-memory{
+
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
+
+		tfa_bl31: tfa-bl31@a000000 {
+			reg = <0x0 0xa000000 0x0 0x20000>;
+			no-map;
+
+			/* USER CODE BEGIN tfa_bl31 */
+			/* USER CODE END tfa_bl31 */
+		};
+
+		hpdma_lli: hpdma-lli@a020000 {
+			reg = <0x0 0xa020000 0x0 0x20000>;
+			no-map;
+
+			/* USER CODE BEGIN hpdma_lli */
+			/* USER CODE END hpdma_lli */
+		};
+
+		bsec_mirror: bsec-mirror@a060000 {
+			reg = <0x0 0xa060000 0x0 0x1000>;
+			no-map;
+
+			/* USER CODE BEGIN bsec_mirror */
+			/* USER CODE END bsec_mirror */
+		};
+
+		scmi_cid2_s: scmi-cid2-s@a061000 {
+			reg = <0x0 0xa061000 0x0 0x1000>;
+			no-map;
+
+			/* USER CODE BEGIN scmi_cid2_s */
+			/* USER CODE END scmi_cid2_s */
+		};
+
+		scmi_cid2_ns: scmi-cid2-ns@a062000 {
+			reg = <0x0 0xa062000 0x0 0x1000>;
+			no-map;
+
+			/* USER CODE BEGIN scmi_cid2_ns */
+			/* USER CODE END scmi_cid2_ns */
+		};
+
+		cm33_sram1: cm33-sram1@a063000 {
+			reg = <0x0 0xa063000 0x0 0xd000>;
+			no-map;
+
+			/* USER CODE BEGIN cm33_sram1 */
+			/* USER CODE END cm33_sram1 */
+		};
+
+		cm33_retram: cm33-retram@a040000 {
+			reg = <0x0 0xa040000 0x0 0x1f000>;
+			no-map;
+
+			/* USER CODE BEGIN cm33_retram */
+			/* USER CODE END cm33_retram */
+		};
+
+		ddr_param: ddr-param@a05f000 {
+			reg = <0x0 0xa05f000 0x0 0x1000>;
+			no-map;
+
+			/* USER CODE BEGIN ddr_param */
+			/* USER CODE END ddr_param */
+		};
+
+		bl31_lowpower: bl31-lowpower@42000000 {
+			reg = <0x0 0x42000000 0x0 0x1000>;
+			no-map;
+
+			/* USER CODE BEGIN bl31_lowpower */
+			/* USER CODE END bl31_lowpower */
+		};
+
+		tfm_its: tfm-its@42001000 {
+			reg = <0x0 0x42001000 0x0 0x1000>;
+			no-map;
+
+			/* USER CODE BEGIN tfm_its */
+			/* USER CODE END tfm_its */
+		};
+
+		tfm_code: tfm-code@80000000 {
+			reg = <0x0 0x80000000 0x0 0x100000>;
+			no-map;
+
+			/* USER CODE BEGIN tfm_code */
+			/* USER CODE END tfm_code */
+		};
+
+		cm33_cube_fw: cm33-cube-fw@80100000 {
+			reg = <0x0 0x80100000 0x0 0x800000>;
+			no-map;
+
+			/* USER CODE BEGIN cm33_cube_fw */
+			/* USER CODE END cm33_cube_fw */
+		};
+
+		tfm_data: tfm-data@80900000 {
+			reg = <0x0 0x80900000 0x0 0x100000>;
+			no-map;
+
+			/* USER CODE BEGIN tfm_data */
+			/* USER CODE END tfm_data */
+		};
+
+		cm33_cube_data: cm33-cube-data@80a00000 {
+			reg = <0x0 0x80a00000 0x0 0x800000>;
+			no-map;
+
+			/* USER CODE BEGIN cm33_cube_data */
+			/* USER CODE END cm33_cube_data */
+		};
+
+		ipc_shmem: ipc-shmem@81200000 {
+			reg = <0x0 0x81200000 0x0 0x100000>;
+			no-map;
+
+			/* USER CODE BEGIN ipc_shmem */
+			/* USER CODE END ipc_shmem */
+		};
+
+		spare1: spare1@81300000 {
+			reg = <0x0 0x81300000 0x0 0xCC0000>;
+			no-map;
+
+			/* USER CODE BEGIN spare1 */
+			/* USER CODE END spare1 */
+		};
+
+		bl31_context: bl31-context@81fc0000 {
+			reg = <0x0 0x81fc0000 0x0 0x40000>;
+			no-map;
+
+			/* USER CODE BEGIN bl31_context */
+			/* USER CODE END bl31_context */
+		};
+
+		op_tee: op-tee@82000000 {
+			reg = <0x0 0x82000000 0x0 0x2000000>;
+			no-map;
+
+			/* USER CODE BEGIN op_tee */
+			/* USER CODE END op_tee */
+		};
+
+		linuxkernel1: linuxkernel1@84000000 {
+			reg = <0x0 0x84000000 0x0 0x7b800000>;
+			no-map;
+
+			/* USER CODE BEGIN linuxkernel1 */
+			/* USER CODE END linuxkernel1 */
+		};
+
+		ltdc_sec_layer: ltdc-sec-layer@ff800000 {
+			reg = <0x0 0xff800000 0x0 0x800000>;
+			no-map;
+
+			/* USER CODE BEGIN ltdc_sec_layer */
+			/* USER CODE END ltdc_sec_layer */
+		};
+
+		/* USER CODE BEGIN reserved-memory */
+		/* USER CODE END reserved-memory */
+	};
+};

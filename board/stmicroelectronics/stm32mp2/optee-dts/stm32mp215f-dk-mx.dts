@@ -1,0 +1,557 @@
+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
+/*
+ * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
+ * Author: STM32CubeMX code generation for STMicroelectronics.
+ */
+
+/* For more information on Device Tree configuration, please refer to
+ * https://wiki.st.com/stm32mpu/wiki/Category:Device_tree_configuration
+ */
+
+/dts-v1/;
+
+#include <dt-bindings/pinctrl/stm32-pinfunc.h>
+#include <dt-bindings/clock/stm32mp21-clksrc.h>
+#include "stm32mp215.dtsi"
+#include "stm32mp21xf.dtsi"
+#include "stm32mp215f-dk-mx-rcc.dtsi"
+#include "stm32mp215f-dk-mx-resmem.dtsi"
+#include "stm32mp215f-dk-mx-rif.dtsi"
+#include "stm32mp21xxan-pinctrl.dtsi"
+
+/* USER CODE BEGIN includes */
+#include <dt-bindings/mfd/st,stpmic2.h>
+#include "stm32mp21-st-scmi-cfg.dtsi"
+/* USER CODE END includes */
+
+/ {
+	model = "STMicroelectronics STM32MP215F-DK STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v25.06.11";
+	compatible = "st,stm32mp215f-dk-mx", "st,stm32mp215f-dk", "st,stm32mp215";
+
+	memory@80000000 {
+		device_type = "memory";
+		reg = <0x0 0x80000000 0x0 0x80000000>;
+
+		/* USER CODE BEGIN memory */
+		/* USER CODE END memory */
+	};
+
+	/* USER CODE BEGIN root */
+
+	aliases{
+		serial0 = &usart2;
+	};
+
+	chosen{
+		stdout-path = "serial0:115200n8";
+	};
+
+	shadow-prov{
+		compatible = "st,provisioning";
+
+		hconf1_prov{
+			nvmem-cells = <&hconf1_otp>;
+			st,shadow-value = <0x00008DB6>;
+		};
+	};
+	/* USER CODE END root */
+
+}; /*root*/
+
+&pinctrl {
+	/* USER CODE BEGIN pinctrl */
+
+	usart2_pins_mx: usart2_mx-0 {
+		pins1 {
+			pinmux = <STM32_PINMUX('A', 4, AF6)>; /* USART2_TX */
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <0>;
+		};
+		pins2 {
+			pinmux = <STM32_PINMUX('A', 8, AF8)>; /* USART2_RX */
+			bias-disable;
+			drive-push-pull;
+		};
+	};
+	/* USER CODE END pinctrl */
+};
+
+&pinctrl_z {
+	i2c3_pins_z_mx: i2c3_mx-0 {
+		pins {
+			pinmux = <STM32_PINMUX('Z', 0, AF8)>, /* I2C3_SDA */
+					 <STM32_PINMUX('Z', 1, AF8)>; /* I2C3_SCL */
+			bias-disable;
+			drive-open-drain;
+			slew-rate = <0>;
+		};
+	};
+
+	/* USER CODE BEGIN pinctrl_z */
+	/* USER CODE END pinctrl_z */
+};
+
+&bsec {
+	status = "okay";
+
+	/* USER CODE BEGIN bsec */
+	/* USER CODE END bsec */
+};
+
+&hash1 {
+	status = "okay";
+
+	/* USER CODE BEGIN hash1 */
+	/* USER CODE END hash1 */
+};
+
+&hpdma1 {
+	status = "okay";
+
+	/* USER CODE BEGIN hpdma1 */
+	/* USER CODE END hpdma1 */
+};
+
+&hpdma2 {
+	status = "okay";
+
+	/* USER CODE BEGIN hpdma2 */
+	/* USER CODE END hpdma2 */
+};
+
+&hpdma3 {
+	status = "okay";
+
+	/* USER CODE BEGIN hpdma3 */
+	/* USER CODE END hpdma3 */
+};
+
+&i2c3 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c3_pins_z_mx>;
+	status = "okay";
+
+	/* USER CODE BEGIN i2c3 */
+	i2c-scl-rising-time-ns = <31>;
+	i2c-scl-falling-time-ns = <2>;
+	clock-frequency = <400000>;
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	pmic2:pmic@33{
+		compatible = "st,stpmic2l";
+		reg = <0x33>;
+		interrupts-extended = <&exti1 52 IRQ_TYPE_EDGE_FALLING>;
+		wakeup-source;
+		st,pmic-it-id = <IT_PKEY_FA IT_PKEY_RI>;
+		st,notif-it-id = <0 1>;
+		status = "okay";
+
+		regulators{
+			compatible = "st,stpmic2-regulators";
+
+			vddcore:buck1{
+				regulator-name = "vddcore";
+				regulator-min-microvolt = <820000>;
+				regulator-max-microvolt = <820000>;
+				regulator-always-on;
+				st,pwrctrl-sel = <1>;
+				st,pwrctrl-enable;
+
+				default{
+					regulator-on-in-suspend;
+					regulator-suspend-microvolt = <820000>;
+				};
+
+				lplv{
+					regulator-on-in-suspend;
+					regulator-suspend-microvolt = <670000>;
+				};
+
+				standby{
+					regulator-off-in-suspend;
+				};
+
+				off{
+					regulator-off-in-suspend;
+				};
+			};
+
+			vdd2_ddr:buck2{
+				regulator-name = "vdd2_ddr";
+				regulator-min-microvolt = <1100000>;
+				regulator-max-microvolt = <1100000>;
+				regulator-always-on;
+				st,pwrctrl-sel = <1>;
+				st,pwrctrl-enable;
+
+				default{
+					regulator-on-in-suspend;
+					regulator-suspend-microvolt = <1100000>;
+				};
+
+				lplv{
+					regulator-on-in-suspend;
+					regulator-suspend-microvolt = <1100000>;
+				};
+
+				standby{
+					regulator-on-in-suspend;
+					regulator-suspend-microvolt = <1100000>;
+				};
+
+				off{
+					regulator-off-in-suspend;
+				};
+			};
+
+			vddcpu:buck3{
+				regulator-name = "vddcpu";
+				regulator-min-microvolt = <800000>;
+				regulator-max-microvolt = <910000>;
+				regulator-always-on;
+				st,pwrctrl-sel = <2>;
+				st,pwrctrl-enable;
+
+				default{
+					regulator-off-in-suspend;
+				};
+
+				lplv{
+					regulator-off-in-suspend;
+				};
+
+				standby{
+					regulator-off-in-suspend;
+				};
+
+				off{
+					regulator-off-in-suspend;
+				};
+			};
+
+			vdda1v8_aon:ldo1{
+				regulator-name = "vdda1v8_aon";
+				regulator-min-microvolt = <1800000>;
+				regulator-max-microvolt = <1800000>;
+				regulator-always-on;
+				st,mask-reset;
+			};
+
+			vddio_pmic:ldo2{
+				regulator-name = "vddio_pmic";
+				regulator-min-microvolt = <3300000>;
+				regulator-max-microvolt = <3300000>;
+				regulator-always-on;
+				st,mask-reset;
+			};
+
+			vdd1_ddr:ldo3{
+				regulator-name = "vdd1_ddr";
+				regulator-min-microvolt = <1800000>;
+				regulator-max-microvolt = <1800000>;
+				regulator-always-on;
+				st,pwrctrl-sel = <1>;
+				st,pwrctrl-enable;
+
+				default{
+					regulator-on-in-suspend;
+					regulator-suspend-microvolt = <1800000>;
+				};
+
+				lplv{
+					regulator-on-in-suspend;
+					regulator-suspend-microvolt = <1800000>;
+				};
+
+				standby{
+					regulator-on-in-suspend;
+					regulator-suspend-microvolt = <1800000>;
+				};
+
+				off{
+					regulator-off-in-suspend;
+				};
+			};
+
+			vdd3v3_usb:ldo4{
+				regulator-name = "vdd3v3_usb";
+				regulator-min-microvolt = <3300000>;
+				regulator-max-microvolt = <3300000>;
+				regulator-over-current-protection;
+			};
+
+			vdd_flash:ldo5{
+				regulator-name = "vdd_flash";
+				regulator-min-microvolt = <3300000>;
+				regulator-max-microvolt = <3300000>;
+				regulator-over-current-protection;
+				st,pwrctrl-sel = <3>;
+				st,pwrctrl-reset;
+			};
+
+			vdda_1v8:ldo6{
+				regulator-name = "vdda_1v8";
+				regulator-min-microvolt = <1800000>;
+				regulator-max-microvolt = <1800000>;
+				regulator-always-on;
+				st,pwrctrl-sel = <1>;
+				st,pwrctrl-enable;
+
+				default{
+					regulator-on-in-suspend;
+					regulator-suspend-microvolt = <1800000>;
+				};
+
+				lplv{
+					regulator-on-in-suspend;
+					regulator-suspend-microvolt = <1800000>;
+				};
+
+				standby{
+					regulator-off-in-suspend;
+				};
+
+				off{
+					regulator-off-in-suspend;
+				};
+			};
+
+			v3v3:gpo1{
+				regulator-name = "v3v3";
+				regulator-min-microvolt = <3300000>;
+				regulator-max-microvolt = <3300000>;
+				regulator-always-on;
+				st,pwrctrl-sel = <1>;
+				st,pwrctrl-enable;
+
+				default{
+					regulator-on-in-suspend;
+					regulator-suspend-microvolt = <3300000>;
+				};
+
+				lplv{
+					regulator-on-in-suspend;
+					regulator-suspend-microvolt = <3300000>;
+				};
+
+				standby{
+					regulator-off-in-suspend;
+				};
+
+				off{
+					regulator-off-in-suspend;
+				};
+			};
+
+			v_gpo3:gpo3{
+				regulator-name = "gpo3";
+				regulator-min-microvolt = <3300000>;
+				regulator-max-microvolt = <3300000>;
+				regulator-always-on;
+				st,pwrctrl-sel = <1>;
+				st,pwrctrl-enable;
+
+				default{
+					regulator-on-in-suspend;
+				};
+
+				lplv{
+					regulator-on-in-suspend;
+				};
+
+				standby{
+					regulator-on-in-suspend;
+				};
+
+				off{
+					regulator-off-in-suspend;
+				};
+			};
+		};
+	};
+	/* USER CODE END i2c3 */
+};
+
+&ipcc1 {
+	status = "okay";
+
+	/* USER CODE BEGIN ipcc1 */
+	/* USER CODE END ipcc1 */
+};
+
+&iwdg1 {
+	status = "okay";
+
+	/* USER CODE BEGIN iwdg1 */
+	timeout-sec = <32>;
+	/* USER CODE END iwdg1 */
+};
+
+&lptimer1 {
+	status = "okay";
+
+	/* USER CODE BEGIN lptimer1 */
+	/* USER CODE END lptimer1 */
+};
+
+&ltdc {
+	status = "okay";
+
+	/* USER CODE BEGIN ltdc */
+	/* USER CODE END ltdc */
+};
+
+&m33_rproc {
+	status = "okay";
+
+	/*Restriction: "memory-region" property is not managed - please to use User-Section if needed*/
+	mboxes = <&ipcc1 0x100>, <&ipcc1 0x101>, <&ipcc1 2>;
+	mbox-names = "vq0", "vq1", "shutdown";
+
+	/* USER CODE BEGIN m33_rproc */
+	compatible = "st,stm32mp2-m33-tee";
+	memory-region = <&cm33_cube_fw>, <&cm33_cube_data>,
+			<&ipc_shmem>, <&tfm_code>, <&tfm_data>,
+			<&cm33_sram1>;
+	/* USER CODE END m33_rproc */
+};
+
+&pka {
+	status = "okay";
+
+	/* USER CODE BEGIN pka */
+	/* USER CODE END pka */
+};
+
+&pwr {
+	status = "okay";
+
+	/* USER CODE BEGIN pwr */
+	wakeup-gpios = <&gpioa 0 GPIO_ACTIVE_HIGH>, <0>, <0>, <0>, <0>, <0>;
+
+	vdda18adc{
+		status = "okay";
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <1800000>;
+		vdda18adc-supply = <&vdda_1v8>;
+	};
+
+	vddio1{
+		status = "okay";
+		vddio1-supply = <&vddio_pmic>;
+	};
+
+	vddio2{
+		status = "okay";
+		vddio2-supply = <&vdda_1v8>;
+		regulator-always-on;
+	};
+
+	vddio3{
+		status = "okay";
+		vddio3-supply = <&vddio_pmic>;
+		regulator-always-on;
+	};
+
+	vddio{
+		status = "okay";
+		vdd-supply = <&vddio_pmic>;
+	};
+	/* USER CODE END pwr */
+};
+
+&rcc {
+	status = "okay";
+
+	/* USER CODE BEGIN rcc */
+	st,c1msrd = <2>;
+
+	st,clk_opp{
+
+		st,ck_cpu1{
+
+			cfg_1{
+				hz = <1200000000>;
+				st,pll = <&pll1_cfg_1200MHz>;
+			};
+
+			cfg_2{
+				hz = <1500000000>;
+				st,pll = <&pll1_cfg_1500MHz>;
+			};
+		};
+	};
+	/* USER CODE END rcc */
+};
+
+&saes {
+	status = "okay";
+
+	/* USER CODE BEGIN saes */
+	/* USER CODE END saes */
+};
+
+&serc {
+	status = "okay";
+
+	/* USER CODE BEGIN serc */
+	/* USER CODE END serc */
+};
+
+&tamp {
+	status = "okay";
+
+	/* USER CODE BEGIN tamp */
+	/* USER CODE END tamp */
+};
+
+/* USER CODE BEGIN addons */
+
+&cpu0 {
+	cpu-supply = <&vddcpu>;
+};
+
+&hsi_calibration {
+	status = "okay";
+};
+
+&scmi_regulator {
+
+	regulators{
+
+		regulator@5{
+			reg = <VOLTD_SCMI_STPMIC_BUCK1>;
+			voltd-supply = <&vddcore>;
+		};
+
+		regulator@f{
+			reg = <VOLTD_SCMI_STPMIC_LDO4>;
+			voltd-supply = <&vdd3v3_usb>;
+		};
+
+		regulator@10{
+			reg = <VOLTD_SCMI_STPMIC_LDO5>;
+			voltd-supply = <&vdd_flash>;
+		};
+
+		regulator@11{
+			reg = <VOLTD_SCMI_STPMIC_LDO6>;
+			voltd-supply = <&vdda_1v8>;
+		};
+
+		regulator@15{
+			reg = <VOLTD_SCMI_STPMIC_GPO1>;
+			voltd-supply = <&v3v3>;
+		};
+	};
+};
+
+&usart2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&usart2_pins_mx>;
+	status = "okay";
+};
+/* USER CODE END addons */
+
