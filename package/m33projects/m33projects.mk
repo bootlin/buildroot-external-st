@@ -48,11 +48,11 @@ define M33PROJECTS_INSTALL_TARGET_CMDS
 		PATH=$(BR_PATH) \
 		TA_DEV_KIT_DIR=$(STAGING_DIR)/lib/optee/export-ta_arm64/ \
 		OBJCOPY=$(HOST_DIR)/bin/arm-none-eabi-objcopy \
-			$(M33PROJECTS_PKGDIR)st_copro_firmware_signature.sh \
+			$(M33PROJECTS_PKGDIR)/st_copro_firmware_signature.sh \
 			--input-nsecure $(@D)/Projects/$(project)/build/$(notdir $(project))_CM33_NonSecure.elf \
 			--signature-key $(STAGING_DIR)/lib/optee/export-ta_arm64/keys/default.pem \
 			--output $(TARGET_DIR)/lib/firmware/$(notdir $(project))_CM33_NonSecure ; \
-		$(INSTALL) -m 0755 $(M33PROJECTS_PKGDIR)fw_cortex_m33.sh \
+		$(INSTALL) -m 0755 $(M33PROJECTS_PKGDIR)/fw_cortex_m33.sh \
 			$(TARGET_DIR)/usr/lib/Cube-M33-examples/$(notdir $(project)) ;
 	 )
 endef
