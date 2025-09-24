@@ -992,10 +992,11 @@
 	mbox-names = "vq0", "vq1", "shutdown";
 
 	/* USER CODE BEGIN m33_rproc */
-	compatible = "st,stm32mp2-m33-tee";
-	memory-region = <&ipc_shmem_1>, <&vdev0vring0>,
+	memory-region = <&cm33_cube_fw>, <&cm33_cube_data>,
+			<&ipc_shmem_1>, <&vdev0vring0>,
 			<&vdev0vring1>, <&vdev0buffer>,
 			<&cm33_sram2>;
+	st,syscfg-nsvtor = <&a35ss_syscfg 0xa8 0xffffff80>;
 	/* USER CODE END m33_rproc */
 };
 

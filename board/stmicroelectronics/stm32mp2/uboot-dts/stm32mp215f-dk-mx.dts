@@ -733,7 +733,6 @@
 	mbox-names = "vq0", "vq1", "shutdown";
 
 	/* USER CODE BEGIN m33_rproc */
-	compatible = "st,stm32mp2-m33-tee";
 	memory-region = <&ipc_shmem_1>, <&vdev0vring0>,
 			<&vdev0vring1>, <&vdev0buffer>,
 			<&cm33_sram1>;
