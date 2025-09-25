@@ -461,6 +461,11 @@ flashed, based on the environment defined as a text file in
       * [`linux-enable-rauc.config`](/board/stmicroelectronics/common/linux-enable-rauc.config),
         a Linux kernel configuration file fragment that enables the
         requisite kernel driver to use RAUC.
+      * [`linux-enable-fbdev-emul.config`](/board/stmicroelectronics/common/linux-enable-fbdev-emul.config),
+        a Linux kernel configuration file fragment that enables the
+        *fbdev* emulation of the DRM subsystem, which is needed on the
+        STM32MP135 platform and the STM32MP215 platform to be able to use
+        the *linuxfb* backend of Qt5, in the absence of GPU/OpenGL
       * [`manifest.raucm`](/board/stmicroelectronics/common/manifest.raucm),
         RAUC manifest to describe the bundle content and the purpose of
         each included image.
@@ -519,11 +524,6 @@ flashed, based on the environment defined as a text file in
         configuration file for the `genimage` utility, which produces
         the final `sdcard.img` SD card image. It describes the
         partition layout of the SD card. Only used by demo configurations.
-      * [`linux-enable-fbdev-emul.config`](/board/stmicroelectronics/stm32mp1/linux-enable-fbdev-emul.config),
-        a Linux kernel configuration file fragment that enables the
-        *fbdev* emulation of the DRM subsystem, which is needed on the
-        STM32MP135 platform to be able to use the *linuxfb* backend of
-        Qt5, in the absence of GPU/OpenGL
       * [`post-build-demo.sh`](/board/stmicroelectronics/stm32mp2/post-build-demo.sh),
         the script executed by Buildroot at the end of the rootfs
         generation for the demo configuration.
