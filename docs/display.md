@@ -1,6 +1,6 @@
 # Testing display support
 
-Applicable platforms: STM32MP257F-EV1, STM32MP257F-DK, STM32MP157D-DK1, STM32MP157F-DK2, STM32MP135F-DK.
+Supported on all platforms.
 
 The different platforms have the following capabilities:
 * STM32MP157D-DK1: HDMI output
@@ -8,6 +8,8 @@ The different platforms have the following capabilities:
 * STM32MP135F-DK: DSI display panel
 * STM32MP257F-EV1: LVDS display panel
 * STM32MP257F-DK: LVDS display panel and HDMI output
+* STM32MP235F-DK: LVDS display panel and HDMI output
+* STM32MP215F-DK: DPI display
 
 The *demo* configurations for all platforms include the `modetest`
 utility, which allows low-level testing of display devices, directly
@@ -118,8 +120,11 @@ in the default resolution:
 # modetest -M stm -s 32:#0
 ```
 
----
-Notes:
+## STM32MP215-DK
 
-On the STM32MP257-DK, HDMI does not function if the LVDS is connected.
-This is a known issue acknowledged by ST.
+You can test the DPI output by displaying `modetest` default picture,
+in the default resolution:
+
+```
+# modetest -M stm -s 32:#0
+```

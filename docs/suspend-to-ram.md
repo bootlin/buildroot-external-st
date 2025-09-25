@@ -50,14 +50,3 @@ using the following commands:
 # modprobe -r hci_uart
 # modprobe hci_uart
 ```
-
-On the STM32MP135F-DK, suspend-to-RAM does not work correctly.
-To address this, you must disable console suspend and activate the
-Ethernet interface. This keeps a few clocks active, enabling OP-TEE OS
-to resume correctly from suspend.
-
-```
-# echo N > /sys/module/printk/parameters/console_suspend
-# ip link set eth0 up
-# echo mem > /sys/power/state
-```

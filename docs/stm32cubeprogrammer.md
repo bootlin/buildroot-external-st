@@ -1,6 +1,6 @@
 # Using STM32 Cube Programmer
 
-Applicable platforms: STM32MP157D-DK1, STM32MP157F-DK2, STM32MP135F-DK, STM32MP257F-EV1, STM32MP257F-DK.
+Supported on all platforms.
 
 [STM32 Cube
 Programmer](https://www.st.com/en/development-tools/stm32cubeprog.html)
@@ -27,7 +27,7 @@ Follow these steps:
 1. Switch the boot mode switch SW1 to USB boot
    - STM32MP157: BOOT0 and BOOT2 to OFF
    - STM32MP135: BOOT0, BOOT1 and BOOT2 to OPEN
-   - STM32MP257: BOOT0, BOOT1, BOOT2 and BOOT3 to OPEN
+   - STM32MP2*: BOOT0, BOOT1, BOOT2 and BOOT3 to OPEN
 2. Plug a second USB-C cable on CN7 on the STM32MP157/135 or CN15 on the
    STM32MP257F-EV1.
 3. Run these commands to flash the SDCard:
@@ -38,7 +38,7 @@ $ sudo ~/stm32cube/bin/STM32_Programmer_CLI -c port=usb1 -w flash.tsv
 4. Switch back the boot mode switch to SD boot
    - STM32MP157: BOOT0 and BOOT2 to ON
    - STM32MP135: BOOT0 to ON, BOOT1 to OPEN, BOOT2 to ON
-   - STM32MP257: BOOT0 to ON, BOOT1, BOOT2 and BOOT3 to OPEN
+   - STM32MP2*: BOOT0 to ON, BOOT1, BOOT2 and BOOT3 to OPEN
 5. Reboot the platform
 
 The `flash.tsv` file has been produced by Buildroot and tells STM32

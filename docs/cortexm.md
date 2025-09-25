@@ -1,10 +1,13 @@
 # Use the Firmware examples for the Cortex M4 or Cortex M33
 
-Applicable platforms: STM32MP157D-DK1, STM32MP157F-DK2, STM32MP257F-EV1, STM32MP257F-DK
+Applicable platforms: STM32MP157D-DK1, STM32MP157F-DK2, STM32MP257F-EV1,
+STM32MP257F-DK, STM32MP235F-DK.
+
+The STM32MP215F-DK has not yet an usable M33 example.
 
 The different platforms have different Cortex M family coprocessor:
-* STM32MP157D-DK1 and STM32MP157F-DK2: Cortex M4
-* STM32MP257F-EV1 and STM32MP257F-DK: Cortex M33
+* STM32MP15* : Cortex M4
+* STM32MP2* : Cortex M33
 
 The Firmware examples for the CM4 from [STM32CubeMP1](https://github.com/STMicroelectronics/STM32CubeMP1.git)
 or the CM33 from [STM32CubeMP2](https://github.com/STMicroelectronics/STM32CubeMP2.git)
@@ -66,24 +69,6 @@ fw_cortex_m33.sh: fmw_name=USBPD_DRP_UCSI_CM33_NonSecure_sign.bin
 This run the *USBPD_DRP_UCSI* example on the Cortex M33 processor which
 emulate a stm32mp25-typec usb role switch to detect if the USB-C CN15 is
 plugged as a device or a host.
-
-```
-# /usr/lib/Cube-M33-examples/USBPD_DRP_UCSI/fw_cortex_m33.sh -t ns_s start
-fw_cortex_m33.sh: fmw_name=USBPD_DRP_UCSI_CM33_NonSecure_tfm_sign.bin
-[   46.067010] remoteproc remoteproc0: powering up m33
-[   46.197826] remoteproc remoteproc0: Booting fw image USBPD_DRP_UCSI_CM33_NonSecure_tfm_sign.bin, size 286164
-[   46.203151] rproc-virtio rproc-virtio.1.auto: assigned reserved memory node vdev0buffer@812fa000
-[   46.211593] virtio_rpmsg_bus virtio0: rpmsg host is online
-[   46.216540] rproc-virtio rproc-virtio.1.auto: registered virtio0 (type 7)
-[   46.223546] remoteproc remoteproc0: remote processor m33 is now up
-[   47.105247] virtio_rpmsg_bus virtio0: creating channel rpmsg-intc addr 0x400
-[   47.115483] virtio_rpmsg_bus virtio0: creating channel rpmsg_i2c addr 0x401
-[   47.117061] rpmsg_i2c virtio0.rpmsg_i2c.-1.1025: new channel: 0x401 -> 0x401!
-
-```
-
-You can also use the above command to run the firmware containing
-TrustedFirmware-M and the *USBPD_DRP_UCSI* example.
 
 ```
 # stm32_usbotg_eth_config.sh start

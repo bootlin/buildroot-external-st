@@ -1,5 +1,7 @@
 # Using OP-TEE
 
+Supported on all platforms.
+
 OP-TEE is automatically started at boot time by TF-A, and runs as the
 Trusted Execution Environment. See
 [this page](https://wiki.st.com/stm32mpu/wiki/OP-TEE_overview) on the

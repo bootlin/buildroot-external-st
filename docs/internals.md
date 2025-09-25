@@ -263,7 +263,7 @@ be set to a non-empty value to connect to the board through SSH.
 
 ```
 BR2_LINUX_KERNEL_INTREE_DTS_NAME="st/stm32mp157f-dk2-mx"
-BR2_LINUX_KERNEL_CUSTOM_DTS_PATH="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/linux-dts/st"
+BR2_LINUX_KERNEL_CUSTOM_DTS_DIR="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/linux-dts"
 BR2_LINUX_KERNEL_DTB_OVERLAY_SUPPORT=y
 ```
 
@@ -589,26 +589,46 @@ flashed, based on the environment defined as a text file in
   These module are mandatory to have the switch of the MP257F-DK board
   functioning.
 * `configs/`
+  * [`st_stm32mp157_flash_defconfig`](/configs/st_stm32mp157_flash_defconfig),
+    configurations to generate flash binaries for the STM32MP157
   * [`st_stm32mp157d_dk1_defconfig`](/configs/st_stm32mp157d_dk1_defconfig),
-    minimal configurations for the STM32MP1 DK1
+    minimal configurations for the STM32MP157 DK1
   * [`st_stm32mp157d_dk1_demo_defconfig`](/configs/st_stm32mp157d_dk1_demo_defconfig),
-    demo configurations for the STM32MP1 DK1
+    demo configurations for the STM32MP157 DK1
   * [`st_stm32mp157f_dk2_defconfig`](/configs/st_stm32mp157f_dk2_defconfig),
-    minimal configurations for the STM32MP1 DK2
+    minimal configurations for the STM32MP157 DK2
   * [`st_stm32mp157f_dk2_demo_defconfig`](/configs/st_stm32mp157f_dk2_demo_defconfig),
-    demo configurations for the STM32MP1 DK2
+    demo configurations for the STM32MP157 DK2
+  * [`st_stm32mp135_flash_defconfig`](/configs/st_stm32mp135_flash_defconfig),
+    configurations to generate flash binaries for the STM32MP135
   * [`st_stm32mp135f_dk_defconfig`](/configs/st_stm32mp135f_dk_defconfig),
-    minimal configurations for the STM32MP1 DK
+    minimal configurations for the STM32MP135 DK
   * [`st_stm32mp135f_dk_demo_defconfig`](/configs/st_stm32mp135f_dk_demo_defconfig),
-    demo configurations for the STM32MP1 DK
+    demo configurations for the STM32MP135 DK
+  * [`st_stm32mp257_ev1_flash_defconfig`](/configs/st_stm32mp257_ev1_flash_defconfig),
+    configurations to generate flash binaries for the STM32MP257 EV1
   * [`st_stm32mp257f_ev1_defconfig`](/configs/st_stm32mp257f_ev1_defconfig),
-    minimal configurations for the STM32MP2 EV1
+    minimal configurations for the STM32MP257 EV1
   * [`st_stm32mp257f_ev1_demo_defconfig`](/configs/st_stm32mp257f_ev1_demo_defconfig),
-    demo configurations for the STM32MP2 EV1
+    demo configurations for the STM32MP257 EV1
+  * [`st_stm32mp257_dk_flash_defconfig`](/configs/st_stm32mp257_dk_flash_defconfig),
+    configurations to generate flash binaries for the STM32MP257 DK
   * [`st_stm32mp257f_dk_defconfig`](/configs/st_stm32mp257f_dk_defconfig),
-    minimal configurations for the STM32MP2 DK
+    minimal configurations for the STM32MP257 DK
   * [`st_stm32mp257f_dk_demo_defconfig`](/configs/st_stm32mp257f_dk_demo_defconfig),
-    demo configurations for the STM32MP2 DK
+    demo configurations for the STM32MP257 DK
+  * [`st_stm32mp235_dk_flash_defconfig`](/configs/st_stm32mp235_dk_flash_defconfig),
+    configurations to generate flash binaries for the STM32MP235 DK
+  * [`st_stm32mp235f_dk_defconfig`](/configs/st_stm32mp235f_dk_defconfig),
+    minimal configurations for the STM32MP235 DK
+  * [`st_stm32mp235f_dk_demo_defconfig`](/configs/st_stm32mp235f_dk_demo_defconfig),
+    demo configurations for the STM32MP235 DK
+  * [`st_stm32mp215_dk_flash_defconfig`](/configs/st_stm32mp215_dk_flash_defconfig),
+    configurations to generate flash binaries for the STM32MP215 DK
+  * [`st_stm32mp215f_dk_defconfig`](/configs/st_stm32mp215f_dk_defconfig),
+    minimal configurations for the STM32MP215 DK
+  * [`st_stm32mp215f_dk_demo_defconfig`](/configs/st_stm32mp215f_dk_demo_defconfig),
+    demo configurations for the STM32MP215 DK
 * `docs`, documentation
 * `Config.in`, top-level Config.in file mandatory in all `BR2_EXTERNAL`
   trees. Indicate the location of the Config.in file from our `m4projects`
@@ -629,51 +649,7 @@ have just 11 changes on top of Buildroot 2025.02.5, and they can easily
 be rebased on top of the latest Buildroot 2025.02.x to continue to
 benefit from the security fixes provided by the Buildroot community.
 
-Here are the 13 changes:
-
-* Update the `gcnano-binaries` package to a newer version and to support
-  arm64. This package contains the closed-source OpenGL user-space
-  libraries, which need to be in sync with the kernel side.
-  This patch has been submitted to upstream Buildroot.
-
-* Add support for host python-intelhex package in preparation of the
-  support for Trusted-Firmware-M. This patch has been submitted to
-  upstream Buildroot.
-
-* Add support for host python-click package in preparation of the
-  support for Trusted-Firmware-M. This patch has been submitted to
-  upstream Buildroot.
-
-* Add support for host python-cbor2 package in preparation of the
-  support for Trusted-Firmware-M. This patch has been submitted to
-  upstream Buildroot.
-
-* Add support for TrustedFirmware-M which is implementing the Secure
-  Processing Environment (SPE) for Armv8-M, Armv8.1-M architectures.
-  This patch has been submitted to upstream Buildroot.
-
-* Add support for custom tarball source in optee-client to be able to
-  match the OPTEE-OS custom tarball version. This patch has been
-  merged in Buildroot upstream.
-
-* Add support for custom tarball source in optee-test to be able to
-  match the OPTEE-OS custom tarball version. This patch has been
-  merged in Buildroot upstream.
-
-* Add support for custom tarball source in optee-examples to be able to
-  match the OPTEE-OS custom tarball version. This patch has been
-  merged in Buildroot upstream.
-
-* Add support to build OP-TEE OS with host-cmake as the new version of
-  OP-TEE OS from ST need cmake to build its scmi firmware. This patch has been
-  merged in Buildroot upstream.
-
-* Update linux to manage vendor name subfolder directory for
-  BR2_LINUX_KERNEL_CUSTOM_DTS_PATH. It adds support to build
-  devicetree files which are organize under vendor subdirectories like
-  for arm and arm64 architectures, such as
-  arch/<arch>/boot/dts/<vendor>/. This patch has been submitted to
-  upstream Buildroot.
+Here are the 10 changes:
 
 * Update the `gcnano-binaries` package to a newer version. This package
   contains the closed-source OpenGL user-space libraries, which need to
@@ -683,3 +659,34 @@ Here are the 13 changes:
 * Update `murata-cyw-fw` package to a new version and the newly added
   CYW43439 firmare. This packages contains the Bluetooth firmwares.
   This patch has been submitted to upstream Buildroot.
+
+* Add support for Linux custom license files to being able to provide
+  a license file when a custom version of the source is used.
+  This patch has been submitted to upstream Buildroot.
+
+* Add support for U-boot custom license files to being able to provide
+  a license file when a custom version of the source is used.
+  This patch has been submitted to upstream Buildroot.
+
+* Add support for OPTEE-OS custom license files to being able to provide
+  a license file when a custom version of the source is used.
+  This patch has been submitted to upstream Buildroot.
+
+* Add support for TF-A custom license files to being able to provide
+  a license file when a custom version of the source is used.
+  This patch has been submitted to upstream Buildroot.
+
+* Fix toolchain-external license file management after toolchain move.
+  This patch has been submitted to upstream Buildroot.
+
+* Add support for toolchain-external-bootlin license file description to
+  ensure license compliense when using the external toolchain.
+  This patch has been submitted to upstream Buildroot.
+
+* Add support for toolchain-external-arm license file description to
+  ensure license compliense when using the external toolchain.
+  This patch has been submitted to upstream Buildroot.
+
+* Fix optee-test license hash. The hash had not been updated during
+  a previous mainline update. Can not send this upstream as it has alreay
+  been updated to a newer version.

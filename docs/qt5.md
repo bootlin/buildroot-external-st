@@ -1,6 +1,6 @@
 # Using Qt5 examples
 
-Applicable platforms: STM32MP257F-EV1, STM32MP257F-DK, STM32MP157-DK1, STM32MP157-DK2, STM32MP135-DK.
+Supported on all platforms.
 
 The Qt5 graphical toolkit is enabled in the *demo* configurations,
 together with a number of example applications. Note that only the
@@ -10,7 +10,7 @@ Buildroot supports several additional Qt5 modules if necessary.
 The Qt5 examples are installed in the target at
 `/usr/lib/qt/examples/`.
 
-## STM32MP257 and STM32MP157
+## STM32MP157, STM32MP257 and STM32MP235
 
 The STM32MP257 and STM32MP157 SoCs have a GPU, for which the support is enabled
 in the *demo* configuration. Qt5 is compiled with OpenGL support, and uses the
@@ -39,10 +39,11 @@ Qt-specific KMS/DRM configuration file, see [the Qt
 documentation](https://doc.qt.io/qt-5/embedded-linux.html#eglfs-with-the-eglfs-kms-backend)
 for details.
 
-## STM32MP135
+## STM32MP135 and STM23MP215
 
-The STM32MP135 SoC does not have a GPU. Therefore, OpenGL support is
-not available. Qt5 is therefore compiled to use the *linuxfb* backend.
+The STM32MP135 and STM23MP215 SoCs do not have a GPU. Therefore, OpenGL
+support is not available. Qt5 is therefore compiled to use the *linuxfb*
+backend.
 
 You can start various Qt examples. After enabling the backlight, you
 can start any Qt examples:

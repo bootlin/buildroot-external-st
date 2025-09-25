@@ -1,6 +1,7 @@
 # Using Bluetooth
 
-Applicable platforms: STM32MP157F-DK2, STM32MP135F-DK, STM32MP257F-DK.
+Applicable platforms: STM32MP157F-DK2, STM32MP135F-DK, STM32MP257F-DK,
+STM32MP235F-DK.
 
 Bluetooth support is only enabled in the *demo* configurations.
 
