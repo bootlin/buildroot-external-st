@@ -58,6 +58,16 @@ main()
 			local FIP_DDR_FLASH="fip-ddr-stm32mp257_dk_usb.bin"
 			local ATF_FLASH="tf-a-stm32mp257_dk_usb.stm32"
 			;;
+		*"stm32mp235f-dk"*)
+			local FIP_FLASH="fip-stm32mp235_dk_usb.bin"
+			local FIP_DDR_FLASH="fip-ddr-stm32mp235_dk_usb.bin"
+			local ATF_FLASH="tf-a-stm32mp235_dk_usb.stm32"
+			;;
+		*"stm32mp215f-dk"*)
+			local FIP_FLASH="fip-stm32mp215_dk_usb.bin"
+			local FIP_DDR_FLASH="fip-ddr-stm32mp215_dk_usb.bin"
+			local ATF_FLASH="tf-a-stm32mp215_dk_usb.stm32"
+			;;
 	esac
 	sed -e "s/%ATFBIN%/${ATF_FLASH}/" -e "s/%FIPBIN%/${FIP_FLASH}/" \
 		-e "s/%FIPDDRBIN%/${FIP_DDR_FLASH}/" \
