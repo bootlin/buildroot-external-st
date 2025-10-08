@@ -3,15 +3,15 @@ jobs:
   build-all:
     runs-on: ubuntu-24.04
     env:
-      repo_version: st/2024.02.9
+      repo_version: st/2025.02.5
     strategy:
       matrix:
-        config: [ st_stm32mp157d_dk1, st_stm32mp157d_dk1_demo, st_stm32mp157f_dk2, st_stm32mp157f_dk2_demo, st_stm32mp135f_dk, st_stm32mp135f_dk_demo, st_stm32mp257f_ev1, st_stm32mp257f_ev1_demo, st_stm32mp257f_dk, st_stm32mp257f_dk_demo, ]
+        config: [ st_stm32mp157d_dk1, st_stm32mp157d_dk1_demo, st_stm32mp157f_dk2, st_stm32mp157f_dk2_demo, st_stm32mp135f_dk, st_stm32mp135f_dk_demo, st_stm32mp257f_ev1, st_stm32mp257f_ev1_demo, st_stm32mp257f_dk, st_stm32mp257f_dk_demo, st_stm32mp235f_dk, st_stm32mp235f_dk_demo, st_stm32mp215f_dk, st_stm32mp215f_dk_demo]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           path: buildroot-external-st
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           repository: bootlin/buildroot
           ref: ${{ env.repo_version }}
