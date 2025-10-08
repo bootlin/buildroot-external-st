@@ -1,17 +1,17 @@
 on: workflow_dispatch
 jobs:
   build-all:
-    runs-on: ubuntu-24.04
+    runs-on: [self-hosted, linux]
     env:
-      repo_version: st/2024.02.9
+      repo_version: st/2025.02.5
     strategy:
       matrix:
-        config: [ st_stm32mp157d_dk1, st_stm32mp157d_dk1_demo, st_stm32mp157f_dk2, st_stm32mp157f_dk2_demo, st_stm32mp135f_dk, st_stm32mp135f_dk_demo, st_stm32mp257f_ev1, st_stm32mp257f_ev1_demo, st_stm32mp257f_dk, st_stm32mp257f_dk_demo, ]
+        config: [ st_stm32mp157d_dk1, st_stm32mp157d_dk1_demo, st_stm32mp157f_dk2, st_stm32mp157f_dk2_demo, st_stm32mp135f_dk, st_stm32mp135f_dk_demo, st_stm32mp257f_ev1, st_stm32mp257f_ev1_demo, st_stm32mp257f_dk, st_stm32mp257f_dk_demo, st_stm32mp235f_dk, st_stm32mp235f_dk_demo, st_stm32mp215f_dk, st_stm32mp215f_dk_demo ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           path: buildroot-external-st
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           repository: bootlin/buildroot
           ref: ${{ env.repo_version }}
@@ -35,8 +35,6 @@ jobs:
         run: make -C buildroot O=../output sdk
       - name: Store SDK
         run: b2 file upload bootlin-buildroot-st output/images/*_sdk-buildroot.tar.gz ${{ github.ref_name }}/arm-buildroot-linux-gnueabihf_sdk-${{ matrix.config }}.tar.gz
-      - name: Clean images
-        run: rm -rf output/images
       - name: Generate legal-info
         run: make -C buildroot O=../output legal-info
       - name: Archive and compress sources
@@ -47,8 +45,6 @@ jobs:
         run: b2 file upload bootlin-buildroot-st sources-${{ matrix.config }}.tar.gz ${{ github.ref_name }}/sources-${{ matrix.config }}.tar.gz
       - name: Store licenses
         run: b2 file upload bootlin-buildroot-st licenses-${{ matrix.config }}.tar.gz ${{ github.ref_name }}/licenses-${{ matrix.config }}.tar.gz
-      - name: Clean legal-info
-        run: rm -rf output/legal-info sources-${{ matrix.config }}.tar.gz licenses-${{ matrix.config }}.tar.gz
       - name: Update the README
         run: |
              cp buildroot-external-st/.github/workflows/README README
