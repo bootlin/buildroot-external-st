@@ -84,17 +84,21 @@ configurations:
 
 11. `st_stm32mp235f_dk_defconfig`, which is a minimal configuration to
    support the [STM32MP235F Discovery Kit](https://www.st.com/en/microcontrollers-microprocessors/stm32mp235f.html)
-   board. This board is not commercialized but it is a similar to the
+   Although this board does not physically exist, it enables users to
+   emulate the behavior of an STM32MP235 system using the
    [STM32MP257F Discovery Kit](https://www.st.com/en/evaluation-tools/stm32mp257f-dk.html)
-   with a few features removed. You can test the image on a STM32MP257F-DK.
-   board. The configuration builds the TF-A firmware, U-Boot bootloader,
+   Since the STM32MP235 implements a subset of the STM32MP257 features,
+   this configuration allows developers to evaluate the STM32MP235 SoC.
+   The configuration builds the TF-A firmware, U-Boot bootloader,
    Linux kernel and a minimal user-space composed of just BusyBox.
 
 12. `st_stm32mp235f_dk_demo_defconfig`, which is a more feature-ful
    configuration to support the [STM32MP235F Discovery Kit](https://www.st.com/en/microcontrollers-microprocessors/stm32mp235f.html)
-   board. This board is not commercialized but it is a similar to the
+   Although this board does not physically exist, it enables users to
+   emulate the behavior of an STM32MP235 system using the
    [STM32MP257F Discovery Kit](https://www.st.com/en/evaluation-tools/stm32mp257f-dk.html)
-   with a few features removed. You can test the image on a STM32MP257F-DK.
+   Since the STM32MP235 implements a subset of the STM32MP257 features,
+   this configuration allows developers to evaluate the STM32MP235 SoC.
    The configuration includes support for OpenGL and Qt5 for graphics,
    for OP-TEE as a Trusted Execution Environment, for WIFI, for Bluetooth,
    for RAUC for Over-The-Air (OTA) updates, for camera.
