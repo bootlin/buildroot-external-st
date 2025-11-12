@@ -238,7 +238,7 @@ configuration. It manages devices node and handles all user space actions
 when adding or removing devices.
 
 ```
-BR2_ROOTFS_POST_BUILD_SCRIPT="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/common/post-build.sh $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/post-build-demo.sh"
+BR2_ROOTFS_POST_BUILD_SCRIPT="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/common/post-build.sh $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/common/post-build-demo.sh $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/post-build-demo.sh"
 BR2_ROOTFS_POST_IMAGE_SCRIPT="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/common/post-image.sh $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/common/generate-rauc-bundle.sh"
 BR2_ROOTFS_POST_SCRIPT_ARGS="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/genimage-demo.cfg"
 ```
@@ -491,6 +491,9 @@ flashed, based on the environment defined as a text file in
         to flash the SD card (we unfortunately cannot build a single FIP image
         that can be used for flashing and on storage, due to memory size
         limitations)
+      * [`post-build-demo.sh`](/board/stmicroelectronics/stm32mp2/post-build-demo.sh),
+        the script executed by Buildroot at the end of the rootfs
+        generation for the demo configuration.
     * `stm32mp1/`
       * [`tfa-dts/`](/board/stmicroelectronics/stm32mp1/tfa-dts), Device
         Tree files produced by STM32 Cube MX for TF-A. Only used by
@@ -558,9 +561,6 @@ flashed, based on the environment defined as a text file in
         contributes `/boot/extlinux.conf` to the root filesystem to select
         the right devicetree name. It also adds the Wifi firmware, the
         sound configuration files and RAUC configuration files.
-      * [`post-build-demo.sh`](/board/stmicroelectronics/stm32mp2/post-build-demo.sh),
-        the script executed by Buildroot at the end of the rootfs
-        generation for the demo configuration.
       * [`tfa-dts/`](/board/stmicroelectronics/stm32mp2/tfa-dts), Device
         Device Tree files imported from STM32CubeMX.
         Tree files produced by STM32 Cube MX for TF-A. Only used by
