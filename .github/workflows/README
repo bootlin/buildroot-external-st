@@ -3,31 +3,29 @@ Here is the procedure to reproduce the Starter Package for this
 
 1. Clone the repositories:
 
-   git clone git@github.com:bootlin/buildroot
-   git -C buildroot checkout #BR_REV#
-   git clone git@github.com:bootlin/buildroot-external-st.git
+   git clone --recursive git@github.com:bootlin/buildroot-external-st.git
    git -C buildroot-external-st checkout #BR_EXT_REV#
 
 2. Configure Buildroot
 
-   make -C buildroot BR2_EXTERNAL=../buildroot-external-st O=../output #CONFIG#_defconfig
+   make -C buildroot-external-st O=../output #CONFIG#_defconfig
 
 3. Build the #CONFIG# image
 
-   make -C buildroot O=../output
+   make -C buildroot-external-st O=../output
 
 4. Generate license compliance information
 
-   make -C buildroot O=../output legal-info
+   make -C buildroot-external-st O=../output legal-info
 
 5. Build the SDK
 
-   make -C buildroot O=../output sdk
+   make -C buildroot-external-st O=../output sdk
 
 You will find the #CONFIG# image and sdk in:
 
-  buildroot/output/images
+  output/images
 
 You will find the #CONFIG# licenses and sources in:
 
-  buildroot/output/legal-info
+  output/legal-info

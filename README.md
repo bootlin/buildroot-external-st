@@ -213,14 +213,7 @@ Please see the [corresponding manual section](https://buildroot.org/downloads/ma
 ### Getting the code
 
 This `BR2_EXTERNAL` tree is designed to work with the `2025.02.x` LTS
-version of Buildroot. However, we needed a few changes on top of
-upstream Buildroot, so you need to use our own Buildroot fork together
-with this `BR2_EXTERNAL` tree, and more precisely its `st/2025.02.5`
-branch.
-
-```bash
-$ git clone -b st/2025.02.5 https://github.com/bootlin/buildroot.git
-```
+version of Buildroot.
 
 See our documentation on [internal details](docs/internals.md) for more
 information about the changes we have compared to upstream Buildroot.
@@ -228,10 +221,10 @@ information about the changes we have compared to upstream Buildroot.
 Now, clone the matching branch of the `BR2_EXTERNAL` tree:
 
 ```bash
-$ git clone -b st/2025.02.5 https://github.com/bootlin/buildroot-external-st.git
+$ git clone -b st/2025.02.5 --recursive  https://github.com/bootlin/buildroot-external-st.git
 ```
 
-You now have side-by-side a `buildroot` directory and a
+You now have side-by-side a `buildroot` subdirectory as submodule in
 `buildroot-external-st` directory.
 
 ### Configure and build
@@ -239,22 +232,20 @@ You now have side-by-side a `buildroot` directory and a
 Go to the Buildroot directory:
 
 ```bash
-$ cd buildroot/
+$ cd buildroot-external-st/
 ```
 
 And then, configure the system you want to build by using one of the 14
 *defconfigs* provided in this `BR2_EXTERNAL` tree. For example:
 
 ```bash
-buildroot/ $ make BR2_EXTERNAL=../buildroot-external-st st_stm32mp157f_dk2_defconfig
+buildroot-external-st/ $ make st_stm32mp157f_dk2_defconfig
 ```
 
 We are passing two informations to `make`:
 
-1. The path to `BR2_EXTERNAL` tree, which we have cloned side-by-side
-to the Buildroot repository
 
-2. The name of the Buildroot configuration we want to build.
+1. The name of the Buildroot configuration we want to build.
 
 If you want to further customize the Buildroot configuration, you can
 now run `make menuconfig`, but for your first build, we recommend you
@@ -264,7 +255,7 @@ everything is working for you.
 Start the build:
 
 ```bash
-buildroot/ $ make
+buildroot-external-st/ $ make
 ```
 
 This will automaticaly download and build the entire Linux system for
@@ -282,7 +273,7 @@ prebuilt images downloaded from the [starter package section](#Starter-package).
 Flash this image on a SD card:
 
 ```bash
-buildroot/ $ gzip -dc sdcard.img.gz | dd of=/dev/sdX bs=1M
+buildroot-external-st/ $ gzip -dc sdcard.img.gz | dd of=/dev/sdX bs=1M
 ```
 
 You can also use the block map image file to accelerate the flashing
@@ -295,7 +286,7 @@ Note: bmaptool will not erase empty partition like the U-boot environment
 partition.
 
 ```bash
-buildroot/ $ bmaptool copy sdcard.img.gz /dev/sdbX
+buildroot-external-st/ $ bmaptool copy sdcard.img.gz /dev/sdbX
 ```
 
 (Note: this assumes your SD card appears as `/dev/sdX` on your system.)
