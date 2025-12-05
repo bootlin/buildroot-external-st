@@ -12,6 +12,7 @@ generate_rauc_bundle()
 	sed -i -e "s/%RAUC_VERSION%/${RAUC_VERSION}/" ${RAUC_TMP}/manifest.raucm
 
 	cp ${BINARIES_DIR}/rootfs.squashfs ${RAUC_TMP}
+	cp ${BINARIES_DIR}/fip.bin ${RAUC_TMP}
 
 	rm -f ${BINARIES_DIR}/rootfs.raucb
 	${HOST_DIR}/bin/rauc bundle \

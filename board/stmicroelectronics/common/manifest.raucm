@@ -7,3 +7,6 @@ format=verity
 
 [image.rootfs]
 filename=rootfs.squashfs
+
+[image.fip]
+filename=fip.bin
