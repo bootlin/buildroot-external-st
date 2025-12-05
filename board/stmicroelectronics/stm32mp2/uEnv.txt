@@ -10,7 +10,7 @@ try_boot_a=if test 0x${BOOT_A_LEFT} -gt 0; then setexpr BOOT_A_LEFT ${BOOT_A_LEF
 try_boot_b=if test 0x${BOOT_B_LEFT} -gt 0; then setexpr BOOT_B_LEFT ${BOOT_B_LEFT} - 1; setenv distro_bootpart ${distro_bootpart_b}; setenv extlinux_bootpart rootfs-b ; setenv raucslot "rauc.slot=B"; echo "Booting from slot B ${BOOT_B_LEFT} attempts remaining"; run boot_extlinux; fi
 boot_rauc_slot=if test "x${BOOT_ORDER}" = "xA B"; then run try_boot_a; run try_boot_b; else run try_boot_b; run try_boot_a; fi
 boot_extlinux=sysboot mmc ${mmcdev}:${distro_bootpart} any ${scriptaddr} /boot/extlinux/extlinux.conf
-bootcmd=if test "x$boot_device" = "xnor"; then mmcdev=1; distro_bootpart_a=1; distro_bootpart_b=2; else mmcdev=0; distro_bootpart_a=4; distro_bootpart_b=5; fi; run boot_rauc_slot;
+bootcmd=if test "x$boot_device" = "xnor"; then mmcdev=1; distro_bootpart_a=1; distro_bootpart_b=2; else mmcdev=0; distro_bootpart_a=5; distro_bootpart_b=6; fi; run boot_rauc_slot;
 bootdelay=1
 console=ttySTM0
 cpu=armv8
