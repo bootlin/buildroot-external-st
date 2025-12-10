@@ -1,0 +1,29 @@
+From f45655d092726e440a07be7c9a041a56b18e0d39 Mon Sep 17 00:00:00 2001
+From: Christophe Guibout <christophe.guibout@st.com>
+Date: Mon, 15 Oct 2021 09:52:41 +0200
+Subject: [PATCH] support bin extension
+
+Avoid the following error:
+ Unsupported image /run/rauc/bundle/fip-stm32mp135f-dk-optee.bin
+ for slot type raw
+
+Change-Id: I464b7207671784ad08732960d9badd02e2ad00cf
+---
+ src/update_handler.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/update_handler.c b/src/update_handler.c
+index bcd6fd8..c77d7f8 100644
+--- a/src/update_handler.c
++++ b/src/update_handler.c
+@@ -1520,6 +1520,7 @@ typedef struct {
+ RaucUpdatePair updatepairs[] = {
+ 	{"*.ext4.caibx", "ext4", img_to_fs_handler},
+ 	{"*.ext4.caibx", "raw", img_to_raw_handler},
++	{"*.bin", "raw", img_to_raw_handler},
+ 	{"*.vfat.caibx", "raw", img_to_raw_handler},
+ 	{"*.ubifs.caibx", "ubivol", img_to_ubivol_handler},
+ 	{"*.ubifs.caibx", "ubifs", img_to_ubifs_handler},
+-- 
+2.17.1
+
