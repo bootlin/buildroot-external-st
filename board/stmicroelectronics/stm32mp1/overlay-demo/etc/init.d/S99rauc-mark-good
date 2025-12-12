@@ -5,7 +5,23 @@
 
 case "$1" in
   start)
-	/usr/bin/rauc status mark-good
+	eval $(/usr/bin/rauc status --output-format=shell)
+
+	# In case of rollbak mark the other slot as bad and the booted slot as
+	# the active slot
+	if [ "$RAUC_SYSTEM_BOOTED_BOOTNAME" = "A" ] &&
+	   [ "$RAUC_BOOT_PRIMARY" = "fip.1" ]; then
+		/usr/bin/rauc status mark-bad other
+		/usr/bin/rauc status mark-active booted
+		/usr/bin/rauc status mark-good booted
+	elif [ "$RAUC_SYSTEM_BOOTED_BOOTNAME" = "B" ] &&
+	     [ "$RAUC_BOOT_PRIMARY" = "fip.0" ]; then
+		/usr/bin/rauc status mark-bad other
+		/usr/bin/rauc status mark-active booted
+		/usr/bin/rauc status mark-good booted
+	else
+		/usr/bin/rauc status mark-good booted
+	fi
 	;;
   *)
 	echo "Usage: $0 {start}"
