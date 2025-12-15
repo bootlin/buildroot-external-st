@@ -1,0 +1,112 @@
+From 087cd0bd44b61521153cdff2da409acb334b41ab Mon Sep 17 00:00:00 2001
+From: Kory Maincent <kory.maincent@bootlin.com>
+Date: Mon, 15 Dec 2025 16:43:13 +0100
+Subject: [PATCH] fwu: Mark failed bank as invalid during rollback
+
+When boot_idx differs from active_idx at boot time, it indicates a
+rollback scenario where the firmware update failed and the system
+reverted to the previous working bank. In this case, mark the failed
+bank (active_idx) as invalid to prevent future boot attempts from that
+bank.
+
+This change adds a new fwu_invalid_bank() function that sets the bank
+state to FWU_BANK_INVALID and syncs the metadata. This is only
+supported in FWU metadata version 2; version 1 provides a no-op stub.
+
+Without this change, a failed bank would remain in a valid state and
+could potentially be selected for boot again, leading to repeated
+boot failures.
+
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+---
+ include/fwu.h            |  8 ++++++++
+ lib/fwu_updates/fwu.c    |  1 +
+ lib/fwu_updates/fwu_v1.c | 10 ++++++++++
+ lib/fwu_updates/fwu_v2.c | 19 +++++++++++++++++++
+ 4 files changed, 38 insertions(+)
+
+diff --git a/include/fwu.h b/include/fwu.h
+index 77ec65e6180..ac7d4f30fa7 100644
+--- a/include/fwu.h
++++ b/include/fwu.h
+@@ -405,6 +405,14 @@ int fwu_get_mdata_size(uint32_t *mdata_size);
+  */
+ int fwu_state_machine_updates(bool trial_state, uint32_t update_index);
+ 
++/**
++ * fwu_invalid_bank() - Invalid bank state of a specific bank
++ * @index: Index of the bank
++ *
++ * Only supported in version 2 of FWU metadata.
++ */
++void fwu_invalid_bank(uint32_t index);
++
+ /**
+  * fwu_init() - FWU specific initialisations
+  *
+diff --git a/lib/fwu_updates/fwu.c b/lib/fwu_updates/fwu.c
+index f5e0315b796..779fffea3c6 100644
+--- a/lib/fwu_updates/fwu.c
++++ b/lib/fwu_updates/fwu.c
+@@ -729,6 +729,7 @@ static int fwu_boottime_checks(void *ctx, struct event *event)
+ 	if (boot_idx != active_idx) {
+ 		log_info("Boot idx %u is not matching active idx %u, changing active_idx\n",
+ 			 boot_idx, active_idx);
++		fwu_invalid_bank(active_idx);
+ 		ret = fwu_set_active_index(boot_idx);
+ 		if (!ret)
+ 			boottime_check = 1;
+diff --git a/lib/fwu_updates/fwu_v1.c b/lib/fwu_updates/fwu_v1.c
+index efb8d515008..e2d6dbb7f03 100644
+--- a/lib/fwu_updates/fwu_v1.c
++++ b/lib/fwu_updates/fwu_v1.c
+@@ -132,6 +132,16 @@ int fwu_get_mdata_size(uint32_t *mdata_size)
+ 	return 0;
+ }
+ 
++/**
++ * fwu_invalid_bank() - Invalid bank state of a specific bank
++ * @index: Index of the bank
++ *
++ * Not supported.
++ */
++void fwu_invalid_bank(uint32_t index)
++{
++}
++
+ /**
+  * fwu_init() - FWU specific initialisations
+  *
+diff --git a/lib/fwu_updates/fwu_v2.c b/lib/fwu_updates/fwu_v2.c
+index 108bc9bb4ac..3daf18632b6 100644
+--- a/lib/fwu_updates/fwu_v2.c
++++ b/lib/fwu_updates/fwu_v2.c
+@@ -176,6 +176,25 @@ int fwu_state_machine_updates(bool trial_state, uint32_t update_index)
+ 		fwu_bank_state_update(0, update_index);
+ }
+ 
++/**
++ * fwu_invalid_bank() - Invalid bank state of a specific bank
++ * @index: Index of the bank
++ */
++void fwu_invalid_bank(uint32_t index)
++{
++	struct fwu_data *data = fwu_get_data();
++	struct fwu_mdata *mdata;
++	int ret;
++
++	mdata = data->fwu_mdata;
++	data->bank_state[index] = FWU_BANK_INVALID;
++	mdata->bank_state[index] = FWU_BANK_INVALID;
++
++	ret = fwu_sync_mdata(mdata, BOTH_PARTS);
++	if (ret)
++		log_err("Unable to invalid bank %u\n", index);
++}
++
+ /**
+  * fwu_get_mdata_size() - Get the FWU metadata size
+  * @mdata_size: Size of the metadata structure
+-- 
+2.43.0
+
