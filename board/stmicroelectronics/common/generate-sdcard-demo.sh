@@ -57,7 +57,6 @@ generate_sdcard()
 	rm -f ${GENIMAGE_CFG_TMP}
 
 	gzip -fk ${BINARIES_DIR}/sdcard.img
-	${HOST_DIR}/bin/bmaptool create -o ${BINARIES_DIR}/sdcard.img.bmap ${BINARIES_DIR}/sdcard.img
 }
 
 generate_sdcard $@
