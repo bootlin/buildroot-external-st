@@ -71,12 +71,24 @@
                         reg = <0x00040000 0x00040000>;
                 };
                 partition@80000 {
-                        label = "fip";
-                        reg = <0x00080000 0x00880000>;
+                        label = "metadata1";
+                        reg = <0x00080000 0x00040000>;
+                };
+                partition@c0000 {
+                        label = "metadata2";
+                        reg = <0x000c0000 0x00040000>;
+                };
+                partition@100000 {
+                        label = "fip-a";
+                        reg = <0x00100000 0x00400000>;
+                };
+                partition@500000 {
+                        label = "fip-b";
+                        reg = <0x00500000 0x00400000>;
                 };
                 partition@900000 {
                         label = "u-boot-env";
-                        reg = <0x00900000 0x00040000>;
+                        reg = <0x09000000 0x00040000>;
                 };
                 partition@940000 {
                         label = "u-boot-env-red";
