@@ -1,0 +1,63 @@
+From 8f87628cddb3a87750c906beca25e86c864174fd Mon Sep 17 00:00:00 2001
+From: Kory Maincent <kory.maincent@bootlin.com>
+Date: Wed, 14 Jan 2026 09:30:59 +0000
+Subject: [PATCH] fwu-mdata: Allow multiple metadata storage drivers to be
+ enabled
+
+Change the Kconfig from a "choice" to a conditional block, allowing
+multiple FWU metadata storage drivers to be selected simultaneously
+instead of being mutually exclusive.
+
+This enables systems with FWU metadata on different storage types
+(e.g., both GPT-partitioned block devices and MTD devices) to have
+both drivers compiled in. The board can then select the appropriate
+driver at runtime based on the devicetree description.
+
+The change converts FWU_MDATA to a menuconfig and replaces the
+"choice/endchoice" block with "if FWU_MDATA/endif", making
+FWU_MDATA_GPT_BLK default to 'y' for backward compatibility.
+
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+---
+ drivers/fwu-mdata/Kconfig | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/fwu-mdata/Kconfig b/drivers/fwu-mdata/Kconfig
+index 42736a5e43b..59571ac01ea 100644
+--- a/drivers/fwu-mdata/Kconfig
++++ b/drivers/fwu-mdata/Kconfig
+@@ -1,4 +1,4 @@
+-config FWU_MDATA
++menuconfig FWU_MDATA
+ 	bool "Driver support for accessing FWU Metadata"
+ 	depends on DM
+ 	help
+@@ -6,16 +6,14 @@ config FWU_MDATA
+ 	  FWU Metadata partitions reside on the same storage device
+ 	  which contains the other FWU updatable firmware images.
+ 
+-choice
+-	prompt "Storage Layout Scheme"
+-	depends on FWU_MDATA
+-	default FWU_MDATA_GPT_BLK
++if FWU_MDATA
+ 
+ config FWU_MDATA_GPT_BLK
+ 	bool "FWU Metadata access for GPT partitioned Block devices"
+ 	select PARTITION_TYPE_GUID
+ 	select PARTITION_UUIDS
+-	depends on FWU_MDATA && BLK && EFI_PARTITION
++	depends on BLK && EFI_PARTITION
++	default y
+ 	help
+ 	  Enable support for accessing FWU Metadata on GPT partitioned
+ 	  block devices.
+@@ -28,4 +26,4 @@ config FWU_MDATA_MTD
+ 	  (or non-GPT partitioned, e.g. partition nodes in devicetree)
+ 	  MTD devices.
+ 
+-endchoice
++endif
+-- 
+2.43.0
+
