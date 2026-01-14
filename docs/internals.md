@@ -71,11 +71,13 @@ extlinux.conf of the overlay to use the correct Device Tree file at
 boot.
 
 ```
-BR2_ROOTFS_POST_IMAGE_SCRIPT="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/common/post-image.sh"
+BR2_ROOTFS_POST_IMAGE_SCRIPT="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/common/generate-sdcard.sh $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/common/generate-flashlayout.sh"
 ```
 
 This tells Buildroot to run
-[board/stmicroelectronics/common/post-image.sh](/board/stmicroelectronics/common/post-image.sh)
+[board/stmicroelectronics/common/generate-sdcard.sh](/board/stmicroelectronics/common/generate-sdcard.sh)
+and
+[board/stmicroelectronics/common/generate-flashlayout.sh](/board/stmicroelectronics/common/generate-flashlayout.sh)
 at the end of the build. This script produces the final `sdcard.img`
 file using a tool called `genimage` and deploys the `flash.tsv` file to
 flash the board with STM32 Cube Programmer.
@@ -84,7 +86,7 @@ flash the board with STM32 Cube Programmer.
 BR2_ROOTFS_POST_SCRIPT_ARGS="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/genimage.cfg"
 ```
 
-This is an argument passed to the scripts. It is used by `post-image.sh`
+This is an argument passed to the scripts. It is used by post-image scripts
 to know which genimage config to use.
 
 ```
@@ -239,7 +241,7 @@ when adding or removing devices.
 
 ```
 BR2_ROOTFS_POST_BUILD_SCRIPT="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/common/post-build.sh $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/common/post-build-demo.sh $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/post-build-demo.sh"
-BR2_ROOTFS_POST_IMAGE_SCRIPT="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/common/post-image.sh $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/common/generate-rauc-bundle.sh"
+BR2_ROOTFS_POST_IMAGE_SCRIPT="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/common/generate-sdcard.sh $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/common/generate-flashlayout.sh $(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/common/generate-rauc-bundle.sh"
 BR2_ROOTFS_POST_SCRIPT_ARGS="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/genimage-demo.cfg"
 ```
 
@@ -385,7 +387,7 @@ image for the root filesystem.
 
 ```
 BR2_TARGET_ARM_TRUSTED_FIRMWARE_CUSTOM_DTS_PATH="$(BR2_EXTERNAL_ST_PATH)/board/stmicroelectronics/stm32mp1/tfa-dts/*"
-BR2_TARGET_ARM_TRUSTED_FIRMWARE_ADDITIONAL_VARIABLES="STM32MP_SDMMC=1 AARCH32_SP=optee DTB_FILE_NAME=stm32mp157f-dk2-mx.dtb BL33_CFG=$(BINARIES_DIR)/u-boot.dtb STM32MP1_OPTEE_IN_SYSRAM=1 OPENSSL_DIR=$(BR2_HOST_DIR)"
+BR2_TARGET_ARM_TRUSTED_FIRMWARE_ADDITIONAL_VARIABLES="STM32MP_SDMMC=1 AARCH32_SP=optee DTB_FILE_NAME=stm32mp157f-dk2-mx.dtb BL33_CFG=$(BINARIES_DIR)/u-boot.dtb STM32MP1_OPTEE_IN_SYSRAM=1 OPENSSL_DIR=$(BR2_HOST_DIR) PSA_FWU_SUPPORT=1"
 ```
 
 These options customize the build of TF-A to use a Device Tree file
@@ -424,6 +426,12 @@ BR2_PACKAGE_HOST_RAUC=y
 
 This option enables `rauc` tool for the host to generate a RAUC update
 bundle.
+
+```
+BR2_PACKAGE_HOST_UTIL_LINUX=y
+```
+
+This option enables host-util-linux to have access to uuidgen tool.
 
 ```
 BR2_PACKAGE_M4PROJECTS=y
@@ -474,12 +482,21 @@ flashed, based on the environment defined as a text file in
       * [`post-build.sh`](/board/stmicroelectronics/common/post-build.sh),
         the script executed by Buildroot at the end of the rootfs generation
         to produce update the `extlinux.conf` with the right devicetree name.
-      * [`post-image.sh`](/board/stmicroelectronics/common/post-image.sh),
+      * [`generate-flashlayout.sh`](/board/stmicroelectronics/common/generate-flashlayout.sh),
         the script executed by Buildroot at the end of the build to
-        produce the SD card image and deploy the flash.tsv file.
+        deploy the flash.tsv file.
+      * [`generate-sdcard.sh`](/board/stmicroelectronics/common/generate-sdcard.sh),
+        the script executed by Buildroot for the basic configuration at
+        the end of the build to produce the SD card image.
+      * [`generate-sdcard-demo.sh`](/board/stmicroelectronics/common/generate-sdcard-demo.sh),
+        the script executed by Buildroot for the demo configurations at
+        the end of the build to produce the SD card image.
       * [`uboot-enable-squashfs.config`](/board/stmicroelectronics/common/uboot-enable-squashfs.config),
         a U-boot configuration file fragment that enables the SquashFS
         support.
+      * [`uboot-enable-fwu-mdata-mtd.cfg`](/board/stmicroelectronics/common/uboot-enable-fwu-mdata-mtd.cfg),
+        a U-boot configuration file fragment that enables the FWU Metadata
+        raw MTD driver.
       * [`usb_flash_binaries/`](/board/stmicroelectronics/common/usb_flash_binaries),
         precompiled TF-A and FIP image generated with
         [`st_stm32mp135_flash_defconfig`](/configs/st_stm32mp135_flash_defconfig),
@@ -649,7 +666,7 @@ have just 11 changes on top of Buildroot 2025.02.5, and they can easily
 be rebased on top of the latest Buildroot 2025.02.x to continue to
 benefit from the security fixes provided by the Buildroot community.
 
-Here are the 10 changes:
+Here are the 13 changes:
 
 * Update the `gcnano-binaries` package to a newer version. This package
   contains the closed-source OpenGL user-space libraries, which need to
@@ -690,3 +707,16 @@ Here are the 10 changes:
 * Fix optee-test license hash. The hash had not been updated during
   a previous mainline update. Can not send this upstream as it has alreay
   been updated to a newer version.
+
+* Update the 'uboot-tools' package to version 2025.10. More recent version
+  of this package is required to have access to the mkfwumdata tool.
+  This patch has been submitted and merged to upstream Buildroot.
+
+* Enable the build of mkfwumdata tool in 'host-uboot-tools' package. This
+  tool is required on the host to generate the FWU metadata.
+
+* Add fwumdata tool to 'uboot-tools' package for FWU metadata management.
+  This tool is needed on the client side to read and update FWU metadata
+  from Linux.
+  The U-boot patch series has been submitted upstream.
+

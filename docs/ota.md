@@ -2,30 +2,34 @@
 
 OTA support is only enabled in the *demo* configurations.
 
-RAUC is configured to use symmetric with two rootfs.0 and rootfs.1
-partition.
-
+RAUC is configured to use a symmetric configuration with two partitions:
+rootfs.0 and rootfs.1.
+The boot slot selection is performed using
+[FWU metadata](https://documentation-service.arm.com/static/660be6391bc22b03bca92702)
+at the TF-A level. Therefore, it is possible to update the U-Boot
+image during an OTA process.
 
 Use `rauc status` command to see the current boot state.
 ```
 # rauc status
 === System Info ===
-Compatible:  stm32mp157d-dk1-mx
+Compatible:  stm32mp157f-dk2-mx
 Variant:
-Booted from: rootfs.0 (A)
+Booted from: fip.0 (A)
 
 === Bootloader ===
-Activated: rootfs.0 (A)
-zsh:1: command not found: :w
+Activated: fip.0 (A)
+
 === Slot States ===
-o [rootfs.1] (/dev/mmcblk0p6, raw, inactive)
-	bootname: B
-	boot status: good
+x [fip.0] (/dev/disk/by-partlabel/fip-a, raw, booted)
+      bootname: A
+      boot status: good
+    [rootfs.0] (/dev/disk/by-partlabel/rootfs-a, raw, active)
 
-x [rootfs.0] (/dev/mmcblk0p5, raw, booted)
-	bootname: A
-	boot status: good
-
+o [fip.1] (/dev/disk/by-partlabel/fip-b, inactive)
+      bootname: B
+      boot status: good
+    [rootfs.1] (/dev/disk/by-partlabel/rootfs-b, raw, inactive)
 ```
 
 Buildroot generates an update bundle in the image directory:
@@ -75,23 +79,29 @@ Use `rauc install` command to install the new rootfs and reboot.
 installing
   0% Installing
   0% Determining slot states
- 20% Determining slot states done.
- 20% Checking bundle
- 20% Verifying signature
- 40% Verifying signature done.
-[  562.642672] loop0: detected capacity change from 0 to 98716
- 40% Checking bundle done.
-[  562.688265] loop0: detected capacity change from 98716 to 98712
- 40% Checking manifest contents
- 60% Checking manifest contents done.
-[  562.746322] device-mapper: verity: sha256 using implementation "stm32-sha256"
- 60% Determining target install group
- 80% Determining target install group done.
- 80% Updating slots
- 80% Checking slot rootfs.1
- 90% Checking slot rootfs.1 done.
- 90% Copying image to rootfs.1
- 99% Copying image to rootfs.1 done.
+ 10% Determining slot states done.
+ 10% Checking bundle
+ 10% Verifying signature
+[   70.117552] loop0: detected capacity change from 0 to 161781
+ 20% Verifying signature done.
+ 20% Checking bundle done.
+[   70.130741] loop0: detected capacity change from 161781 to 161776
+[   70.164820] device-mapper: verity: sha256 using implementation "stm32-sha256"
+ 20% Checking manifest contents
+ 30% Checking manifest contents done.
+ 30% Determining target install group
+ 40% Determining target install group done.
+ 40% Updating slots
+ 40% Checking slot rootfs.1
+ 43% Checking slot rootfs.1 done.
+ 43% Copying image to rootfs.1
+...
+ 70% Copying image to rootfs.1 done.
+ 70% Checking slot fip.1 (B)
+ 73% Checking slot fip.1 (B) done.
+ 73% Copying image to fip.1
+...
+ 99% Copying image to fip.1 done.
  99% Updating slots done.
 100% Installing done.
 idle
@@ -103,21 +113,23 @@ Then use `rauc status` command to verify the boot partition.
 ```
 # rauc status
 === System Info ===
-Compatible:  stm32mp157d-dk1-mx
+Compatible:  stm32mp157f-dk2-mx
 Variant:
-Booted from: rootfs.1 (B)
+Booted from: fip.1 (B)
 
 === Bootloader ===
-Activated: rootfs.1 (B)
+Activated: fip.1 (B)
 
 === Slot States ===
-x [rootfs.1] (/dev/mmcblk0p6, raw, booted)
-	bootname: B
-	boot status: good
+o [fip.0] (/dev/disk/by-partlabel/fip-a, raw, inactive)
+      bootname: A
+      boot status: good
+    [rootfs.0] (/dev/disk/by-partlabel/rootfs-a, raw, inactive)
 
-o [rootfs.0] (/dev/mmcblk0p5, raw, inactive)
-	bootname: A
-	boot status: good
+x [fip.1] (/dev/disk/by-partlabel/fip-b, booted)
+      bootname: B
+      boot status: good
+    [rootfs.1] (/dev/disk/by-partlabel/rootfs-b, raw, active)
 ```
 
 You can look at the [Rauc documentation](https://rauc.readthedocs.io/en/latest/index.html)

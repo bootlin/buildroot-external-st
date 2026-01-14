@@ -2,12 +2,12 @@
 
 Applicable platforms: STM32MP257F-EV1.
 
-First, before the Buildroot build you have to update fw_env.config link
-to follow the new location of the U-boot environment in the NOR memory.
-Without this RAUC will fail at reading the U-boot environment.
+First, before the Buildroot build you have to update fwumdata.config link
+to follow the new location of the FWU metadata in the NOR memory
+Without this RAUC will fail at reading the FWU metadata.
 
 ```
-$ ln -sf fw_env_nor.config buildroot-external-st/board/stmicroelectronics/stm32mp2/overlay-demo/etc/fw_env.config
+$ ln -sf fwumdata.config buildroot-external-st/board/stmicroelectronics/stm32mp2/overlay-demo/etc/fwumdata.config
 ```
 
 Then flash the board as explained in the [STM32Cube programmer doc](docs/stm32cubeprogrammer.md)
@@ -23,6 +23,16 @@ Reboot the platform.
 Note: If the SDCard contain partitions with the same partition label or
 UUID than the ones in the eMMC, the platform can fail at Linux boot stage
 or boot on the wrong device.
+
+---
+
+Note: Similarly to FWU metadata location, if you want to access U-boot
+environment from Linux you have to update fw_env.config link to follow
+the new location of the U-boot environment in the NOR memory.
+
+```
+$ ln -sf fw_env_nor.config buildroot-external-st/board/stmicroelectronics/stm32mp2/overlay-demo/etc/fw_env.config
+```
 
 ---
 

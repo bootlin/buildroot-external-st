@@ -71,7 +71,7 @@ make options to build the external Device Tree file. Same goes with
 `CFG_EMBED_DTB_SOURCE_FILE=stm32mp157f-dk2-mx.dts CFG_STM32MP15=y` for
 OPTEE-OS.
 
-You might need to modify the post-image.sh script to use a different
+You might need to modify the post-image scripts to use a different
 naming of the TF-A binary.
 
 If Cube MX does not generated the devicetree as expected you can manually
