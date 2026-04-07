@@ -1,5 +1,18 @@
 # Release notes
 
+## openstlinux-6.6-buildroot-2025.02.12-mpu-v26.02.18
+
+Changes in this release:
+
+- Based on Buildroot 2025.02.12
+
+- Based on the BSP components of ST's 6.2 BSP: Linux 6.6, U-Boot
+  2023.10, TF-A 2.10, OP-TEE 4.0, gcnano-binaries 6.4.21
+
+- Added a splash image in U-Boot
+
+- Added support for gesftpserver
+
 ## openstlinux-6.6-buildroot-2025.02.5-mpu-v25.06.11
 
 Changes in this release:

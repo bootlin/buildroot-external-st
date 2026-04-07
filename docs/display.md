@@ -103,6 +103,11 @@ in the default resolution:
 # modetest -M stm -s 32:#0
 ```
 
+Warning: If you are powering the board via your laptop’s USB port, there may not
+be enough current to drive the display, and the board may fail to boot. Use the
+barrel jack instead (see [the documentation]
+(https://wiki.st.com/stm32mpu/wiki/STM32MP257x-EV1_-_hardware_description#Power_jumper)).
+
 ## STM32MP257-DK
 
 You can test the LVDS output by displaying `modetest` default picture,
@@ -112,6 +117,11 @@ in the default resolution:
 # echo 1 >  $(realpath /sys/class/backlight/panel-*)/brightness
 # modetest -M stm -s 34:#0
 ```
+
+Warning: If you are powering the board via your laptop’s USB port, there may not
+be enough current to drive the display, and the board may fail to boot. Use a
+higher-power USB-C supply (for example, a dedicated USB-C power adapter or a
+USB-C port with sufficient power delivery capability).
 
 You can test the HDMI output by displaying `modetest` default picture,
 in the default resolution:

@@ -10,7 +10,7 @@ Without this RAUC will fail at reading the FWU metadata.
 $ ln -sf fwumdata.config buildroot-external-st/board/stmicroelectronics/stm32mp2/overlay-demo/etc/fwumdata.config
 ```
 
-Then flash the board as explained in the [STM32Cube programmer doc](docs/stm32cubeprogrammer.md)
+Then flash the board as explained in the [STM32Cube programmer doc](stm32cubeprogrammer.md)
 but using the flash_nor_emmc.tsv flash layout.
 
 Switch the boot mode switch to SPI-NOR boot:

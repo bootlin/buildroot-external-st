@@ -1,6 +1,6 @@
 # Using the switch
 
-Applicable platforms: STM32MP257F-DK.
+Applicable platforms: STM32MP257F-EV1.
 
 ```
 # switch_startup.sh

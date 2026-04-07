@@ -11,6 +11,9 @@ The configuration depends on your camera:
 
 ## IMX335 Sensor (MB1854 camera board)
 
+Applicable platforms: STM32MP257F-EV1, STM32MP257F-DK, STM32MP235F-DK,
+STM32MP215F-DK.
+
 ```
 #
 media-ctl -r
@@ -26,6 +29,8 @@ export main_capture_dev=$(media-ctl -d "platform:48030000.dcmipp" -e "dcmipp_mai
 ```
 
 ## GC2145 Sensor (MB1897 camera board)
+
+Applicable platform: STM32MP135F-DK
 
 ```
 #
