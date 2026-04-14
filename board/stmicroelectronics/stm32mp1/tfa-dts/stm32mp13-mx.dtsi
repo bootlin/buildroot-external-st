@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2015-2018, STMicroelectronics - All Rights Reserved
  *
- * SPDX-License-Identifier:	GPL-2.0-or-later	BSD-3-Clause
+ * SPDX-License-Identifier:	GPL-2.0+ OR	BSD-3-Clause
  *
  */
 
@@ -14,7 +14,7 @@
  * Relaxed Timing Mode: false
  * Address mapping type: RBC
  *
- * Save Date: 2025.08.21, save Time: 17:00:04
+ * Save Date: 2026.04.14, save Time: 15:04:14
  */
 
 #define DDR_MEM_NAME "DDR3-DDR3L 16bits 533000kHz"

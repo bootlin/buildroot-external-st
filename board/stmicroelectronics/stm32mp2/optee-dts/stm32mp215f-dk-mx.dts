@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
 /*
- * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2026, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -25,7 +25,7 @@
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP215F-DK STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v25.06.11";
+	model = "STMicroelectronics STM32MP215F-DK STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v26.02.18";
 	compatible = "st,stm32mp215f-dk-mx", "st,stm32mp215f-dk", "st,stm32mp215";
 
 	memory@80000000 {
@@ -63,13 +63,13 @@
 
 	usart2_pins_mx: usart2_mx-0 {
 		pins1 {
-			pinmux = <STM32_PINMUX('A', 4, AF6)>; /* USART2_TX */
+			pinmux = <STM32_PINMUX_NSEC('A', 4, AF6)>; /* USART2_TX */
 			bias-disable;
 			drive-push-pull;
 			slew-rate = <0>;
 		};
 		pins2 {
-			pinmux = <STM32_PINMUX('A', 8, AF8)>; /* USART2_RX */
+			pinmux = <STM32_PINMUX_NSEC('A', 8, AF8)>; /* USART2_RX */
 			bias-disable;
 			drive-push-pull;
 		};
@@ -280,6 +280,12 @@
 				regulator-min-microvolt = <3300000>;
 				regulator-max-microvolt = <3300000>;
 				regulator-over-current-protection;
+				standby {
+                	regulator-off-in-suspend;
+                };
+                off {
+                	regulator-off-in-suspend;
+                };
 			};
 
 			vdd_flash:ldo5{
@@ -322,20 +328,6 @@
 				regulator-name = "v3v3";
 				regulator-min-microvolt = <3300000>;
 				regulator-max-microvolt = <3300000>;
-				regulator-always-on;
-				st,pwrctrl-sel = <1>;
-				st,pwrctrl-enable;
-
-				default{
-					regulator-on-in-suspend;
-					regulator-suspend-microvolt = <3300000>;
-				};
-
-				lplv{
-					regulator-on-in-suspend;
-					regulator-suspend-microvolt = <3300000>;
-				};
-
 				standby{
 					regulator-off-in-suspend;
 				};
@@ -389,15 +381,8 @@
 	/* USER CODE END iwdg1 */
 };
 
-&lptimer1 {
-	status = "okay";
-
-	/* USER CODE BEGIN lptimer1 */
-	/* USER CODE END lptimer1 */
-};
-
 &ltdc {
-	status = "disabled";
+	status = "okay";
 
 	/* USER CODE BEGIN ltdc */
 	/* USER CODE END ltdc */
@@ -407,8 +392,14 @@
 	status = "okay";
 
 	/*Restriction: "memory-region" property is not managed - please to use User-Section if needed*/
+	mboxes = <&ipcc1 0x100>, <&ipcc1 0x101>, <&ipcc1 2>;
+	mbox-names = "vq0", "vq1", "shutdown";
 
 	/* USER CODE BEGIN m33_rproc */
+	compatible = "st,stm32mp2-m33-tee";
+	memory-region = <&cm33_cube_fw>, <&cm33_cube_data>,
+			<&ipc_shmem>, <&tfm_code>, <&tfm_data>,
+			<&cm33_sram1>;
 	/* USER CODE END m33_rproc */
 };
 
@@ -478,6 +469,13 @@
 		};
 	};
 	/* USER CODE END rcc */
+};
+
+&rtc {
+	status = "okay";
+
+	/* USER CODE BEGIN rtc */
+	/* USER CODE END rtc */
 };
 
 &saes {

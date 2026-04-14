@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2015-2018, STMicroelectronics - All Rights Reserved
  *
- * SPDX-License-Identifier:	GPL-2.0-or-later	BSD-3-Clause
+ * SPDX-License-Identifier:	GPL-2.0-only OR	BSD-3-Clause
  *
  */
 
@@ -13,7 +13,7 @@
  * System frequency: 1200000kHz
  * Address mapping type: RBC
  *
- * Save Date: 2025.08.21, save Time: 17:11:32
+ * Save Date: 2026.04.14, save Time: 15:07:25
  */
 
 #define DDR_MEM_NAME "DDR4 32bits 1200000kHz"
@@ -217,7 +217,7 @@
 #define DDR_UIS_SWIZZLE_19 0x0000000b
 #define DDR_UIS_SWIZZLE_20 0x00000000
 #define DDR_UIS_SWIZZLE_21 0x00000000
-#define DDR_UIS_SWIZZLE_22 0x00000000
+#define DDR_UIS_SWIZZLE_22 0x00000011
 #define DDR_UIS_SWIZZLE_23 0x00000008
 #define DDR_UIS_SWIZZLE_24 0x00000002
 #define DDR_UIS_SWIZZLE_25 0x00000018
@@ -226,7 +226,7 @@
 #define DDR_UIS_SWIZZLE_28 0x0d0a0407
 #define DDR_UIS_SWIZZLE_29 0x00000014
 #define DDR_UIS_SWIZZLE_30 0x000b0600
-#define DDR_UIS_SWIZZLE_31 0x02080000
+#define DDR_UIS_SWIZZLE_31 0x02081100
 #define DDR_UIS_SWIZZLE_32 0x00000018
 #define DDR_UIS_SWIZZLE_33 0x00000000
 #define DDR_UIS_SWIZZLE_34 0x00000000

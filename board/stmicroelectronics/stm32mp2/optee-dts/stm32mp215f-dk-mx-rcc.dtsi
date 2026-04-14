@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
 /*
- * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2026, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -49,7 +49,6 @@
 		FLEXGEN_CFG(3, XBAR_SRC_PLL4, 0, 2)
 		FLEXGEN_CFG(4, XBAR_SRC_PLL4, 0, 3)
 		FLEXGEN_CFG(5, XBAR_SRC_PLL4, 0, 2)
-		FLEXGEN_CFG(7, XBAR_SRC_LSI, 0, 0)
 		FLEXGEN_CFG(8, XBAR_SRC_HSI_KER, 0, 0)
 		FLEXGEN_CFG(13, XBAR_SRC_PLL4, 0, 11)
 		FLEXGEN_CFG(21, XBAR_SRC_PLL7, 0, 16)
@@ -80,11 +79,9 @@
 		DIV_CFG(DIV_APB5, 0)
 		DIV_CFG(DIV_APBDBG, 0)
 	>;
-
 	st,kerclk = <
-		MUX_CFG(MUX_ADC1, MUX_ADC1_FLEX46)
-
 		MUX_CFG(MUX_RTC, MUX_RTC_LSE)
+		MUX_CFG(MUX_ADC1, MUX_ADC1_FLEX46)
 
 	>;
 

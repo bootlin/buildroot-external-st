@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
 /*
- * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2026, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -24,7 +24,7 @@
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP157F-DK2 STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v25.06.11";
+	model = "STMicroelectronics STM32MP157F-DK2 STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v26.02.18";
 	compatible = "st,stm32mp157f-dk2-mx", "st,stm32mp157f-dk2", "st,stm32mp157";
 
 	memory@c0000000 {
@@ -55,7 +55,6 @@
 	chosen{
 		stdout-path = "serial0:115200n8";
 	};
-
 	/* USER CODE END root */
 
 	clocks {
@@ -284,7 +283,6 @@
 			};
 		};
 	};
-
 	/* USER CODE END i2c4 */
 };
 
@@ -293,7 +291,6 @@
 
 	/* USER CODE BEGIN iwdg1 */
 	timeout-sec = <32>;
-
 	/* USER CODE END iwdg1 */
 };
 
@@ -301,7 +298,6 @@
 	status = "okay";
 	/* USER CODE BEGIN rcc */
 	compatible = "st,stm32mp1-rcc-secure", "st,stm32mp1-rcc", "syscon";
-
 	/* USER CODE END rcc */
 	st,clksrc = <
 		CLK_CKPER_HSE
@@ -401,7 +397,6 @@
 	st,neg-edge;
 	bus-width = <4>;
 	vmmc-supply = <&v3v3>;
-
 	/* USER CODE END sdmmc1 */
 };
 
@@ -421,7 +416,6 @@
 	phys = <&usbphyc_port1 0>;
 	phy-names = "usb2-phy";
 	usb-role-switch;
-
 	/* USER CODE END usbotg_hs */
 };
 
@@ -437,7 +431,6 @@
 
 	/* USER CODE BEGIN usbphyc_port0 */
 	phy-supply = <&vdd_usb>;
-
 	/* USER CODE END usbphyc_port0 */
 };
 
@@ -446,7 +439,6 @@
 
 	/* USER CODE BEGIN usbphyc_port1 */
 	phy-supply = <&vdd_usb>;
-
 	/* USER CODE END usbphyc_port1 */
 };
 
@@ -486,6 +478,5 @@
 &rtc {
 	status = "okay";
 };
-
 /* USER CODE END addons */
 

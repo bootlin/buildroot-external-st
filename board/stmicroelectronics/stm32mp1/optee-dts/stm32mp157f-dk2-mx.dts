@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
 /*
- * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2026, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -24,11 +24,10 @@
 #include <dt-bindings/mfd/st,stpmic1.h>
 #include <dt-bindings/soc/stm32mp-provisioning.h>
 #include <dt-bindings/tamper/st,stm32-tamp.h>
-
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP157F-DK2 STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v25.06.11";
+	model = "STMicroelectronics STM32MP157F-DK2 STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v26.02.18";
 	compatible = "st,stm32mp157f-dk2-mx", "st,stm32mp157f-dk2", "st,stm32mp157";
 
 	memory@c0000000 {
@@ -82,7 +81,6 @@
 			reg = <0xd4000000 0x4000000>;
 			no-map;
 		};
-
 		/* USER CODE END reserved-memory */
 	};
 
@@ -127,7 +125,6 @@
 	chosen{
 		stdout-path = "serial0:115200n8";
 	};
-
 	/* USER CODE END root */
 
 	clocks {
@@ -170,29 +167,29 @@
 
 	uart4_pins_mx: uart4_mx-0 {
 		pins1 {
-			pinmux = <STM32_PINMUX_NSEC('B', 2, AF8)>; /* UART4_RX */
+			pinmux = <STM32_PINMUX('B', 2, AF8)>; /* UART4_RX */
 			bias-disable;
 		};
 		pins2 {
-			pinmux = <STM32_PINMUX_NSEC('G', 11, AF6)>; /* UART4_TX */
+			pinmux = <STM32_PINMUX('G', 11, AF6)>; /* UART4_TX */
 			bias-disable;
 			drive-push-pull;
 			slew-rate = <0>;
 		};
 	uart4_idle_pins_mx: uart4-idle-0 {
 			pins1 {
-				pinmux = <STM32_PINMUX_NSEC('G', 11, ANALOG)>; /* UART4_TX */
+				pinmux = <STM32_PINMUX('G', 11, ANALOG)>; /* UART4_TX */
 			};
 			pins2 {
-				pinmux = <STM32_PINMUX_NSEC('B', 2, AF8)>; /* UART4_RX */
+				pinmux = <STM32_PINMUX('B', 2, AF8)>; /* UART4_RX */
 				bias-disable;
 			};
 		};
 	
 	uart4_sleep_pins_mx: uart4-sleep-0 {
 			pins {
-				pinmux = <STM32_PINMUX_NSEC('G', 11, ANALOG)>, /* UART4_TX */
-					 <STM32_PINMUX_NSEC('B', 2, ANALOG)>; /* UART4_RX */
+				pinmux = <STM32_PINMUX('G', 11, ANALOG)>, /* UART4_TX */
+					 <STM32_PINMUX('B', 2, ANALOG)>; /* UART4_RX */
 			};
 		};
 	};
@@ -202,8 +199,8 @@
 &pinctrl_z {
 	i2c4_pins_z_mx: i2c4_mx-0 {
 		pins {
-			pinmux = <STM32_PINMUX_NSEC('Z', 4, AF6)>, /* I2C4_SCL */
-					 <STM32_PINMUX_NSEC('Z', 5, AF6)>; /* I2C4_SDA */
+			pinmux = <STM32_PINMUX('Z', 4, AF6)>, /* I2C4_SCL */
+					 <STM32_PINMUX('Z', 5, AF6)>; /* I2C4_SDA */
 			bias-disable;
 			drive-open-drain;
 			slew-rate = <0>;
@@ -227,7 +224,6 @@
 	huk_otp:huk-otp@f0{
 		reg = <0xf0 0x10>;
 	};
-
 	/* USER CODE END bsec */
 };
 
@@ -290,9 +286,6 @@
 	pmic:stpmic@33{
 		compatible = "st,stpmic1";
 		reg = <0x33>;
-		interrupts-extended = <&gpioa 0 IRQ_TYPE_EDGE_FALLING>;
-		interrupt-controller;
-		#interrupt-cells = <2>;
 		status = "okay";
 
 		regulators{
@@ -534,7 +527,6 @@
 			};
 		};
 	};
-
 	/* USER CODE END i2c4 */
 };
 
@@ -543,7 +535,6 @@
 
 	/* USER CODE BEGIN iwdg1 */
 	timeout-sec = <32>;
-
 	/* USER CODE END iwdg1 */
 };
 
@@ -559,7 +550,6 @@
 	system_off_soc_mode = <STM32_PM_CSTOP_ALLOW_STANDBY_DDR_OFF>;
 	vdd-supply = <&vdd>;
 	vdd_3v3_usbfs-supply = <&vdd_usb>;
-
 	/* USER CODE END pwr_regulators */
 };
 
@@ -567,7 +557,6 @@
 	status = "okay";
 	/* USER CODE BEGIN rcc */
 	compatible = "st,stm32mp1-rcc-secure";
-
 	/* USER CODE END rcc */
 	st,clksrc = <
 		CLK_CKPER_HSE
@@ -690,7 +679,6 @@
 	/* USER CODE BEGIN tamp */
 	st,tamp-passive-nb-sample = <4>;
 	st,tamp-passive-sample-clk-div = <16384>;
-
 	/* USER CODE END tamp */
 };
 
@@ -702,7 +690,6 @@
 	counter{
 		status = "okay";
 	};
-
 	/* USER CODE END timers15 */
 };
 
@@ -754,7 +741,6 @@
 	st,tune-hs-rx-offset = <2>;
 	st,no-lsfs-sc;
 };
-
 
 
 &uart4 {

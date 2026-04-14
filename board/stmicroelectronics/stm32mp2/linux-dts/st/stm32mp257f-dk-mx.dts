@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
 /*
- * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2026, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -25,7 +25,7 @@
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP257F-DK STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v25.06.11";
+	model = "STMicroelectronics STM32MP257F-DK STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v26.02.18";
 	compatible = "st,stm32mp257f-dk-mx", "st,stm32mp257f-dk", "st,stm32mp257";
 
 	memory@80000000 {
@@ -92,13 +92,6 @@
 			status = "okay";
 		};
 
-		button-user-2{
-			label = "User-2";
-			linux,code = <BTN_2>;
-			gpios = <&gpioc 11 GPIO_ACTIVE_HIGH>;
-			status = "okay";
-		};
-
 		button-wake-up{
 			label = "wake-up";
 			linux,code = <KEY_WAKEUP>;
@@ -139,7 +132,6 @@
 		enable-gpios = <&gpioi 4 GPIO_ACTIVE_HIGH>;
 		backlight = <&panel_lvds_backlight>;
 		power-supply = <&scmi_v3v3>;
-		default-on;
 		status = "okay";
 		width-mm = <156>;
 		height-mm = <92>;
@@ -184,6 +176,8 @@
 	wifi_pwrseq:wifi-pwrseq{
 		compatible = "mmc-pwrseq-simple";
 		reset-gpios = <&gpiog 8 GPIO_ACTIVE_LOW>;
+		clocks = <&rtc>;
+        clock-names = "ext_clock";
 	};
 	/* USER CODE END root */
 
@@ -934,8 +928,6 @@
 	status = "okay";
 
 	/* USER CODE BEGIN ltdc */
-	default-on;
-
 	port{
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -957,7 +949,6 @@
 	status = "okay";
 
 	/* USER CODE BEGIN lvds */
-	default-on;
 	vdd-supply = <&scmi_vddcore>;
 	vdda18-supply = <&scmi_v1v8>;
 
@@ -992,11 +983,10 @@
 	mbox-names = "vq0", "vq1", "shutdown";
 
 	/* USER CODE BEGIN m33_rproc */
-	memory-region = <&cm33_cube_fw>, <&cm33_cube_data>,
-			<&ipc_shmem_1>, <&vdev0vring0>,
+	compatible = "st,stm32mp2-m33-tee";
+	memory-region = <&ipc_shmem_1>, <&vdev0vring0>,
 			<&vdev0vring1>, <&vdev0buffer>,
 			<&cm33_sram2>;
-	st,syscfg-nsvtor = <&a35ss_syscfg 0xa8 0xffffff80>;
 	/* USER CODE END m33_rproc */
 };
 
@@ -1087,6 +1077,7 @@
 	status = "okay";
 
 	/* USER CODE BEGIN rtc */
+	#clock-cells = <0>;
 	st,lsco = <RTC_OUT2_RMP>;
 	/* USER CODE END rtc */
 };
@@ -1146,6 +1137,7 @@
 	bus-width = <4>;
 	vmmc-supply = <&scmi_v3v3>;
 	mmc-pwrseq = <&wifi_pwrseq>;
+	cap-power-off-card;
 	cap-sdio-irq;
 	#address-cells = <1>;
 	#size-cells = <0>;
@@ -1273,6 +1265,17 @@
 	status = "okay";
 };
 
+&ahbsr {
+	mbox_client: mailbox-client@1 {
+		compatible = "mbox-cdev";
+		reg = <1 0>;
+		memory-region =  <&ipc_shmem_2>;
+		mboxes = <&ipcc2 0x200>;
+		mbox-names = "rx-tx";
+		status = "okay";
+	};
+};
+
 &arm_wdt {
 	timeout-sec = <32>;
 	status = "okay";
@@ -1318,6 +1321,24 @@
 			};
 		};
 	};
+};
+
+&m0_rproc {
+	memory-region = <&cm0_cube_fw>, <&cm0_cube_data>;
+	clocks = <&rcc CK_CPU3>,
+		 <&rcc CK_CPU3_AM>,
+		 <&rcc CK_LPUART1_C3>,
+		 <&rcc CK_KER_LPUART1>,
+		 <&rcc CK_LPUART1_AM>,
+		 <&rcc CK_GPIOZ_C3>,
+		 <&scmi_clk CK_SCMI_GPIOZ>,
+		 <&scmi_clk CK_SCMI_GPIOZ_AM>,
+		 <&rcc CK_LPTIM4_C3>,
+		 <&rcc CK_KER_LPTIM4>,
+		 <&rcc CK_LPTIM4_AM>,
+		 <&scmi_clk CK_SCMI_IPCC2>,
+		 <&scmi_clk CK_SCMI_IPCC2_AM>;
+	status = "disabled";
 };
 
 &scmi_regu {

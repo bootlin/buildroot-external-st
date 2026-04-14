@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
 /*
- * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2026, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -21,20 +21,20 @@
 			no-map;
 		};
 
-		hpdma1_lli:hpdma1-lli@a020000{
-			reg = <0x0 0xa020000 0x0 0xf0f0>;
-			no-map;
-		};
+		hpdma1_lli: hpdma1-lli@a020000 {
+        	reg = <0x0 0xa020000 0x0 0x10000>;
+        	no-map;
+        };
 
-		hpdma2_lli:hpdma2-lli@a02f0f0{
-			reg = <0x0 0xa02f0f0 0x0 0xf0f0>;
-			no-map;
-		};
+        hpdma2_lli: hpdma2-lli@a030000 {
+        	reg = <0x0 0xa030000 0x0 0xe000>;
+        	no-map;
+        };
 
-		hpdma3_lli:hpdma3-lli@a03e1e0{
-			reg = <0x0 0xa03e1e0 0x0 0x1e20>;
-			no-map;
-		};
+        hpdma3_lli: hpdma3-lli@a03e000 {
+        	reg = <0x0 0xa03e000 0x0 0x2000>;
+        	no-map;
+        };
 
 		bsec_mirror:bsec-mirror@a040000{
 			reg = <0x0 0xa040000 0x0 0x1000>;
@@ -69,6 +69,24 @@
 
 		ddr_param:ddr-param@a09f000{
 			reg = <0x0 0xa09f000 0x0 0x1000>;
+			no-map;
+		};
+
+        cm0_cube_fw: cm0-cube-fw@200C0000 {
+			compatible = "shared-dma-pool";
+			reg = <0x0 0x200C0000 0x0 0x4000>;
+			no-map;
+		};
+
+		cm0_cube_data: cm0-cube-data@200C4000 {
+			compatible = "shared-dma-pool";
+			reg = <0x0 0x200C4000 0x0 0x2000>;
+			no-map;
+		};
+
+		ipc_shmem_2: ipc-shmem-2@200C6000{
+			compatible = "shared-dma-pool";
+			reg = <0x0 0x200C6000 0x0 0x2000>;
 			no-map;
 		};
 

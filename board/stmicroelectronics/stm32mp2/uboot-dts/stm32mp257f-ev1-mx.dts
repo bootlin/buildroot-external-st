@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
 /*
- * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2026, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -24,7 +24,7 @@
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP257F-EV1 STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v25.06.11";
+	model = "STMicroelectronics STM32MP257F-EV1 STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v26.02.18";
 	compatible = "st,stm32mp257f-ev1-mx", "st,stm32mp257f-ev1", "st,stm32mp257";
 
 	memory@80000000 {
@@ -59,13 +59,6 @@
 			label = "User-1";
 			linux,code = <BTN_1>;
 			gpios = <&gpiod 2 GPIO_ACTIVE_HIGH>;
-			status = "okay";
-		};
-
-		button-user-2{
-			label = "User-2";
-			linux,code = <BTN_2>;
-			gpios = <&gpiog 8 GPIO_ACTIVE_HIGH>;
 			status = "okay";
 		};
 
@@ -108,7 +101,6 @@
 		enable-gpios = <&gpiog 15 GPIO_ACTIVE_HIGH>;
 		backlight = <&panel_lvds_backlight>;
 		power-supply = <&scmi_v3v3>;
-		default-on;
 		status = "okay";
 		width-mm = <156>;
 		height-mm = <92>;
@@ -138,7 +130,6 @@
 		compatible = "gpio-backlight";
 		gpios = <&gpioi 5 GPIO_ACTIVE_HIGH>;
 		default-on;
-		default-brightness-level = <1>;
 		status = "okay";
 	};
 	/* USER CODE END root */
@@ -601,62 +592,12 @@
 		};
 	};
 
-	ospi_port1_clk_pins_a: ospi-port1-clk-0 {
-		pins {
-			pinmux = <STM32_PINMUX('D', 0, AF10)>; /* OSPI1_CLK */
-			bias-disable;
-			drive-push-pull;
-			slew-rate = <2>;
-		};
-	};
-
-	ospi_port1_clk_sleep_pins_a: ospi-port1-clk-sleep-0 {
-		pins {
-			pinmux = <STM32_PINMUX('D', 0, ANALOG)>; /* OSPI1_CLK */
-		};
-	};
-
-	ospi_port1_cs0_pins_a: ospi-port1-cs0-0 {
-		pins {
-			pinmux = <STM32_PINMUX('D', 3, AF10)>; /* OSPI_NCS0 */
-			bias-pull-up;
-			drive-push-pull;
-			slew-rate = <0>;
-		};
-	};
-
-	ospi_port1_cs0_sleep_pins_a: ospi-port1-cs0-sleep-0 {
-		pins {
-			pinmux = <STM32_PINMUX('D', 3, ANALOG)>; /* OSPI_NCS0 */
-		};
-	};
-
-	ospi_port1_io03_pins_a: ospi-port1-io03-0 {
-		pins {
-			pinmux = <STM32_PINMUX('D', 4, AF10)>, /* OSPI_IO0 */
-				 <STM32_PINMUX('D', 5, AF10)>, /* OSPI_IO1 */
-				 <STM32_PINMUX('D', 6, AF10)>, /* OSPI_IO2 */
-				 <STM32_PINMUX('D', 7, AF10)>; /* OSPI_IO3 */
-			bias-disable;
-			drive-push-pull;
-			slew-rate = <0>;
-		};
-	};
-
-	ospi_port1_io03_sleep_pins_a: ospi-port1-io03-sleep-0 {
-		pins {
-			pinmux = <STM32_PINMUX('D', 4, ANALOG)>, /* OSPI_IO0 */
-				 <STM32_PINMUX('D', 5, ANALOG)>, /* OSPI_IO1 */
-				 <STM32_PINMUX('D', 6, ANALOG)>, /* OSPI_IO2 */
-				 <STM32_PINMUX('D', 7, ANALOG)>; /* OSPI_IO3 */
-		};
-	};
-
 	/* USER CODE BEGIN pinctrl */
 	/* USER CODE END pinctrl */
 };
 
 &pinctrl_z {
+
 	/* USER CODE BEGIN pinctrl_z */
 	/* USER CODE END pinctrl_z */
 };
@@ -914,7 +855,6 @@
 	status = "okay";
 
 	/* USER CODE BEGIN ltdc */
-	default-on;
 	rotation-memory = <&ltdc_sec_rotation>;
 
 	port{
@@ -938,7 +878,6 @@
 	status = "okay";
 
 	/* USER CODE BEGIN lvds */
-	default-on;
 	vdd-supply = <&scmi_vddcore>;
 	vdda18-supply = <&scmi_v1v8>;
 
@@ -989,6 +928,7 @@
 	status = "okay";
 
 	/* USER CODE BEGIN m33_rproc */
+	compatible = "st,stm32mp2-m33-tee";
 	mboxes = <&ipcc1 0x100>, <&ipcc1 0x101>, <&ipcc1 2>;
 	mbox-names = "vq0", "vq1", "shutdown";
 	memory-region = <&ipc_shmem_1>, <&vdev0vring0>,
@@ -1051,34 +991,6 @@
 	mmc-ddr-1_8v;
 	mmc-hs200-1_8v;
 	/* USER CODE END sdmmc2 */
-};
-
-&ommanager {
-        memory-region = <&mm_ospi1>;
-        memory-region-names = "mm_ospi1";
-        pinctrl-names = "default", "sleep";
-        pinctrl-0 = <&ospi_port1_clk_pins_a
-                     &ospi_port1_io03_pins_a
-                     &ospi_port1_cs0_pins_a>;
-        pinctrl-1 = <&ospi_port1_clk_sleep_pins_a
-                     &ospi_port1_io03_sleep_pins_a
-                     &ospi_port1_cs0_sleep_pins_a>;
-        status = "okay";
-
-        spi@40430000 {
-                #address-cells = <1>;
-                #size-cells = <0>;
-                memory-region = <&mm_ospi1>;
-                status = "okay";
-
-                flash0: flash@0 {
-                        compatible = "jedec,spi-nor";
-                        reg = <0>;
-                        spi-rx-bus-width = <4>;
-                        spi-tx-bus-width = <4>;
-                        spi-max-frequency = <84000000>;
-                };
-        };
 };
 
 &usart2 {
@@ -1162,6 +1074,17 @@
 };
 
 /* USER CODE BEGIN addons */
+
+&ahbsr {
+	mbox_client: mailbox-client@1 {
+		compatible = "mbox-cdev";
+		reg = <1 0>;
+		memory-region =  <&ipc_shmem_2>;
+		mboxes = <&ipcc2 0x200>;
+		mbox-names = "rx-tx";
+		status = "okay";
+	};
+};
 
 &a35ss_syscfg {
 	status = "okay";
@@ -1253,6 +1176,24 @@
 			};
 		};
 	};
+};
+
+&m0_rproc {
+	memory-region = <&cm0_cube_fw>, <&cm0_cube_data>;
+	clocks = <&rcc CK_CPU3>,
+		 <&rcc CK_CPU3_AM>,
+		 <&rcc CK_LPUART1_C3>,
+		 <&rcc CK_KER_LPUART1>,
+		 <&rcc CK_LPUART1_AM>,
+		 <&rcc CK_GPIOZ_C3>,
+		 <&scmi_clk CK_SCMI_GPIOZ>,
+		 <&scmi_clk CK_SCMI_GPIOZ_AM>,
+		 <&rcc CK_LPTIM4_C3>,
+		 <&rcc CK_KER_LPTIM4>,
+		 <&rcc CK_LPTIM4_AM>,
+		 <&scmi_clk CK_SCMI_IPCC2>,
+		 <&scmi_clk CK_SCMI_IPCC2_AM>;
+	status = "disabled";
 };
 
 &scmi_regu {

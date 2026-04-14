@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2015-2018, STMicroelectronics - All Rights Reserved
  *
- * SPDX-License-Identifier:	GPL-2.0-or-later	BSD-3-Clause
+ * SPDX-License-Identifier:	GPL-2.0-only OR	BSD-3-Clause
  *
  */
 
@@ -13,7 +13,7 @@
  * System frequency: 800000kHz
  * Address mapping type: RBC
  *
- * Save Date: 2025.08.21, save Time: 17:15:35
+ * Save Date: 2026.04.14, save Time: 15:11:29
  */
 
 #define DDR_MEM_NAME "LPDDR4 16bits 800000kHz"

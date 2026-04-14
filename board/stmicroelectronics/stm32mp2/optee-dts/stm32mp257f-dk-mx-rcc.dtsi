@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
 /*
- * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2026, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -63,7 +63,7 @@
 		FLEXGEN_CFG(29, XBAR_SRC_PLL5, 0, 1)
 		FLEXGEN_CFG(30, XBAR_SRC_HSE_KER, 0, 1)
 		FLEXGEN_CFG(31, XBAR_SRC_PLL5, 0, 19)
-		FLEXGEN_CFG(32, XBAR_SRC_PLL5, 0, 19)
+		FLEXGEN_CFG(32, XBAR_SRC_PLL8, 0, 43)
 		FLEXGEN_CFG(33, XBAR_SRC_HSE_KER, 0, 0)
 		FLEXGEN_CFG(34, XBAR_SRC_PLL4, 0, 59)
 		FLEXGEN_CFG(35, XBAR_SRC_HSI_KER, 0, 3)
@@ -92,9 +92,10 @@
 		DIV_CFG(DIV_APB4, 0)
 		DIV_CFG(DIV_APBDBG, 0)
 	>;
-
 	st,kerclk = <
 		MUX_CFG(MUX_LVDSPHY, MUX_LVDSPHY_FLEX32)
+		MUX_CFG(MUX_RTC, MUX_RTC_LSE)
+		MUX_CFG(MUX_ADC3, MUX_ADC3_FLEX47)
 		MUX_CFG(MUX_D3PER, MUX_D3PER_MSI)
 		MUX_CFG(MUX_USB2PHY1, MUX_USB2PHY1_FLEX57)
 		MUX_CFG(MUX_USB2PHY2, MUX_USB2PHY2_FLEX58)
@@ -102,8 +103,6 @@
 		MUX_CFG(MUX_DTS, MUX_DTS_HSE)
 		MUX_CFG(MUX_DSIBLANE, MUX_DSIBLANE_DSIPHY)
 		MUX_CFG(MUX_DSIPHY, MUX_DSIPHY_FLEX28)
-
-		MUX_CFG(MUX_RTC, MUX_RTC_LSE)
 
 	>;
 
@@ -115,7 +114,7 @@
 			src = <MUX_CFG(MUX_MUXSEL5, MUXSEL_HSE)>;
 		};
 		/* USER CODE BEGIN pll1 */
-		pll1_cfg_1500MHz: pll1-cfg-1500Mhz {
+		pll1_cfg_1500MHz: pll1-cfg-1500MHz {
 			cfg = <75 2 1 1>;
 			src = <MUX_CFG(MUX_MUXSEL5, MUXSEL_HSE)>;
 		};
@@ -141,7 +140,7 @@
 			src = <MUX_CFG(MUX_MUXSEL7, MUXSEL_HSE)>;
 		};
 		/* USER CODE BEGIN pll3 */
-		pll3_cfg_900MHz: pll3-cfg-900Mhz {
+		pll3_cfg_900MHz: pll3-cfg-900MHz {
 			cfg = <45 2 1 1>;
 			src = <MUX_CFG(MUX_MUXSEL7, MUXSEL_HSE)>;
 		};

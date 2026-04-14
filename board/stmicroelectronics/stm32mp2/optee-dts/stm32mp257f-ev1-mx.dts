@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
 /*
- * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2026, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -30,7 +30,7 @@
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP257F-EV1 STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v25.06.11";
+	model = "STMicroelectronics STM32MP257F-EV1 STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v26.02.18";
 	compatible = "st,stm32mp257f-ev1-mx", "st,stm32mp257f-ev1", "st,stm32mp257";
 
 	memory@80000000 {
@@ -71,6 +71,36 @@
 			bias-disable;
 			drive-open-drain;
 			slew-rate = <0>;
+		};
+	};
+
+	ospi_port1_clk_pins_mx: ospi_port1_clk_mx-0 {
+		pins {
+			pinmux = <STM32_PINMUX('D', 0, AF10)>; /* OCTOSPIM_P1_CLK */
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <3>;
+		};
+	};
+
+	ospi_port1_io_pins_mx: ospi_port1_io_mx-0 {
+		pins {
+			pinmux = <STM32_PINMUX('D', 4, AF10)>, /* OCTOSPIM_P1_IO0 */
+					 <STM32_PINMUX('D', 5, AF10)>, /* OCTOSPIM_P1_IO1 */
+					 <STM32_PINMUX('D', 6, AF10)>, /* OCTOSPIM_P1_IO2 */
+					 <STM32_PINMUX('D', 7, AF10)>; /* OCTOSPIM_P1_IO3 */
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <3>;
+		};
+	};
+
+	ospi_port1_ncs_pins_mx: ospi_port1_ncs_mx-0 {
+		pins {
+			pinmux = <STM32_PINMUX('D', 3, AF10)>; /* OCTOSPIM_P1_NCS1 */
+			bias-disable;
+			drive-push-pull;
+			slew-rate = <3>;
 		};
 	};
 
@@ -477,7 +507,7 @@
 };
 
 &ltdc {
-	status = "disabled";
+	status = "okay";
 
 	/* USER CODE BEGIN ltdc */
 	/* USER CODE END ltdc */
@@ -489,13 +519,19 @@
 	/*Restriction: "memory-region" property is not managed - please to use User-Section if needed*/
 
 	/* USER CODE BEGIN m33_rproc */
+	compatible = "st,stm32mp2-m33-tee";
+	memory-region = <&cm33_cube_fw>, <&cm33_cube_data>,
+			<&ipc_shmem>, <&tfm_code>, <&tfm_data>, <&cm33_sram2>,
+			<&cm33_sram1>, <&cm33_retram>;
 	/* USER CODE END m33_rproc */
 };
 
 &ommanager {
+	pinctrl-names = "default";
+	pinctrl-0 = <&ospi_port1_clk_pins_mx>, <&ospi_port1_io_pins_mx>, <&ospi_port1_ncs_pins_mx>;
 	status = "okay";
-	memory-region = <&mm_ospi1>;
-	memory-region-names = "mm_ospi1";
+	memory-region = <&mm_ospi2>;
+	memory-region-names = "mm_ospi2";
 
 	/* USER CODE BEGIN ommanager */
 	/* USER CODE END ommanager */
@@ -528,7 +564,6 @@
 		regulator-min-microvolt = <1800000>;
 		regulator-max-microvolt = <1800000>;
 		vdda18adc-supply = <&v1v8>;
-		regulator-always-on;
 	};
 
 	vddgpu:vddgpu{

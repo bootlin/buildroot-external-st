@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
 /*
- * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2026, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -45,6 +45,10 @@
 			/delete-property/ default-state;
 		};
 	};
+
+	gpio-keys{
+		/delete-node/ button-user;
+	};
 	/* USER CODE END root */
 
 }; /*root*/
@@ -55,22 +59,8 @@
 	status = "disabled";
 };
 
-&uart4 {
-	bootph-all;
-};
-
 &usbotg_hs {
 	u-boot,force-b-session-valid;
-};
-
-&uart4_pins_mx {
-	bootph-all;
-	pins1 {
-		bootph-all;
-	};
-	pins2 {
-		bootph-all;
-	};
 };
 /* USER CODE END addons */
 

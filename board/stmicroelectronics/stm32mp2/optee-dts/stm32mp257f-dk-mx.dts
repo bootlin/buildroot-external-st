@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
 /*
- * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2026, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -26,11 +26,10 @@
 #include <dt-bindings/tamper/st,stm32mp25-tamp.h>
 #include "stm32mp25-pinctrl.dtsi"
 #include "stm32mp25-st-scmi-cfg.dtsi"
-#include "stm32mp25xxal-pinctrl.dtsi"
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP257F-DK STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v25.06.11";
+	model = "STMicroelectronics STM32MP257F-DK STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v26.02.18";
 	compatible = "st,stm32mp257f-dk-mx", "st,stm32mp257f-dk", "st,stm32mp257";
 
 	memory@80000000 {
@@ -207,6 +206,12 @@
 				regulator-min-microvolt = <800000>;
 				regulator-max-microvolt = <900000>;
 				regulator-over-current-protection;
+				standby {
+                	regulator-off-in-suspend;
+                };
+                off {
+                	regulator-off-in-suspend;
+                };
 			};
 
 			vddio_pmic:buck4{
@@ -373,6 +378,12 @@
 				regulator-min-microvolt = <3300000>;
 				regulator-max-microvolt = <3300000>;
 				regulator-over-current-protection;
+				standby {
+                	regulator-off-in-suspend;
+                };
+                off {
+                	regulator-off-in-suspend;
+                };
 			};
 
 			v5v_hdmi:ldo5{
@@ -434,7 +445,7 @@
 };
 
 &ltdc {
-	status = "disabled";
+	status = "okay";
 
 	/* USER CODE BEGIN ltdc */
 	/* USER CODE END ltdc */
@@ -444,8 +455,14 @@
 	status = "okay";
 
 	/*Restriction: "memory-region" property is not managed - please to use User-Section if needed*/
+	mboxes = <&ipcc1 0x100>, <&ipcc1 0x101>, <&ipcc1 2>;
+	mbox-names = "vq0", "vq1", "shutdown";
 
 	/* USER CODE BEGIN m33_rproc */
+	compatible = "st,stm32mp2-m33-tee";
+	memory-region = <&cm33_cube_fw>, <&cm33_cube_data>,
+			<&ipc_shmem>, <&tfm_code>, <&tfm_data>,
+			<&cm33_sram2>;
 	/* USER CODE END m33_rproc */
 };
 
@@ -476,7 +493,6 @@
 		regulator-min-microvolt = <1800000>;
 		regulator-max-microvolt = <1800000>;
 		vdda18adc-supply = <&v1v8>;
-		regulator-always-on;
 	};
 
 	vddgpu:vddgpu{

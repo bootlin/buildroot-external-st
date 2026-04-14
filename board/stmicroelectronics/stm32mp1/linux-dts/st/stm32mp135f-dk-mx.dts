@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-3-Clause)
+// SPDX-License-Identifier: (GPL-2.0+ OR BSD-3-Clause)
 /*
- * Copyright (C) 2025, STMicroelectronics - All Rights Reserved
+ * Copyright (C) 2026, STMicroelectronics - All Rights Reserved
  * Author: STM32CubeMX code generation for STMicroelectronics.
  */
 
@@ -23,7 +23,7 @@
 /* USER CODE END includes */
 
 / {
-	model = "STMicroelectronics STM32MP135F-DK STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v25.06.11";
+	model = "STMicroelectronics STM32MP135F-DK STM32CubeMX board - openstlinux-6.6-yocto-scarthgap-mpu-v26.02.18";
 	compatible = "st,stm32mp135f-dk-mx", "st,stm32mp135f-dk", "st,stm32mp135";
 
 	memory@c0000000 {
@@ -116,7 +116,6 @@
 		backlight = <&panel_backlight>;
 		power-supply = <&scmi_v3v3_sw>;
 		data-mapping = "bgr666";
-		default-on;
 		status = "okay";
 		width-mm = <105>;
 		height-mm = <67>;
@@ -156,6 +155,8 @@
 	wifi_pwrseq:wifi-pwrseq{
 		compatible = "mmc-pwrseq-simple";
 		reset-gpios = <&mcp23017 11 GPIO_ACTIVE_LOW>;
+		clocks = <&rtc>;
+		clock-names = "ext_clock";
 	};
 	/* USER CODE END root */
 
@@ -683,6 +684,7 @@
 	phy-handle = <&phy0_eth1>;
 	nvmem-cells = <&ethernet_mac1_address>;
 	nvmem-cell-names = "mac-address";
+	st,phy-wol;
 
 	mdio{
 		#address-cells = <1>;
@@ -695,7 +697,6 @@
 			reset-assert-us = <1000>;
 			reset-deassert-us = <30000>;
 			reg = <0>;
-			wakeup-source;
 		};
 	};
 	/* USER CODE END ethernet1 */
@@ -876,8 +877,9 @@
 	goodix:goodix-ts@5d{
 		compatible = "goodix,gt911";
 		reg = <0x5d>;
-		pinctrl-names = "default";
+		pinctrl-names = "default", "sleep";
 		pinctrl-0 = <&goodix_pins_a>;
+		pinctrl-1 = <&goodix_sleep_pins_a>;
 		interrupt-parent = <&gpiof>;
 		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
 		AVDD28-supply = <&scmi_v3v3_sw>;
@@ -896,7 +898,6 @@
 	status = "okay";
 
 	/* USER CODE BEGIN ltdc */
-	default-on;
 
 	port{
 
@@ -928,6 +929,7 @@
 	status = "okay";
 
 	/* USER CODE BEGIN rtc */
+	#clock-cells = <0>;
 	st,lsco = <RTC_OUT2_RMP>;
 	/* USER CODE END rtc */
 };
@@ -957,6 +959,7 @@
 
 	/* USER CODE BEGIN sdmmc2 */
 	non-removable;
+	cap-power-off-card;
 	cap-sdio-irq;
 	st,neg-edge;
 	bus-width = <4>;
@@ -999,6 +1002,7 @@
 	status = "okay";
 
 	/* USER CODE BEGIN uart4 */
+	bootph-all;
 	/delete-property/ dmas;
 	/delete-property/ dma-names;
 	/* USER CODE END uart4 */
@@ -1017,6 +1021,8 @@
 	bluetooth{
 		shutdown-gpios = <&mcp23017 13 GPIO_ACTIVE_HIGH>;
 		compatible = "brcm,bcm43438-bt";
+		clocks = <&rtc>;
+		clock-names = "lpo";
 		max-speed = <2000000>;
 		vbat-supply = <&v3v3_ao>;
 		vddio-supply = <&v3v3_ao>;
@@ -1114,6 +1120,30 @@
 	status = "okay";
 };
 
+&cs_cti_trace {
+	status = "okay";
+};
+
+&cs_cti_cpu0 {
+	status = "okay";
+};
+
+&cs_etf {
+	status = "okay";
+};
+
+&cs_etm0 {
+	status = "okay";
+};
+
+&cs_tpiu {
+	status = "okay";
+};
+
+&dbg_bus {
+	status = "okay";
+};
+
 &scmi_regu {
 
 	scmi_vddcpu:regulator@6{
@@ -1200,6 +1230,25 @@
 			pinmux = <STM32_PINMUX('F', 5, GPIO)>;
 			bias-pull-down;
 		};
+	};
+	goodix_sleep_pins_a: goodix_sleep-0 {
+		pins {
+			pinmux = <STM32_PINMUX('H',  2, ANALOG)>,
+				 <STM32_PINMUX('F',  5, ANALOG)>;
+		};
+	};
+	
+};
+
+&uart4_pins_mx {
+	bootph-all;
+
+	pins1{
+		bootph-all;
+	};
+
+	pins2{
+		bootph-all;
 	};
 };
 /* USER CODE END addons */
