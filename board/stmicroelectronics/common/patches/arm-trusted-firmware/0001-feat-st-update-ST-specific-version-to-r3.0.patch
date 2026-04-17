@@ -1,0 +1,26 @@
+From 116f74457a0da891e51504bda734155948f75e7a Mon Sep 17 00:00:00 2001
+From: Miguel Gazquez <miguel.gazquez@bootlin.com>
+Date: Fri, 17 Apr 2026 16:21:17 +0200
+Subject: [PATCH] feat(st): update ST specific version to r3.0
+
+Signed-off-by: Miguel Gazquez <miguel.gazquez@bootlin.com>
+---
+ plat/st/common/common.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/plat/st/common/common.mk b/plat/st/common/common.mk
+index a2e927284..fab3e0ced 100644
+--- a/plat/st/common/common.mk
++++ b/plat/st/common/common.mk
+@@ -11,7 +11,7 @@ STM32MP_RECONFIGURE_CONSOLE	?=	0
+ STM32MP_UART_BAUDRATE		?=	115200
+ 
+ # Add specific ST version
+-ST_VERSION 			:=	r2.0
++ST_VERSION 			:=	r3.0
+ ST_GIT_SHA1			:=	$(shell git rev-parse --short=8 HEAD 2>/dev/null)
+ VERSION_STRING			:=	v${VERSION_MAJOR}.${VERSION_MINOR}-${PLAT}-${ST_VERSION}(${BUILD_TYPE}):${BUILD_STRING}(${ST_GIT_SHA1})
+ 
+-- 
+2.53.0
+
