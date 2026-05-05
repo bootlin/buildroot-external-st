@@ -6,8 +6,8 @@ board_name=stm32mp1
 boot_a=setenv distro_bootpart 8; setenv extlinux_bootpart rootfs-a ; setenv raucslot "rauc.slot=A"; echo "Booting from slot A"; run boot_extlinux;
 boot_b=setenv distro_bootpart 9; setenv extlinux_bootpart rootfs-b ; setenv raucslot "rauc.slot=B"; echo "Booting from slot B"; run boot_extlinux;
 boot_extlinux=sysboot mmc 0:${distro_bootpart} any ${scriptaddr} /boot/extlinux/extlinux.conf
-bootcmd=run boot_a; echo "Boot failed"; run boot_b;
-altbootcmd=run boot_b; echo "Boot failed"; run boot_a;
+bootcmd=load mmc 0:8 ${loadaddr} boot/image.bmp; bmp display ${loadaddr}; run boot_a; echo "Boot failed"; run boot_b;
+altbootcmd=load mmc 0:8 ${loadaddr} boot/image.bmp; bmp display ${loadaddr}; run boot_b; echo "Boot failed"; run boot_a;
 bootdelay=1
 console=ttySTM0
 cpu=armv7

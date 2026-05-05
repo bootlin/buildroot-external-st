@@ -7,8 +7,8 @@ boot_extlinux=sysboot mmc ${mmcdev}:${distro_bootpart} any ${scriptaddr} /boot/e
 boot_a=setenv distro_bootpart ${distro_bootpart_a}; setenv extlinux_bootpart rootfs-a ; setenv raucslot "rauc.slot=A"; echo "Booting from slot A"; run boot_extlinux;
 boot_b=setenv distro_bootpart ${distro_bootpart_b}; setenv extlinux_bootpart rootfs-b ; setenv raucslot "rauc.slot=B"; echo "Booting from slot B"; run boot_extlinux;
 set_bootdev=if test "x$boot_device" = "xnor"; then mmcdev=1; distro_bootpart_a=1; distro_bootpart_b=2; else mmcdev=0; distro_bootpart_a=8; distro_bootpart_b=9; fi;
-bootcmd=run set_bootdev; run boot_a; echo "Boot failed"; run boot_b;
-altbootcmd=run set_bootdev; run boot_b; echo "Boot failed"; run boot_a;
+bootcmd=load mmc 0:8 ${loadaddr} boot/image.bmp; bmp display ${loadaddr}; run set_bootdev; run boot_a; echo "Boot failed"; run boot_b;
+altbootcmd=load mmc 0:8 ${loadaddr} boot/image.bmp; bmp display ${loadaddr}; run set_bootdev; run boot_b; echo "Boot failed"; run boot_a;
 bootdelay=1
 console=ttySTM0
 cpu=armv8
