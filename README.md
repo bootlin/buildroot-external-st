@@ -295,7 +295,7 @@ Note: bmaptool will not erase empty partition like the U-boot environment
 partition.
 
 ```bash
-buildroot/ $ bmaptool copy sdcard.img.gz /dev/sdbX
+buildroot/ $ bmaptool copy sdcard.img.gz /dev/sdX
 ```
 
 (Note: this assumes your SD card appears as `/dev/sdX` on your system.)
