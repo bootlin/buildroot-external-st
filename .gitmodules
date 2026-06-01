@@ -1,0 +1,4 @@
+[submodule "buildroot"]
+	path = buildroot
+	url = https://github.com/bootlin/buildroot.git
+	branch = st/2025.02.5
