@@ -445,7 +445,7 @@
 };
 
 &ltdc {
-	status = "okay";
+	status = "disabled";
 
 	/* USER CODE BEGIN ltdc */
 	/* USER CODE END ltdc */
@@ -455,14 +455,8 @@
 	status = "okay";
 
 	/*Restriction: "memory-region" property is not managed - please to use User-Section if needed*/
-	mboxes = <&ipcc1 0x100>, <&ipcc1 0x101>, <&ipcc1 2>;
-	mbox-names = "vq0", "vq1", "shutdown";
 
 	/* USER CODE BEGIN m33_rproc */
-	compatible = "st,stm32mp2-m33-tee";
-	memory-region = <&cm33_cube_fw>, <&cm33_cube_data>,
-			<&ipc_shmem>, <&tfm_code>, <&tfm_data>,
-			<&cm33_sram2>;
 	/* USER CODE END m33_rproc */
 };
 
