@@ -215,11 +215,11 @@ Please see the [corresponding manual section](https://buildroot.org/downloads/ma
 This `BR2_EXTERNAL` tree is designed to work with the `2025.02.x` LTS
 version of Buildroot. However, we needed a few changes on top of
 upstream Buildroot, so you need to use our own Buildroot fork together
-with this `BR2_EXTERNAL` tree, and more precisely its `st/2025.02.5`
+with this `BR2_EXTERNAL` tree, and more precisely its `st/2025.02.12`
 branch.
 
 ```bash
-$ git clone -b st/2025.02.5 https://github.com/bootlin/buildroot.git
+$ git clone -b st/2025.02.12 https://github.com/bootlin/buildroot.git
 ```
 
 See our documentation on [internal details](docs/internals.md) for more
@@ -228,7 +228,7 @@ information about the changes we have compared to upstream Buildroot.
 Now, clone the matching branch of the `BR2_EXTERNAL` tree:
 
 ```bash
-$ git clone -b st/2025.02.5 https://github.com/bootlin/buildroot-external-st.git
+$ git clone -b st/2025.02.12 https://github.com/bootlin/buildroot-external-st.git
 ```
 
 You now have side-by-side a `buildroot` directory and a
