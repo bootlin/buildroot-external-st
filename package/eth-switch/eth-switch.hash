@@ -1,3 +1,4 @@
 # Locally calculated from download (no sig, hash)
 sha256  e83099458bbaab907c0d267a01cddcbb30ff617f3cc22bc16f23b4a900d49052  eth-switch-1.6.8.tar.gz
 sha256  8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643  tsn_sw_base.edge-lkm/GPL-2.txt
+sha256  90b73154c2ef10ac963f844ea2cb730949f584549514800e991c84545a6916dc  eth-switch-cc3610597153462dce3b207592354ef6c21d9bfe-git4.tar.gz
