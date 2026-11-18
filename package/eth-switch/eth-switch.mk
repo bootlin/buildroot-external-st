@@ -4,8 +4,9 @@
 #
 ################################################################################
 
-ETH_SWITCH_VERSION = 1.6.8
-ETH_SWITCH_SITE = $(call github,STMicroelectronics,tttech-tsn-swch-content,$(ETH_SWITCH_VERSION))
+ETH_SWITCH_VERSION = cc3610597153462dce3b207592354ef6c21d9bfe
+ETH_SWITCH_SITE = https://github.com/STMicroelectronics/tttech-tsn-swch-content.git
+ETH_SWITCH_SITE_METHOD = git
 
 ETH_SWITCH_LICENCE = GPL-2.0+
 ETH_SWITCH_LICENSE_FILES = tsn_sw_base.edge-lkm/GPL-2.txt
